@@ -3,28 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="/CSS/Login.css">
+    <title>LogIn</title>
+    <link rel="stylesheet" href="../css/login.css">
+
 </head>
 <body>
-            <form>
-                <h2>LOG IN</h2>
-                <label for="username"><i>User name</i></label>
-                <input type="text" id="username" name="username" required placeholder="Enter your user name...">
-        
-                <label for="password"><i>Password</i> </label>
-                <input type="password" id="password" name="password" required placeholder="Enter your Password...">
-                <p>You haven't account yet? <a href="/HTML/SignUp.html" class="signup"> Sign Up</a></p>
-                <button type="submit" onclick="Submit()">Login</button>
+    <div class="container">
+        <div class="container-content">
+            <!--title-->
+            <div class="title">
+                <h1>LOG IN</h1>
+            </div>
+
+            <!--Main content-->
+            <form action="" id="form-signup" method="post">
+                <div class="input-group">
+                    <label for="username">UserName</label>
+                    <input class="form-input" type="text" id="username" required="required" placeholder="Enter your Username" name="userName">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input class="form-input" type="password" id="password" required="required" placeholder="Enter your password" name="password">
+                </div>
+
+                <div class="text-account">
+                    <span class="text-login">You have already account?<a href="signup.html">SignUp</a></span>
+                </div>
+
+                <!--Submit-->
+                <div class="input-group submit">
+                    <input name="login" type="submit" class="btn-submit" value="LOG IN" >
+                    </input>
+                </div>
+
             </form>
-            <script>
-                function Submit() {
-                    
-                }
-            </script>
-            
         </div>
     </div>
-    
 </body>
 </html>
