@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Profile</title>
-    <link rel="stylesheet" href="/CSS/Profile.css">
+    <link rel="stylesheet" href="../CSS/03_Profile.css">
 </head>
 <body>
     <div>
@@ -13,7 +13,7 @@
             <div class="navbar-content">
                 <div class="navbar-item">
                     <div class="logo">
-                        <a href="index.html" class="logo-title"> 
+                        <a href="../PHP/01_Index.php" class="logo-title"> 
                             <h2 title="Sport Management">SportManagement</h2>
                         </a>
                     </div>
