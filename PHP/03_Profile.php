@@ -8,7 +8,16 @@
 </head>
 <body>
     <?php
-        
+        require_once '05_ConnectData.php';
+        session_start();
+        $user_id=$SESSION["user_id"];
+
+        $stmt=$connect->prepare("SELECT * FROM users WHERE _id = ?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        $row=$result->fetch_assoc();
+        $stmt->close();
     ?>
     <div>
          <!--Navbar-->
@@ -44,7 +53,7 @@
             </div>
             <div class="profile-content">
                 <h3>Your Profile</h3>
-                <form action="" id="form-profile" method="post">
+                <form action="" id="form-profile" method="POST">
                     <div class="input-profile">
                         <label for="fullname">Full Name</label>
                         <input class="inp_profile" type="text" id="fullname" required="required" placeholder="Enter your Fullname" name="fullName">

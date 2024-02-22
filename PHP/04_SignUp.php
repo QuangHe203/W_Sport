@@ -24,8 +24,7 @@
                 $stmt->bind_param("ssss", $userName, $name, $email, $password);
             }
             if ($stmt->execute()) {
-                $user_id = $stmt->insert_id;
-                $_SESSION["user_id"]=$user_id;
+                $_SESSION["user_id"]=$stmt->insert_id;
                 header("Location: 01_Index.php");
                 exit();
             } else {
