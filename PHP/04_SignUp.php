@@ -10,7 +10,6 @@
     <?php
         require_once '05_ConnectData.php';
         session_start();
-        $userName=$name=$email=$password="";
         $userNameErr=$nameErr=$emailErr=$passwordErr="";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -26,9 +25,9 @@
             }
             if ($stmt->execute()) {
                 $user_id = $stmt->insert_id;
-                    $_SESSION["user_id"]=$user_id;
-                    header("Location: 01_Index.php");
-                    exit;
+                $_SESSION["user_id"]=$user_id;
+                header("Location: 01_Index.php");
+                exit();
             } else {
                 echo "Error".$stmt->error;
             }

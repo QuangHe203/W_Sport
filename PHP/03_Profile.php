@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="../CSS/03_Profile.css">
 </head>
 <body>
+    <?php
+        
+    ?>
     <div>
          <!--Navbar-->
         <div class="navbar">

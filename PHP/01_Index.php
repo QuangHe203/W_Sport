@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="../CSS/01_Index.css">
 </head>
 <body>
+    <?php
+        session_start();
+        require_once '05_ConnectData.php';
+    ?>
     <!--Navbar-->
     <div class="navbar">
         <div class="navbar-content">
@@ -17,8 +21,15 @@
                 </div>
 
                 <div class="items">
-                    <a href="../PHP/02_Login.php" class="sign_in">Log in</a>
-                    <a href="../PHP/04_SignUp.php" class="sign_up">Sign up</a>
+                    <?php
+                        if (isset($_SESSION["user_id"])) {
+                            echo '<a href="../PHP/03_Profile.php">Profile</a>
+                                <a href="../PHP/06_Logout.php">Logout</a>';
+                        } else {
+                            echo '<a href="../PHP/02_Login.php" class="sign_in">Log in</a>
+                                <a href="../PHP/04_SignUp.php" class="sign_up">Sign up</a>';
+                        }
+                    ?>
                 </div>
             </div>
         </div>
