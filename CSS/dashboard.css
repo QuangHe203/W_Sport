@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body{
+  background-color: #f3f5f9;
+  width: 100%;
+}
+
+.main{
+  width: 100%;
+  height: 100%;
+}
+
+
+.main .header{
+  padding: 20px;
+  width: 100%;
+  background: #fff;
+  color: black;
+  border-bottom: 1px solid #e0e4e8;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+
+.main .info{
+  padding: 0 20px;
+  height: 400px;
+  background: #fff;
+}
+
+.info-title{
+  font-weight: bold;
+  font-size: 22px;
+  padding-top: 10px;
+}
+.clb{
+  display: flex;
+  position: relative;
+}
+.info-website{
+  font-weight: bold;
+  font-size: 22px;
+  padding-top: 10px;
+}
+.clb .football{
+  position: absolute;
+  top: 10px;
+  left: 150px;
+  font-size: 20px;
+}
+.clb .football:hover{
+  text-decoration: underline;
+}
+.clb .football a{
+  color: #17bf63;
+  text-decoration: dotted;
+}
+.content{
+  color: gray;
+  padding-top: 10px;
+}
+.content a{
+  color: #17bf63;
+}
+
