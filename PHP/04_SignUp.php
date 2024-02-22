@@ -7,29 +7,58 @@
     <link rel="stylesheet" href="../CSS/04_SignUp.css">
 </head>
 <body>
-            <form>
+    <?php
+        require_once '05_ConnectData.php';
+        session_start();
+        $userName=$name=$email=$password="";
+        $userNameErr=$nameErr=$emailErr=$passwordErr="";
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $userName=$_POST["username"];
+            $name=$_POST["name"];
+            $email=$_POST["email"];
+            $password=$_POST["password"];
+            if ($connect->connect_error) {
+                die('Cannot connect to database'.$connect_error);
+            } else {
+                $stmt = $connect->prepare("INSERT INTO users (username, name, email, password) value (?, ?, ?, ?)");
+                $stmt->bind_param("ssss", $userName, $name, $email, $password);
+            }
+            if ($stmt->execute()) {
+                $user_id = $stmt->insert_id;
+                    $_SESSION["user_id"]=$user_id;
+                    header("Location: 01_Index.php");
+                    exit;
+            } else {
+                echo "Error".$stmt->error;
+            }
+
+            $stmt->close();
+            $connect->close();
+        }
+    ?>
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                 <h2>Sign Up</h2>
                 <label for="username"><i>User name</i></label>
                 <input type="text" id="username" name="username" required placeholder="Enter your user name...">
+                <br><span class="error"><?php echo $userNameErr;?></span>
 
                 <label for="name"><i class="edit">Name</i></label>
                 <input type="text" id="name" name="name" required placeholder="Enter your  name...">
+                <br><span class="error"><?php echo $nameErr;?></span>
 
                 <label for="email"><i class="edit">Email</i></label>
                 <input type="text" id="email" name="email" required placeholder="Enter your  email...">
+                <br><span class="error"><?php echo $emailErr;?></span>
 
                 <label for="password"><i>Password</i> </label>
                 <input type="password" id="password" name="password" required placeholder="Enter your Password...">
+                <br><span class="error"><?php echo $passwordErr;?></span>
 
                 <p>You have already account? <a href="../PHP/02_Login.php" class="signup">Login</a></p>
 
-                <button type="submit" onclick="Sbmit()">Sign Up</button>
-                <script>
-                    function Sbmit() {
-                        
-                    }
-                </script>
-
+                <button type="submit">Sign Up</button>
+                
             </form>
             
         </div>
