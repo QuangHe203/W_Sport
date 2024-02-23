@@ -10,7 +10,7 @@
     <?php
         require_once '05_ConnectData.php';
         session_start();
-        $user_id=$SESSION["user_id"];
+        $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : NULL;
 
         $stmt=$connect->prepare("SELECT * FROM users WHERE _id = ?");
         $stmt->bind_param("s", $user_id);
@@ -18,6 +18,49 @@
         $result=$stmt->get_result();
         $row=$result->fetch_assoc();
         $stmt->close();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["uploadInf"])) {
+            $birthday=$_POST["birthday"];
+            $gender=$_POST["gender"];
+            $phone=$_POST["phone"];
+            if ($connect->connect_error) {
+                die('Cannot connect to database'.$connect_error);
+            } else {
+                $stmt=$connect->prepare("UPDATE users SET birthday=?, gender=?, phone=? WHERE _id=?");
+                $stmt->bind_param("ssss", $birthday, $gender, $phone, $user_id);
+            }
+            if ($stmt->execute()) {
+                header("Location: 03_Profile.php");
+                $stmt->close();
+                exit();
+            } else {
+                echo "Error".$stmt->error;
+            }
+        }
+
+            if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["uploadAvatar"])) {
+                if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
+                    $targetDir="../Image/";
+                    $targetFile=$targetDir . basename($_FILES["image"]["name"]);
+                    $imageFileType=strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+                        $imagePath=$targetFile;
+                        $stmt=$connect->prepare("UPDATE users SET avatar=? WHERE _id=?");
+                        $stmt->bind_param("ss", $imagePath, $user_id);
+                        if ($stmt->execute()) {
+                            header("Location: 03_Profile.php");
+                            $stmt->close();
+                            exit();
+                        } else {
+                            echo "Error".$stmt->error;
+                        }
+                    }
+                } else {
+                    echo "No file uploaded";
+                }
+            }
+        $connect->close();
     ?>
     <div>
          <!--Navbar-->
@@ -41,12 +84,14 @@
         <div class="main-content">
             <div class="profile-icon">
                 <div class="img_items">
-                    <div class="img">
-                        <img src="../img/profile.jpg" alt="">
-                    </div>
+                    <form method="POST" class="img" enctype="multipart/form-data">
+                        <img src="<?php echo $row['avatar'];?>" alt="">
+                        <input type="file" name="image" id="image" accept="image/*" required>
+                        <br><button type="submit" name="uploadAvatar">Upload</button>
+                    </form>
                     <div class="icon-content">
-                        <p class="username">levannguyen</p>
-                        <p class="email">nguyenle@gmail.com</p>
+                        <p class="username"><?php echo $row['username'];?></p>
+                        <p class="email"><?php echo $row['email'];?></p>
                     </div>
                 </div>
                 
@@ -56,22 +101,22 @@
                 <form action="" id="form-profile" method="POST">
                     <div class="input-profile">
                         <label for="fullname">Full Name</label>
-                        <input class="inp_profile" type="text" id="fullname" required="required" placeholder="Enter your Fullname" name="fullName">
+                        <input class="inp_profile" type="text" id="fullname" required="required" placeholder="Enter your Fullname" name="fullName" value="<?php echo $row['name'];?>" readonly>
                     </div>
 
                     <div class="input-profile">
                         <label for="email">Email</label>
-                        <input class="inp_profile" type="text" id="Email" required="required" placeholder="Enter your Email" name="email">
+                        <input class="inp_profile" type="text" id="Email" required="required" placeholder="Enter your Email" name="email" value="<?php echo $row['email'];?>" readonly>
                     </div>
 
                     <div class="input-profile">
                         <label for="email">BirthDay</label>
-                        <input class="inp_profile" type="date" id="birthday" required="required" placeholder="Enter your BirthDay" name="birthday">
+                        <input class="inp_profile" type="date" id="birthday" required="required" placeholder="Enter your BirthDay" name="birthday" value="<?php echo $row['birthday']?>">
                     </div>
 
                     <div class="input-profile pr_gender">
                         <label for="gender">Gender</label>
-                        <select id="choose_gender">
+                        <select id="choose_gender" name="gender">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
@@ -79,12 +124,12 @@
     
                     <div class="input-profile">
                         <label for="phone">Phone</label>
-                        <input class="inp_profile" type="text" id="phone" required="required" placeholder="Enter your Phone" name="phone">
+                        <input class="inp_profile" type="text" id="phone" required="required" placeholder="Enter your Phone" name="phone" value="<?php echo $row['phone'];?>">
                     </div>
     
                     <!--Submit-->
                     <div class="input-profile submit">
-                        <input type="submit" name="" id="submit-btn" value="Save">
+                        <input type="submit" name="uploadInf" id="submit-btn" value="Save">
                     </div>
     
                 </form>

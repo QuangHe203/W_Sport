@@ -17,11 +17,12 @@
             $name=$_POST["name"];
             $email=$_POST["email"];
             $password=$_POST["password"];
+            $avatar="Image/profile.jpg";
             if ($connect->connect_error) {
                 die('Cannot connect to database'.$connect_error);
             } else {
-                $stmt = $connect->prepare("INSERT INTO users (username, name, email, password) value (?, ?, ?, ?)");
-                $stmt->bind_param("ssss", $userName, $name, $email, $password);
+                $stmt = $connect->prepare("INSERT INTO users (username, name, email, password, avatar) value (?, ?, ?, ?)");
+                $stmt->bind_param("ssss", $userName, $name, $email, $password, $avatar);
             }
             if ($stmt->execute()) {
                 $_SESSION["user_id"]=$stmt->insert_id;
