@@ -3,33 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>SportManagement</title>
-    <link rel="stylesheet" href="../CSS/01_Index.css">
+    <link rel="stylesheet" href="/CSS/Index.css">
 </head>
 <body>
-    <?php
-        session_start();
-        require_once '05_ConnectData.php';
-    ?>
     <!--Navbar-->
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="../PHP/01_Index.php" class="logo-title"> 
+                    <a href="Index.html" class="logo-title"> 
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
 
                 <div class="items">
-                    <?php
-                        if (isset($_SESSION["user_id"])) {
-                            echo '<a href="../PHP/03_Profile.php">Profile</a>
-                                <a href="../PHP/06_Logout.php">Logout</a>';
-                        } else {
-                            echo '<a href="../PHP/02_Login.php" class="sign_in">Log in</a>
-                                <a href="../PHP/04_SignUp.php" class="sign_up">Sign up</a>';
-                        }
-                    ?>
+                    <a href="/HTML/Login.html" class="sign_in">Log in</a>
+                    <a href="/HTML/SignUp.html" class="sign_up">Sign up</a>
                 </div>
             </div>
         </div>

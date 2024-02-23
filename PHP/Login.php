@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../CSS/02_Login.css">
+    <link rel="stylesheet" href="../CSS/Login.css">
 </head>
 <body>
     <?php
-        require_once '05_ConnectData.php';
-        session_start();
+        require_once 'ConnectData.php';
         $usernameErr=$passwordErr="";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -24,7 +23,7 @@
                 $row = $result->fetch_assoc();
                 if ($password == $row['password']) {
                     $_SESSION["user_id"] = $row['_id'];
-                    header("Location: 01_Index.php");
+                    header("Location: Index.php");
                     exit();
                 } else {
                     $passwordErr="Wrong password";
@@ -46,7 +45,7 @@
                 <label for="password"><i>Password</i> </label>
                 <input type="password" id="password" name="password" required placeholder="Enter your Password...">
                 <br><span class="error"><?php echo $passwordErr;?></span>
-                <p>You haven't account yet? <a href="../PHP/04_SignUp.php" class="signup"> Sign Up</a></p>
+                <p>You haven't account yet? <a href="../PHP/SignUp.php" class="signup"> Sign Up</a></p>
                 <button type="submit">Login</button>
             </form>
         </div>

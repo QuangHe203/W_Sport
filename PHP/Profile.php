@@ -4,20 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Profile</title>
-    <link rel="stylesheet" href="../CSS/03_Profile.css">
+    <link rel="stylesheet" href="../CSS/Profile.css">
 </head>
 <body>
     <?php
-        require_once '05_ConnectData.php';
-        session_start();
-        $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : NULL;
-
-        $stmt=$connect->prepare("SELECT * FROM users WHERE _id = ?");
-        $stmt->bind_param("s", $user_id);
-        $stmt->execute();
-        $result=$stmt->get_result();
-        $row=$result->fetch_assoc();
-        $stmt->close();
+        require 'ConnectData.php';
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["uploadInf"])) {
             $birthday=$_POST["birthday"];
@@ -30,7 +21,7 @@
                 $stmt->bind_param("ssss", $birthday, $gender, $phone, $user_id);
             }
             if ($stmt->execute()) {
-                header("Location: 03_Profile.php");
+                header("Location: Profile.php");
                 $stmt->close();
                 exit();
             } else {
@@ -49,7 +40,7 @@
                         $stmt=$connect->prepare("UPDATE users SET avatar=? WHERE _id=?");
                         $stmt->bind_param("ss", $imagePath, $user_id);
                         if ($stmt->execute()) {
-                            header("Location: 03_Profile.php");
+                            header("Location: Profile.php");
                             $stmt->close();
                             exit();
                         } else {
@@ -68,7 +59,7 @@
             <div class="navbar-content">
                 <div class="navbar-item">
                     <div class="logo">
-                        <a href="../PHP/01_Index.php" class="logo-title"> 
+                        <a href="../PHP/Index.php" class="logo-title"> 
                             <h2 title="Sport Management">SportManagement</h2>
                         </a>
                     </div>
@@ -85,13 +76,13 @@
             <div class="profile-icon">
                 <div class="img_items">
                     <form method="POST" class="img" enctype="multipart/form-data">
-                        <img src="<?php echo $row['avatar'];?>" alt="">
+                        <img src="<?php echo $data['avatar'];?>" alt="">
                         <input type="file" name="image" id="image" accept="image/*" required>
                         <br><button type="submit" name="uploadAvatar">Upload</button>
                     </form>
                     <div class="icon-content">
-                        <p class="username"><?php echo $row['username'];?></p>
-                        <p class="email"><?php echo $row['email'];?></p>
+                        <p class="username"><?php echo $data['username'];?></p>
+                        <p class="email"><?php echo $data['email'];?></p>
                     </div>
                 </div>
                 
@@ -101,17 +92,17 @@
                 <form action="" id="form-profile" method="POST">
                     <div class="input-profile">
                         <label for="fullname">Full Name</label>
-                        <input class="inp_profile" type="text" id="fullname" required="required" placeholder="Enter your Fullname" name="fullName" value="<?php echo $row['name'];?>" readonly>
+                        <input class="inp_profile" type="text" id="fullname" required="required" placeholder="Enter your Fullname" name="fullName" value="<?php echo $data['name'];?>" readonly>
                     </div>
 
                     <div class="input-profile">
                         <label for="email">Email</label>
-                        <input class="inp_profile" type="text" id="Email" required="required" placeholder="Enter your Email" name="email" value="<?php echo $row['email'];?>" readonly>
+                        <input class="inp_profile" type="text" id="Email" required="required" placeholder="Enter your Email" name="email" value="<?php echo $data['email'];?>" readonly>
                     </div>
 
                     <div class="input-profile">
                         <label for="email">BirthDay</label>
-                        <input class="inp_profile" type="date" id="birthday" required="required" placeholder="Enter your BirthDay" name="birthday" value="<?php echo $row['birthday']?>">
+                        <input class="inp_profile" type="date" id="birthday" required="required" placeholder="Enter your BirthDay" name="birthday" value="<?php echo $data['birthday']?>">
                     </div>
 
                     <div class="input-profile pr_gender">
@@ -124,7 +115,7 @@
     
                     <div class="input-profile">
                         <label for="phone">Phone</label>
-                        <input class="inp_profile" type="text" id="phone" required="required" placeholder="Enter your Phone" name="phone" value="<?php echo $row['phone'];?>">
+                        <input class="inp_profile" type="text" id="phone" required="required" placeholder="Enter your Phone" name="phone" value="<?php echo $data['phone'];?>">
                     </div>
     
                     <!--Submit-->

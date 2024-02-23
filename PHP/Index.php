@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>SportManagement</title>
-    <link rel="stylesheet" href="/CSS/01_Index.css">
+    <link rel="stylesheet" href="../CSS/Index.css">
 </head>
 <body>
+    <?php
+        require_once 'ConnectData.php';
+    ?>
     <!--Navbar-->
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="01_Index.html" class="logo-title"> 
+                    <a href="../PHP/Index.php" class="logo-title"> 
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
 
                 <div class="items">
-                    <a href="/HTML/02_Login.html" class="sign_in">Log in</a>
-                    <a href="/HTML/04_SignUp.html" class="sign_up">Sign up</a>
+                    <?php
+                        if (isset($_SESSION["user_id"])) {
+                            echo '<a href="../PHP/Profile.php">Profile</a>
+                                <a href="../PHP/Logout.php">Logout</a>';
+                        } else {
+                            echo '<a href="../PHP/Login.php" class="sign_in">Log in</a>
+                                <a href="../PHP/SignUp.php" class="sign_up">Sign up</a>';
+                        }
+                    ?>
                 </div>
             </div>
         </div>
@@ -35,7 +45,7 @@
                     </h1>
                     <div class="node">
                         <div class="node-dashboad">
-                            <a href="" class="a-dashboad">Go to Dashboad</a>
+                            <a href="../PHP/organization.php" class="a-dashboad">Go to Dashboad</a>
                         </div>
                         <div class="node-search">
                             <a href="" class="a-search">Search Program</a>
