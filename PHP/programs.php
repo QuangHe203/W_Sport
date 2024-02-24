@@ -14,7 +14,7 @@
                 <input class="search" type="text" placeholder="Search">
                 <select id="sport" name="sportlist" form="sportform">
                     <option value="Sport">Sport</option>
-                    <option value="a">A</option>
+                    <option value="League">League</option>
                     <option value="b">B</option>
                     <option value="c">C</option>
                 </select>
@@ -34,7 +34,7 @@
     </div>
     <script>
         document.getElementById("btn").addEventListener("click", function() {
-            window.location.href = "../html/newprogram.html";
+            window.location.href = "../PHP/newprogram.php";
         });
     </script>
 </body>

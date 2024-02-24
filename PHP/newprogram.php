@@ -12,16 +12,19 @@
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $title=$_POST["title"];
-            $sport=$_POST["sportlist"];
-            $program=$_POST["programlist"];
+            $sport=$_POST["sport"];
+            $program=$_POST["program"];
             if ($connect->connect_error) {
                 die('Cannot connect to database'.$connect_error);
             } else {
-                $stmt=$connect->prepare("INSERT INTO programs (title, sport, type) value (?, ?, ?, ?, ?)");
+                $stmt=$connect->prepare("INSERT INTO programs (title, sport, type) value (?, ?, ?)");
+                $stmt->bind_param("sss", $title, $sport, $program);
             }
             if ($stmt->execute()) {
                 header("Location: settings.php");
                 exit();
+            } else {
+                echo "Error".$stmt->error;
             }
             $stmt->close();
         }
@@ -29,7 +32,7 @@
     <div class="main">
         <div class="header">New Program</div>
         <div class="create_program">
-            <form action="" id="new_program" method="post">
+            <form id="new_program" method="POST">
                 <div class="input_program">
                     <label for="title">Title</label>
                     <input class="inp_program" type="text" id="title" required="required" placeholder="Enter your Title" name="title">
@@ -37,7 +40,7 @@
     
                 <div class="input_program">
                     <label for="sport">Sport</label>
-                    <select id="sport" name="sportlist" form="sportform">
+                    <select id="sport" name="sport">
                         <option value="VolleyBall">VolleyBall</option>
                         <option value="Football">Football</option>
                         <option value="Badminton">Badminton</option>
@@ -47,7 +50,7 @@
     
                 <div class="input_program">
                     <label for="program">Type of Program</label>
-                    <select id="program" name="programlist" form="programform">
+                    <select id="program" name="program">
                         <option value="Tounament">Tounament</option>
                         <option value="League">League</option>
                         <option value="Camp">Camp</option>
@@ -60,7 +63,7 @@
     
                 <!--Submit-->
                 <div class="input_program submit">
-                    <input type="submit" name="" id="submit-btn" value="Create">
+                    <input type="submit" id="submit-btn" value="Create">
                 </div>
     
             </form>
