@@ -20,7 +20,7 @@
                 $stmt=$connect->prepare("INSERT INTO programs (title, sport, type) value (?, ?, ?, ?, ?)");
             }
             if ($stmt->execute()) {
-                header("Location: ");
+                header("Location: settings.php");
                 exit();
             }
             $stmt->close();
