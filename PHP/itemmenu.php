@@ -45,4 +45,10 @@
 </div>
 
 </body>
+<script>
+    window.onload = function() {
+        var iframe = document.getElementsByName("content")[0];
+        iframe.src = "../PHP/dashboard.php";
+    };
+</script>
 </html>

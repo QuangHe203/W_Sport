@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th2 22, 2024 lúc 08:36 AM
+-- Thời gian đã tạo: Th2 23, 2024 lúc 10:21 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -24,49 +24,55 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Cấu trúc bảng cho bảng `organizations`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `organizations` (
   `_id` int(10) NOT NULL,
-  `username` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `name` varchar(40) NOT NULL,
-  `email` varchar(40) NOT NULL,
-  `birthday` varchar(20) NOT NULL,
-  `gender` varchar(10) NOT NULL,
-  `phone` varchar(10) NOT NULL
+  `name` varchar(30) NOT NULL,
+  `owner` int(10) NOT NULL,
+  `tagline` varchar(30) NOT NULL,
+  `description` text NOT NULL,
+  `publish` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Đang đổ dữ liệu cho bảng `organizations`
 --
 
-INSERT INTO `users` (`_id`, `username`, `password`, `name`, `email`, `birthday`, `gender`, `phone`) VALUES
-(1, '', '', '', '', '', '', ''),
-(2, '', '', '', '', '', '', ''),
-(3, '', '', '', '', '', '', ''),
-(4, 'quanghe203', '33333333', 'Nguyễn Quang Hệ', 'Quanghe2003@gmail.com', '2003-01-25', 'Female', '0377556203');
+INSERT INTO `organizations` (`_id`, `name`, `owner`, `tagline`, `description`, `publish`) VALUES
+(1, 'PKA_FC', 4, '', 'Ha Noi, Viet Nam', 0);
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Chỉ mục cho bảng `users`
+-- Chỉ mục cho bảng `organizations`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`_id`);
+ALTER TABLE `organizations`
+  ADD PRIMARY KEY (`_id`),
+  ADD KEY `fk_owner` (`owner`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT cho bảng `users`
+-- AUTO_INCREMENT cho bảng `organizations`
 --
-ALTER TABLE `users`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `organizations`
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `organizations`
+--
+ALTER TABLE `organizations`
+  ADD CONSTRAINT `fk_owner` FOREIGN KEY (`owner`) REFERENCES `users` (`_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

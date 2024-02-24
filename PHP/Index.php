@@ -8,6 +8,12 @@
 <body>
     <?php
         require_once 'ConnectData.php';
+
+        $stmt=$connect->prepare("SELECT * FROM organizations WHERE owner = ?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        $stmt->close();
     ?>
     <!--Navbar-->
     <div class="navbar">
@@ -45,7 +51,13 @@
                     </h1>
                     <div class="node">
                         <div class="node-dashboad">
-                            <a href="../PHP/organization.php" class="a-dashboad">Go to Dashboad</a>
+                            <?php
+                                if ($result->num_rows==0) {
+                                    echo "<a href='../PHP/itemmenu.php' class='a-dashboad'>Go to Dashboad</a>";
+                                } else {
+                                    echo "<a href='../PHP/organization.php' class='a-dashboad'>Go to Dashboad</a>";
+                                }
+                            ?>
                         </div>
                         <div class="node-search">
                             <a href="" class="a-search">Search Program</a>
