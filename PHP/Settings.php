@@ -30,8 +30,8 @@
 
     <div class="menu">
         <ul>
-            <li><a href="">Basic Info</a></li>
-            <li><a href="">Setup Times</a></li>
+            <li><a href="../PHP/BasicInfo.php">Basic Info</a></li>
+            <li><a href="../PHP/SetUpTime.php">Setup Times</a></li>
             <li><a href="">Registration</a></li>
             <li><a href="">Team & Group</a></li>
             <li><a href="">Schedule</a></li>

@@ -21,7 +21,7 @@
                 $stmt->bind_param("sss", $title, $sport, $program);
             }
             if ($stmt->execute()) {
-                header("Location: settings.php");
+                header("Location: Settings.php");
                 exit();
             } else {
                 echo "Error".$stmt->error;
