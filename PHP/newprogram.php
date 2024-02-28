@@ -9,6 +9,21 @@
 <body>
     <?php
         require_once 'ConnectData.php';
+        if ($connect->connect_error) {
+            die('Cannot connect to database'.$connect_error);
+        } else {
+            $stmt=$connect->prepare("SELECT _id FROM organizations WHERE owner = ?");
+            $stmt->bind_param("s", $user_id);
+            $stmt->execute();
+            $result=$stmt->get_result();
+            if ($result->num_rows > 0) {
+                $row=$result->fetch_assoc();
+                $organization_id=$row['_id'];
+            } else {
+                $organization_id=null;
+            }
+            $stmt->close();
+        }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $title=$_POST["title"];
@@ -17,10 +32,12 @@
             if ($connect->connect_error) {
                 die('Cannot connect to database'.$connect_error);
             } else {
-                $stmt=$connect->prepare("INSERT INTO programs (title, sport, type) value (?, ?, ?)");
-                $stmt->bind_param("sss", $title, $sport, $program);
+                $stmt=$connect->prepare("INSERT INTO programs (title, sport, type, organization_id) value (?, ?, ?, ?)");
+                $stmt->bind_param("ssss", $title, $sport, $program, $organization_id);
             }
             if ($stmt->execute()) {
+                $_SESSION["program_id"]=$stmt->insert_id;
+                header("Location: index.php");
                 header("Location: Settings.php");
                 exit();
             } else {

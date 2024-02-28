@@ -4,71 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../CSS/settings.css">
+    <link rel="stylesheet" href="../css/settings.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 <body>
+    <?php
+        require_once 'ConnectData.php';
+        $program_id=$_SESSION['program_id'];
+        if ($connect->connect_error) {
+            die('Cannot connect to database'.$connect_error);
+        } else {
+            $stmt=$connect->prepare("SELECT * FROM programs WHERE _id = ?");
+            $stmt->bind_param("s", $program_id);
+            $stmt->execute();
+            $result=$stmt->get_result();
+            $row=$result->fetch_assoc();
+            $stmt->close();
+        }
+    ?>
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="../PHP/Index.php" class="logo-title"> 
+                    <a href="index.php" class="logo-title"> 
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
     
                 <!--khi da dang nhap, hien thi profile-->
-                <div></div>
-    
-    
+                <div class="nav_profile">
+                    <div class="dashboard">
+                        <p class="goto"><a href="../php/itemmenu.php">Go to Dashboard</a></p>
+                        <p><img src="../img/profile.jpg" alt=""></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="setting_Title">
-        <h2>Summer Fooball 2024</h2>
+    <div class="name_programs">
+        <h3><?php echo $row['title']?></h3>
     </div>
 
-    <div class="menu">
+    <div class="menu_setting">
         <ul>
-            <li><a href="../PHP/BasicInfo.php">Basic Info</a></li>
-            <li><a href="../PHP/SetUpTime.php">Setup Times</a></li>
-            <li><a href="">Registration</a></li>
-            <li><a href="">Team & Group</a></li>
-            <li><a href="">Schedule</a></li>
+            <li><a href="../PHP/BasicInfo.php" target="content">Basic Info</a></li>
+            <li><a href="../PHP/SetUpTime.php" target="content">Setup Time</a></li>
+            <li><a href="../PHP/registration_setting.php" target="content">Registration</a></li>
+            <li><a href="../PHP/teamgroup.php" target="content">Team & Group</a></li>
+            <li><a href="../PHP/schedule.php" target="content">Schedule</a></li>
         </ul>
     </div>
+    <iframe name="content" src="" scrolling="no"></iframe>
 
-    <div class="main">
-        <div class="settings-content">
-            <form action="" id="form-organization" method="post">
-                <div class="input-title">
-                    <label for="title">Title</label>
-                    <input class="inp_title" type="text" id="title" required="required" placeholder="Enter your sport title" name="title">
-                </div>
-
-                <div class="input-title">
-                    <label for="subtitle">SubTitle</label>
-                    <input class="inp_title" type="text" id="subtitle" required="required" placeholder="Enter your SubTitle Sport" name="subtitle">
-                </div>
-                <div class="input-title">
-                    <label for="description">Description</label>
-                    <input class="inp_title" type="text" id="description" required="required" placeholder="Enter your Description" name="description">
-                </div>
-                <div class="input-title">
-                    <label for="location">Location</label>
-                    <input class="inp_title" type="text" id="location" required="required" placeholder="Enter your Location" name="location">
-                </div>
-                <div class="input-title">
-                    <label for="sport">Sport</label>
-                    <input class="inp_title" type="text" id="sport" required="required" placeholder="Enter your Sport" name="sport">
-                </div>
-                <!--Submit-->
-                <div class="input-organ submit">
-                    <input type="submit" name="" id="submit-btn" value="Save">
-                </div>
-
-            </form>
-        </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const links = document.querySelectorAll('.menu_setting ul li a');
+            links.forEach(link => {
+                link.addEventListener('click', function () {
+                    links.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+        window.onload = function() {
+        var iframe = document.getElementsByName("content")[0];
+        iframe.src = "../PHP/BasicInfo.php";
+    };
+    </script>
 </body>
 </html>
