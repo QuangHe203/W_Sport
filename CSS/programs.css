@@ -32,7 +32,6 @@ body{
 
 .main .items{
     padding-top: 20px;
-    height: 400px;
     background: #fff;
 }
 .main .items form .search,
@@ -60,3 +59,75 @@ body{
 .main .items form #btn:hover {
     background-color: green; /* Màu nền khi di chuột qua */
 }
+
+
+.container {
+    margin: 20px 9px;
+    display: flex;
+    /* justify-content: flex-start; */
+    border: 1px solid #ccc;
+    box-shadow: 8px 8px 8px 2px rgba(36, 33, 33, 0.1);
+    cursor: pointer;
+    width: 70%;
+    position: relative;
+    
+}
+
+.profile {
+    width: 50%;
+}
+
+.profile img {
+    width: 235px;
+    height: 128px;
+    position: absolute;
+}
+
+.info {
+    width: 90%;
+    padding: 27px;
+    box-sizing: border-box;
+}
+.info .program_name{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.info .program_title{
+    font-size: 15px;
+    color: black;
+    padding-top: 10px;
+}
+
+
+.actionForm{
+    display: flex;
+}
+.actionForm p{
+    font-size: 15px;
+    padding-right: 10px;
+}
+.actionForm p.del_program{
+    color: red;
+}
+.actionForm p.program_sta{
+    color: yellowgreen;
+}
+.more-link {
+    cursor: pointer;
+    color: blue;
+}
+
+.more-link:hover {
+    text-decoration: underline;
+}
+
+.more-link::after {
+    content: '\25BC';
+    position: absolute;
+    top: 90px; 
+    right: 240px; 
+    font-size: 10px;
+    transform: translateY(-50%); 
+    color: blue;
+  }

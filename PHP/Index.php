@@ -52,7 +52,7 @@
                     <div class="node">
                         <div class="node-dashboad">
                             <?php
-                                if ($result->num_rows==0) {
+                                if ($result->num_rows !== 0) {
                                     echo "<a href='../PHP/itemmenu.php' class='a-dashboad'>Go to Dashboad</a>";
                                 } else {
                                     echo "<a href='../PHP/organization.php' class='a-dashboad'>Go to Dashboad</a>";

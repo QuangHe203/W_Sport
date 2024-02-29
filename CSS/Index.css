@@ -9,7 +9,7 @@ body {
     font-family: ui-sans-serif,system-ui,sans-serif;
     width: 1260px;
     margin: 0 auto;
-    /* background: url('/SignUp/Ảnh/Login/anhnen.webp') center center/cover; */
+    /*background: url('../Image/anhnen.webp') center center/cover;*/
 }
 a{
     text-decoration: none;
