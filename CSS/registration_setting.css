@@ -1,3 +1,7 @@
+*{
+    font-family: 'Josefin Sans', sans-serif;
+}
+  
 .main{
     padding-left: 250px;
 }
@@ -59,22 +63,118 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-.main .option{
 
+.option .header,
+.setUp .header,
+.price .header{
+    font-weight: bold;
+}
+.option .header{
+    height: 5px;
 }
 .option .required{
     display: flex;
+    height: 50px;
 }
+
 .required .required_checkbox{
     display: flex;
+    padding-right: 7px;
+}
+.required_checkbox p{
+    padding-left: 3px;
 }
 #requiredCheck{
     accent-color: #17bf63;
 }
-
-
-
 .setUp .start,
 .setUp .end{
     display: flex;
+    margin: 0 15px 25px;
+
+}
+.start .start_date{
+    padding-right: 30px;
+}
+.start_date input#starDate,
+.start_time input#starTime{
+    padding: 5px 5px 5px 5px;
+    width: 220px;
+    border: 1px solid lightgreen;
+}
+.end_date input#endDate,
+.end_time input#endTime{
+    padding: 5px 5px 5px 5px;
+    width: 220px;
+    border: 1px solid lightgreen;
+}
+.end .end_date{
+    padding-right: 34px;
+}
+.end_date label{
+    padding-right: 10px;
+}
+.end_time label{
+    padding-right: 10px;
+}
+
+
+.price_option .name_options,
+.price_option .price_item{
+    display: flex;
+    position: relative;
+}
+.name_options .header_options {
+    font-weight: bold;
+    padding-right: 82px;
+    position: relative; 
+}
+
+.name_options .header_options::after {
+    content: ''; 
+    position: absolute; 
+    bottom: -5px; 
+    left: 0; 
+    width: 100%; 
+    border-bottom: 1px solid gray; 
+}
+
+
+.price_option .price_item p{
+    padding-right: 50px;
+    width: 100px;
+}
+.price_item .pri_num{
+    padding-left: 30px;
+}
+.price_item .pri_quanl{
+    padding-left: 25px;
+}
+.price_item .visil{
+    padding-left: 25px;
+}
+.price_option .price_item{
+    position: relative;
+}
+.price_option .price_item::after{
+    content: ''; 
+    position: absolute; 
+    bottom: -5px; 
+    left: 0; 
+    width: 74%; 
+    border-bottom: 1px solid gray; 
+}
+i.fa-trash{
+    color: red;
+    cursor: pointer;
+}
+.submit input{
+    margin: 15px 5px 15px 5px;
+    background: #17bf63;
+    color: white;
+    border: 1px solid #17bf63;
+    cursor: pointer;
+}
+.submit input:hover{
+    background: green;
 }

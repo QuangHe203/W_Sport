@@ -91,6 +91,9 @@ body{
 
 .more-info {
     display: none;
+    width: 30%; 
+    margin-top: 10px; 
+    /* position: relative; */
 }
 
 .more-link {

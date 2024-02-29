@@ -21,7 +21,7 @@
                         <span class="close">&times;</span>
                         <h2>Edit Games</h2>
                         <div class="inp_editGames">
-                            <label class="homeTeam"  for="">Home Team:</label>
+                            <label for="">Home Team:</label>
                             <select name="team" id="nameTeam">
                                 <option value="Đội A">Đội A</option>
                                 <option value="Đội B">Đội B</option>
@@ -31,8 +31,8 @@
                         </div>
 
                         <div class="inp_editGames">
-                            <label class="awayTeam" for="">Away Team:</label>
-                            <select name="team" id="nameTeam" class="awayTeam">
+                            <label for="">Away Team:</label>
+                            <select name="team" id="nameTeam">
                                 <option value="Đội A">Đội A</option>
                                 <option value="Đội B">Đội B</option>
                                 <option value="Đội C">Đội C</option>
@@ -41,12 +41,12 @@
                         </div>
 
                         <div class="inp_editGames">
-                            <label class="datelabel" for="">Date:</label>
+                            <label for="">Date:</label>
                             <input type="date" id="date">
                         </div>
 
                         <div class="inp_editGames">
-                            <label class="labelGroup" for="">Group</label>
+                            <label for="">Group</label>
                             <select name="team" id="group">
                                 <option value="none">None</option>
                                 <option value="a">a</option>
@@ -54,34 +54,34 @@
                         </div>
 
                         <div class="inp_editGames">
-                            <label class="label_startTime" for="">Start Time</label>
+                            <label for="">Start Time</label>
                             <input type="time" placeholder="" class="startTime">
                         </div>
 
                         <div class="inp_editGames">
-                            <label class="label_endTime" for="">End Time</label>
+                            <label for="">End Time</label>
                             <input type="time" placeholder="" id="endTime">
                         </div>
                         <div class="inp_editGames">
-                            <label class="label_loca" for="">Location</label>
+                            <label for="">Location</label>
                             <input type="text" placeholder="" id="location">
                         </div>
                         <div class="inp_editGames">
-                            <label class="labelGame" for="">Game Type</label>
+                            <label for="">Game Type</label>
                             <select name="team" id="gameType">
                                 <option value="none">REGULAR SEASON</option>
                                 <option value="a">a</option>
                             </select>
                         </div>
                         <div class="inp_editGames">
-                            <label class="labelNote" for="">Game Note</label>
+                            <label for="">Game Note</label>
                             <textarea name="" id="gameNote" cols="30" rows="2"></textarea>
                         </div>
                         
 
                         <div class="button_container">
+                            <button id="add">Add</button>
                             <button id="close">Close</button>
-                            <button id="save">Save</button>
                         </div>
                     </div>
                 </div>
@@ -150,8 +150,8 @@
                         
 
                         <div class="button_container">
+                            <button id="add">Add</button>
                             <button id="close">Close</button>
-                            <button id="save">Save</button>
                         </div>
                     </div>
                 </div>
