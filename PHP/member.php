@@ -18,34 +18,47 @@
                     <option value="b">B</option>
                     <option value="c">C</option>
                 </select>
-
                 <input id="btn" type="button" value="Add Member">
             </form>
-            
         </div>
+
+        <?php
+            require_once 'ConnectData.php';
+
+            $stmt = $connect->prepare("SELECT * FROM members");
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            while ($row = $result->fetch_assoc()) {
+        ?>
 
         <div class="container">
             <div class="profile">
-                <img src="../img/profile-icon-design-free-vector.jpg" alt="Profile Picture">
+                <img src="../image/profile-icon-design-free-vector.jpg" alt="Profile Picture">
             </div>
             <div class="info">
-                <p><strong>Name:</strong> John Doe</p>
-                <p><strong>Email:</strong> johndoe@example.com</p>
-                <p><strong>Phone:</strong> +123456789</p>
-                <p><strong>Join Date:</strong> January 1, 2020</p>
-                <div class="more-info">
-                    <p><strong>Address:</strong> 123 Main St, City</p>
-                    <p><strong>Country:</strong> Country</p>
-                    <p><strong>Age:</strong> 30</p>
-                </div>
+                <p><strong>Name:</strong> <?php echo $row['name']; ?></p>
+                <p><strong>Organization ID:</strong> <?php echo $row['organization_id']; ?></p>
+                <p><strong>Created At:</strong> <?php echo $row['created_at']; ?></p>
+                <p><strong>Email:</strong> <?php echo $row['email']; ?></p>
+                <p><strong>Phone:</strong> <?php echo $row['phone']; ?></p>
+                
                 <p class="more-link" onclick="toggleMore()">More...</p>
             </div>
         </div>
+
+        <?php
+            }
+            $stmt->close();
+            $connect->close();
+        ?>
+
     </div>
     <script>
         document.getElementById("btn").addEventListener("click", function() {
-            window.location.href = "../html/new_mem.html";
+            window.location.href = "../PHP/new_mem.php";
         });
     </script>
 </body>
 </html>
+
