@@ -9,6 +9,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    <?php
+        require_once 'ConnectData.php';
+
+        if ($_SERVER["REQUEST_METHOD"]=="POST") {
+            $team1=$_POST["nameTeam1"];
+            $team2=$_POST["nameTeam2"];
+            $startDate=$_POST["date"];
+            $startTime=$_POST["startTime"];
+            $endTime=$_POST["endTime"];
+            $location=$_POST["location"];
+            $typeGame=$_POST["gameType"];
+            $gameNote=$_POST["gameNote"];
+
+            $stmt=$connect->prepare("INSERT INTO games (program_id, team1, team2, startDate, startTime, endTime, location, typeGame, gameNote) value (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssssssss", $program_id, $team1, $team2, $startDate, $startTime, $endTime, $location, $typeGame, $gameNote);
+            if ($stmt->execute()) {
+                header("Location: schedule.PHP");
+                exit();
+            } else {
+                echo "Error".$stmt->error;
+            }
+            $stmt->close();
+            $connect->close();
+        }
+    ?>
     <div class="main">
         <div class="header">
             <form action="" method="post">
@@ -22,7 +47,7 @@
                         <h2>Edit Games</h2>
                         <div class="inp_editGames">
                             <label for="">Home Team:</label>
-                            <select name="team" id="nameTeam">
+                            <select name="nameTeam1" id="nameTeam1">
                                 <option value="Đội A">Đội A</option>
                                 <option value="Đội B">Đội B</option>
                                 <option value="Đội C">Đội C</option>
@@ -32,7 +57,7 @@
 
                         <div class="inp_editGames">
                             <label for="">Away Team:</label>
-                            <select name="team" id="nameTeam">
+                            <select name="nameTeam2" id="nameTeam2">
                                 <option value="Đội A">Đội A</option>
                                 <option value="Đội B">Đội B</option>
                                 <option value="Đội C">Đội C</option>
@@ -42,12 +67,12 @@
 
                         <div class="inp_editGames">
                             <label for="">Date:</label>
-                            <input type="date" id="date">
+                            <input type="date" id="date" name="date">
                         </div>
 
                         <div class="inp_editGames">
                             <label for="">Group</label>
-                            <select name="team" id="group">
+                            <select name="team" id="group" name="group">
                                 <option value="none">None</option>
                                 <option value="a">a</option>
                             </select>
@@ -55,27 +80,27 @@
 
                         <div class="inp_editGames">
                             <label for="">Start Time</label>
-                            <input type="time" placeholder="" class="startTime">
+                            <input type="time" placeholder="" class="startTime" id="startTime" name="startTime">
                         </div>
 
                         <div class="inp_editGames">
                             <label for="">End Time</label>
-                            <input type="time" placeholder="" id="endTime">
+                            <input type="time" placeholder="" id="endTime" name="endTime">
                         </div>
                         <div class="inp_editGames">
                             <label for="">Location</label>
-                            <input type="text" placeholder="" id="location">
+                            <input type="text" placeholder="" id="location" name="location">
                         </div>
                         <div class="inp_editGames">
                             <label for="">Game Type</label>
-                            <select name="team" id="gameType">
-                                <option value="none">REGULAR SEASON</option>
+                            <select name="gameType" id="gameType">
+                                <option value="regular season">REGULAR SEASON</option>
                                 <option value="a">a</option>
                             </select>
                         </div>
                         <div class="inp_editGames">
                             <label for="">Game Note</label>
-                            <textarea name="" id="gameNote" cols="30" rows="2"></textarea>
+                            <textarea name="gameNote" id="gameNote" cols="30" rows="2"></textarea>
                         </div>
                         
 
@@ -155,7 +180,8 @@
                         </div>
                     </div>
                 </div>
-
+            </form>
+            <form action="">
                 <div class="item_switch">
                     <label class="switch">
                         <input type="checkbox" name="" id="">

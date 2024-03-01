@@ -13,22 +13,6 @@
         if ($connect->connect_error) {
             die('Cannot connect to database'.$connect->connect_error);
         } else {
-            $stmt = $connect->prepare("SELECT _id FROM organizations WHERE owner = ?");
-            $stmt->bind_param("s", $user_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                $rowOrg = $result->fetch_assoc();
-                $organization_id = $rowOrg['_id'];
-            } else {
-                $organization_id = null;
-            }
-            $stmt->close();
-        }
-
-        if ($connect->connect_error) {
-            die('Cannot connect to database'.$connect->connect_error);
-        } else {
             $stmt = $connect->prepare("SELECT * FROM programs WHERE organization_id = ?");
             $stmt->bind_param("s", $organization_id);
             $stmt->execute();

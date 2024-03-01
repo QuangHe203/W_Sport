@@ -8,6 +8,20 @@
     session_start();
     $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : NULL;
 
+    $stmt=$connect->prepare("SELECT _id FROM organizations WHERE owner = ?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($organization_id);
+    $stmt->fetch();
+    $stmt->close();
+
+    $stmt=$connect->prepare("SELECT _id FROM programs WHERE organization_id =?");
+    $stmt->bind_param("s", $organization_id);
+    $stmt->execute();
+    $stmt->bind_result($program_id);
+    $stmt->fetch();
+    $stmt->close();
+
     $stmt=$connect->prepare("SELECT * FROM users WHERE _id = ?");
     $stmt->bind_param("s", $user_id);
     $stmt->execute();

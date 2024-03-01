@@ -9,21 +9,6 @@
 <body>
     <?php
         require_once 'ConnectData.php';
-        if ($connect->connect_error) {
-            die('Cannot connect to database'.$connect_error);
-        } else {
-            $stmt=$connect->prepare("SELECT _id FROM organizations WHERE owner = ?");
-            $stmt->bind_param("s", $user_id);
-            $stmt->execute();
-            $result=$stmt->get_result();
-            if ($result->num_rows > 0) {
-                $row=$result->fetch_assoc();
-                $organization_id=$row['_id'];
-            } else {
-                $organization_id=null;
-            }
-            $stmt->close();
-        }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $title=$_POST["title"];

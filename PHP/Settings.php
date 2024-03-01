@@ -11,7 +11,7 @@
 <body>
     <?php
         require_once 'ConnectData.php';
-        $program_id=$_SESSION['program_id'];
+       
         if ($connect->connect_error) {
             die('Cannot connect to database'.$connect_error);
         } else {
