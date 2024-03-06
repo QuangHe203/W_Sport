@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th2 28, 2024 lúc 09:29 AM
+-- Thời gian đã tạo: Th3 06, 2024 lúc 03:06 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -94,7 +94,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`_id`, `name`, `owner`, `tagline`, `description`, `publish`) VALUES
-(3, 'PKA_FC', 4, '', 'Dương Nội 2, Yên Nghĩa, Hà Đông, Hà Nội', 0);
+(4, 'PKA_FC', 4, '', 'Dương Nội 2, Yên Nghĩa, Hà Đông, Hà Nội', 0);
 
 -- --------------------------------------------------------
 
@@ -146,8 +146,9 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`_id`, `organization_id`, `title`, `subTitle`, `description`, `sport`, `type`, `public`, `openRegister`, `teams`, `groups`, `publicGame`, `publicEvent`, `regisRequire`, `location`, `startDate`, `dailyStart`, `duration`, `dailyMatch`, `createdAT`, `updateAT`) VALUES
-(9, 3, 'PKA_Football', 'Vui, khỏe, có ích', 'Giải đấu so tài bóng đá', 'Football', 'League', 0, 0, '', '', 0, 0, '', 'Cầu Giấy, Hà Nội', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(10, 3, 'PKA_FC', 'Vui, khỏe, có ích', 'Giải đấu so tài bóng đá', 'Football', 'League', 0, 0, '', '', 0, 0, '', 'Cầu Giấy, Hà Nội', '2024-02-28', '07:30', 30, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(13, 4, 'PKA_FB', '', '', 'Football', 'League', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 4, 'No_club', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(18, 4, 'PKA_FC', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '2024-03-02', '07:20', 30, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -158,7 +159,7 @@ INSERT INTO `programs` (`_id`, `organization_id`, `title`, `subTitle`, `descript
 CREATE TABLE `registrationrequires` (
   `_id` int(10) NOT NULL,
   `program_id` int(10) NOT NULL,
-  `nam_email` tinyint(1) NOT NULL,
+  `name_email` tinyint(1) NOT NULL,
   `phone` tinyint(1) NOT NULL,
   `birthday` tinyint(1) NOT NULL,
   `gender` tinyint(1) NOT NULL,
@@ -166,8 +167,19 @@ CREATE TABLE `registrationrequires` (
   `teamPlayer` tinyint(1) NOT NULL,
   `coach` tinyint(1) NOT NULL,
   `staff` tinyint(1) NOT NULL,
-  `individual` tinyint(1) NOT NULL
+  `individual` tinyint(1) NOT NULL,
+  `startDate` date NOT NULL,
+  `startTime` time NOT NULL,
+  `endDate` date NOT NULL,
+  `endTime` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `registrationrequires`
+--
+
+INSERT INTO `registrationrequires` (`_id`, `program_id`, `name_email`, `phone`, `birthday`, `gender`, `individualPlayer`, `teamPlayer`, `coach`, `staff`, `individual`, `startDate`, `startTime`, `endDate`, `endTime`) VALUES
+(3, 18, 1, 1, 0, 1, 1, 1, 0, 0, 0, '2024-03-01', '06:00:00', '2024-03-10', '17:00:00');
 
 -- --------------------------------------------------------
 
@@ -209,9 +221,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`_id`, `username`, `password`, `name`, `email`, `birthday`, `gender`, `phone`, `avatar`) VALUES
-(1, '', '', '', '', '', '', '', ''),
-(2, '', '', '', '', '', '', '', ''),
-(3, '', '', '', '', '', '', '', ''),
 (4, 'quanghe203', '33333333', 'Nguyễn Quang Hệ', 'Quanghe2003@gmail.com', '2003-01-25', 'Male', '0377556203', '../Image/IMG_3087.JPG'),
 (5, 'Long2024', '2024', 'Hồ Văn Long', 'Long2024@gmail.com', '2024-01-01', 'Female', '012345678', '../Image/profile.jpg');
 
@@ -296,7 +305,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT cho bảng `games`
 --
 ALTER TABLE `games`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `members`
@@ -308,25 +317,25 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT cho bảng `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `priceoptions`
 --
 ALTER TABLE `priceoptions`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `registrationrequires`
 --
 ALTER TABLE `registrationrequires`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `registrations`
