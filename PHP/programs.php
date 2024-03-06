@@ -24,7 +24,6 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
             $_SESSION["program_id"]=$_POST["program_id"];
             header("Location: programs.php");
-            header("Location: settings.php");
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
@@ -97,11 +96,17 @@
                 <p class="program_title"><?php echo $infor['subTitle'];?></p>
                 <form action="" method="post" class="actionForm">
                     <p class="program_time"><?php echo $infor['startDate'];?></p>
-                    <p class="program_sta">Published</p>
-                    <input type="submit" class="del_program" value="Delete" name="delete">
+                    <?php 
+                    if ($infor['openRegister']==1) {
+                        echo '<p class="program_sta">Published</p>';
+                    } else {
+                        echo '<p class="program_sta" style="color: red;">Unpublished</p>';
+                    };
+                    ?>
                     <input type="hidden" name="del_id" value="<?php echo $infor['_id'];?>">
+                    <input type="submit" class="del_program" value="Delete" name="delete">
                 </form>
-                <form>   
+                <form action="" method="post">   
                     <input type="hidden" id="program_id" name="program_id" value="<?php echo $infor['_id'];?>">
                     <input type="submit" class="more-link" value="Edit" name="edit">
                 </form>

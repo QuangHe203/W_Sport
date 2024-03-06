@@ -8,28 +8,44 @@
 </head>
 <body>
     <?php
-        require_once 'ConnectData.php';
+    require_once 'ConnectData.php';
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $title=$_POST["title"];
-            $sport=$_POST["sport"];
-            $program=$_POST["program"];
-            if ($connect->connect_error) {
-                die('Cannot connect to database'.$connect_error);
-            } else {
-                $stmt=$connect->prepare("INSERT INTO programs (title, sport, type, organization_id) value (?, ?, ?, ?)");
-                $stmt->bind_param("ssss", $title, $sport, $program, $organization_id);
-            }
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $title = $_POST["title"];
+        $sport = $_POST["sport"];
+        $program = $_POST["program"];
+
+        if ($connect->connect_error) {
+            die('Cannot connect to database' . $connect_error);
+        }
+
+        $stmt = $connect->prepare("INSERT INTO programs (title, sport, type, organization_id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $title, $sport, $program, $organization_id);
+
+        if ($stmt->execute()) {
+            $_SESSION["program_id"] = $stmt->insert_id;
+
+            $stmt->close();
+
+            $stmt = $connect->prepare("INSERT INTO registrationRequires (program_id, name_email, phone, birthday, gender, individualPlayer, teamPlayer, coach, staff, individual) VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
+            $stmt->bind_param("s", $_SESSION["program_id"]);
+
             if ($stmt->execute()) {
-                $_SESSION["program_id"]=$stmt->insert_id;
                 header("Location: programs.php");
                 exit();
             } else {
-                echo "Error".$stmt->error;
+            echo "Error" . $stmt->error;
             }
+
             $stmt->close();
+        } else {
+            echo "Error" . $stmt->error;
         }
+
+        $stmt->close();
+    }
     ?>
+
     <div class="main">
         <div class="header">New Program</div>
         <div class="create_program">

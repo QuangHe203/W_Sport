@@ -12,7 +12,7 @@
     <?php
         require_once 'ConnectData.php';
 
-        if ($_SERVER["REQUEST_METHOD"]=="POST") {
+        if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["addGame"])) {
             $team1=$_POST["nameTeam1"];
             $team2=$_POST["nameTeam2"];
             $startDate=$_POST["date"];
@@ -23,7 +23,7 @@
             $gameNote=$_POST["gameNote"];
 
             $stmt=$connect->prepare("INSERT INTO games (program_id, team1, team2, startDate, startTime, endTime, location, typeGame, gameNote) value (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssssssss", $program_id, $team1, $team2, $startDate, $startTime, $endTime, $location, $typeGame, $gameNote);
+            $stmt->bind_param("sssssssss", $_SESSION["program_id"], $team1, $team2, $startDate, $startTime, $endTime, $location, $typeGame, $gameNote);
             if ($stmt->execute()) {
                 header("Location: schedule.PHP");
                 exit();
@@ -33,6 +33,14 @@
             $stmt->close();
             $connect->close();
         }
+
+        $stmt=$connect->prepare("SELECT * FROM games WHERE program_id = ?");
+        $stmt->bind_param("s", $_SESSION["program_id"]);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        $dataGame=$result->num_rows; //Data games
+        $stmt->close();
+
     ?>
     <div class="main">
         <div class="header">
@@ -41,7 +49,7 @@
                 <input type="button" value="Add Event" id="addEvent" class="addE">
 
                     <!-- Bảng popup -->
-                <div id="editGamesPopup" class="popup">
+                <form id="editGamesPopup" class="popup" method="post">
                     <div class="popup-content">
                         <span class="close">&times;</span>
                         <h2>Edit Games</h2>
@@ -74,7 +82,9 @@
                             <label for="">Group</label>
                             <select name="team" id="group" name="group">
                                 <option value="none">None</option>
-                                <option value="a">a</option>
+                                <option value="a">A</option>
+                                <option value="a">B</option>
+                                <option value="a">C</option>
                             </select>
                         </div>
 
@@ -105,11 +115,11 @@
                         
 
                         <div class="button_container">
-                            <button id="add">Add</button>
+                            <button id="add" type="submit" name="addGame">Add</button>
                             <button id="close">Close</button>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <div id="editEventsPopup" class="popup">
                     <div class="popup-content">
@@ -206,6 +216,44 @@
             
             <!--Schedule-->
             <div id="scheduleContent" class="content">
+                <?php
+                    if ($dataGame>0) {
+                        while ($inforGame=$result->fetch_assoc()) {
+                ?>
+                    <div class="view_info">
+                    <div class="time">
+                        <p><?php echo $inforGame['startDate'];?></p>
+                    </div>
+
+                    <div class="match_location">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>8:35</p>
+                                <p>AM</p>
+                            </div>
+                            <div class="info_status">
+                                <p>Training</p>
+                            </div>
+                            <div class="info_name">
+                                <p class="status">Training Regular</p>
+                                <p class="nameplay">Team/Player: Đội A</p>
+                            </div>
+                        </div>
+    
+                        <div class="info_loca">
+                            <p class="stadium">Sân bóng B</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+                <?php            
+                        }
+                    }
+                ?>
                 <div class="view_info">
                     <div class="time">
                         <p>Thứ Sáu, 17 tháng 3, 2023</p>

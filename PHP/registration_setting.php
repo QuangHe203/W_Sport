@@ -12,25 +12,51 @@
     <?php
         require_once 'ConnectData.php';
 
-        if ($_SERVER["REQUEST_METHOD"]=="POST") {
-            $name_email = isset($_POST["requiredName_email"]) ? $_POST["requiredName_email"] : false;
-            $phone=isset($_POST["requiredPhone"]) ? $_POST["requiredPhone"] : false;
-            $birthday=isset($_POST["requiredBirthday"]) ? $_POST["requiredBirthday"] : false;
-            $gender=isset($_POST["requiredGender"]) ? $_POST["requiredGender"] : false;
-            $individualPlayer=isset($_POST["IndividualPlayer"]) ? $_POST["IndividualPlayer"] : false;
-            $teamPlayer=isset($_POST["TeamPlayer"]) ? $_POST["TeamPlayer"]: false;
-            $coach=isset($_POST["Coach"]) ? $_POST["Coach"] : false;
-            $staff=isset($_POST["staff"]) ? $_POST["staff"] : false;
-            $individual=isset($_POST["Individual"]) ? $_POST["Individual"] : false;
-            $startDate=isset($_POST["startDate"]) ? $_POST["startDate"] : false;
-            $startTime=isset($_POST["startTime"]) ? $_POST["startTime"] : false;
-            $endDate=isset($_POST["endDate"]) ? $_POST["endDate"] : false;
-            $endTime=isset($_POST["endTime"]) ? $_POST["endTime"] : false;
+        $stmt=$connect->prepare("SELECT _id FROM registrationRequires WHERE program_id = ?");
+        $stmt->bind_param("s", $_SESSION["program_id"]);
+        $stmt->execute();
+        $stmt->bind_result($registrationRequire_id);
+        $stmt->fetch();
+        $stmt->close();
 
-            $stmt=$connect->prepare("INSERT INTO registrationRequires (program_id, name_email, phone, birthday, gender, individualPlayer, teamPlayer, coach, staff, individual, startDate, startTime, endDate, endTime) value(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssssssssssss", $program_id, $name_email, $phone, $birthday, $gender, $individualPlayer, $teamPlayer, $coach, $staff, $individual, $startDate, $startTime, $endDate, $endTime);
+        $stmt=$connect->prepare("SELECT * FROM programs WHERE _id = ?");
+        $stmt->bind_param("s", $_SESSION["program_id"]);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        $dataProgram=$result->fetch_assoc(); //Data program
+        $stmt->close();
+
+        $stmt=$connect->prepare("SELECT * FROM registrationRequires WHERE program_id = ?");
+        $stmt->bind_param("s", $_SESSION["program_id"]);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        $dataRR=$result->fetch_assoc(); // Data registerRequire
+        $stmt->close();
+
+        if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["saveAll"])) {
+            $openRegister = isset($_POST["openRegister"]) ? $_POST["openRegister"] : 0;
+            $name_email = isset($_POST["requiredName_email"]) ? $_POST["requiredName_email"] : 0;
+            $phone=isset($_POST["requiredPhone"]) ? $_POST["requiredPhone"] : 0;
+            $birthday=isset($_POST["requiredBirthday"]) ? $_POST["requiredBirthday"] : 0;
+            $gender=isset($_POST["requiredGender"]) ? $_POST["requiredGender"] : 0;
+            $individualPlayer=isset($_POST["IndividualPlayer"]) ? $_POST["IndividualPlayer"] : 0;
+            $teamPlayer=isset($_POST["TeamPlayer"]) ? $_POST["TeamPlayer"]: 0;
+            $coach=isset($_POST["Coach"]) ? $_POST["Coach"] : 0;
+            $staff=isset($_POST["staff"]) ? $_POST["staff"] : 0;
+            $individual=isset($_POST["Individual"]) ? $_POST["Individual"] : 0;
+            $startDate=isset($_POST["startDate"]) ? $_POST["startDate"] : 0;
+            $startTime=isset($_POST["startTime"]) ? $_POST["startTime"] : 0;
+            $endDate=isset($_POST["endDate"]) ? $_POST["endDate"] : 0;
+            $endTime=isset($_POST["endTime"]) ? $_POST["endTime"] : 0;
+
+            $stmt=$connect->prepare("UPDATE  registrationRequires SET name_email=?, phone=?, birthday=?, gender=?, individualPlayer=?, teamPlayer=?, coach=?, staff=?, individual=?, startDate=?, startTime=?, endDate=?, endTime=? WHERE program_id=?");
+            $stmt->bind_param("ssssssssssssss", $name_email, $phone, $birthday, $gender, $individualPlayer, $teamPlayer, $coach, $staff, $individual, $startDate, $startTime, $endDate, $endTime, $_SESSION["program_id"]);
+            $stmt2=$connect->prepare("UPDATE programs SET openRegister=? WHERE _id=?");
+            $stmt2->bind_param("ss",$openRegister, $_SESSION["program_id"]);
+            $stmt2->execute();
+            $stmt2->close();
             if ($stmt->execute()) {
-                header("Location: Teamgroup.php");
+                header("Location: registration_setting.php");
             } else {
                 echo "Error".$stmt->error;
             }
@@ -38,12 +64,56 @@
             $connect->close();
         }
 
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addPriceOption"])) {
+            $priceName = $_POST["priceName"];
+            $price = $_POST["price"];
+            $quantity = $_POST["quantity"];
+        
+            $stmt = $connect->prepare("INSERT INTO priceOptions (regisRequire_id, priceName, price, quantity, status) VALUES (?, ?, ?, ?, 0)"); // Sửa dòng này
+            $stmt->bind_param("dsss", $registrationRequire_id, $priceName, $price, $quantity);
+        
+            if ($stmt->execute()) {
+                $stmt->close();
+            } else {
+                echo "Error: " . $stmt->error;
+            }
+        }
+
+        if ($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST['deleteOption'])) {
+            $priceOption_Id=$_POST["priceOptionid"];
+            if ($connect->connect_error) {
+                die('Cannot connect to database'.$connect_error);
+            } else {
+                $stmt=$connect->prepare("DELETE FROM priceOptions WHERE _id=?");
+                $stmt->bind_param("s", $priceOption_Id);
+            }
+            if($stmt->execute()) {
+                header("Location: registration_setting.php");
+                $stmt->close();
+                exit;
+            } else {
+                echo "Error".$stmt->error;
+            }
+        }
+
+        if ($connect->connect_error) {
+            die('Cannot connect to database'.$connect->connect_error);
+        } else {
+            $stmt = $connect->prepare("SELECT * FROM priceOptions WHERE regisRequire_id = ?");
+            $stmt->bind_param("s", $registrationRequire_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data_priceOption = $result->num_rows;
+            $stmt->close();
+        }
+        
+
     ?>
     <form action="" method="post">
         <div class="main">
             <div class="enable">
                 <label class="switch">
-                    <input type="checkbox" name="openRegister" id="openRegister">
+                    <input type="checkbox" name="openRegister" id="openRegister" value="1" <?php if($dataProgram['openRegister']==1) {echo "checked";}else{echo "";}?>>
                     <span class="slider round"></span>
                 </label>
                 <p class="text">Enable & Public Registration Online for this Program</p>
@@ -54,24 +124,24 @@
                 <p class="header">Require options: </p>
                 <div class="required">
                     <label class="required_checkbox">
-                        <input type="checkbox" name="requiredName_email" id="requiredName_email">
+                        <input type="checkbox" name="requiredName_email" id="requiredName_email" value="1" <?php if($dataRR['name_email']==1) {echo "checked";}else{echo "";}?>>
                         <p>Require name, email</p>
                     </label>
     
                     <label class="required_checkbox">
-                        <input type="checkbox" name="requiredPhone" id="requiredPhone">
+                        <input type="checkbox" name="requiredPhone" id="requiredPhone" value="1" <?php if($dataRR['phone']==1) {echo "checked";}else{echo "";}?>>
                         <span class="checkbox_custom"></span>
                         <p>Require phone</p>
                     </label>
     
                     <label class="required_checkbox">
-                        <input type="checkbox" name="requiredGender" id="requiredGender">
+                        <input type="checkbox" name="requiredGender" id="requiredGender" value="1" <?php if($dataRR['gender']==1) {echo "checked";}else{echo "";}?>>
                         <span class="checkbox_custom"></span>
                         <p>Require gender</p>
                     </label>
     
                     <label class="required_checkbox">
-                        <input type="checkbox" name="requiredBirthday" id="requiredBirthday">
+                        <input type="checkbox" name="requiredBirthday" id="requiredBirthday" value="1" <?php if($dataRR['birthday']==1) {echo "checked";}else{echo "";}?>>
                         <span class="checkbox_custom"></span>
                         <p>Require birthday</p>
                     </label>
@@ -83,30 +153,30 @@
                 <p class="header">Role options for register: </p>
                 <div class="required">
                     <label class="required_checkbox">
-                        <input type="checkbox" name="IndividualPlayer" id="IndividualPlayer">
+                        <input type="checkbox" name="IndividualPlayer" id="IndividualPlayer" value="1" <?php if($dataRR['individualPlayer']==1) {echo "checked";}else{echo "";}?>>
                         <p>Register as Individual Player</p>
                     </label>
     
                     <label class="required_checkbox">
-                        <input type="checkbox" name="TeamPlayer" id="TeamPlayer">
+                        <input type="checkbox" name="TeamPlayer" id="TeamPlayer" value="1" <?php if($dataRR['teamPlayer']==1) {echo "checked";}else{echo "";}?>>
                         <span class="checkbox_custom"></span>
                         <p>Register as Team Player</p>
                     </label>
     
                     <label class="required_checkbox">
-                        <input type="checkbox" name="Coach" id="Coach">
+                        <input type="checkbox" name="Coach" id="Coach" value="1" <?php if($dataRR['coach']==1) {echo "checked";}else{echo "";}?>>
                         <span class="checkbox_custom"></span>
                         <p>Register as Coach</p>
                     </label>
     
                     <label class="required_checkbox">
-                        <input type="checkbox" name="staff" id="staff">
+                        <input type="checkbox" name="staff" id="staff" value="1" <?php if($dataRR['staff']==1) {echo "checked";}else{echo "";}?>>
                         <span class="checkbox_custom"></span>
                         <p>Register as Staff</p>
                     </label>
     
                     <label class="required_checkbox">
-                        <input type="checkbox" name="Individual" id="Individual">
+                        <input type="checkbox" name="Individual" id="Individual" value="1" <?php if($dataRR['individual']==1) {echo "checked";}else{echo "";}?>>
                         <span class="checkbox_custom"></span>
                         <p>Register as Individual</p>
                     </label>
@@ -117,22 +187,22 @@
                 <div class="start">
                     <div class="start_date">
                         <label for="">Start Date*</label>
-                        <input type="date" name="startDate" id="starDate">
+                        <input type="date" name="startDate" id="starDate" value="<?php echo $dataRR['startDate'];?>">
                     </div>
                     <div class="start_time">
                         <label for="">Start Time*</label>
-                        <input type="time" name="startTime" id="starTime">
+                        <input type="time" name="startTime" id="starTime" value="<?php echo $dataRR['startTime'];?>">
                     </div>
                 </div>
     
                 <div class="end">
                     <div class="end_date">
                         <label for="">End Date</label>
-                        <input type="date" name="endDate" id="endDate">
+                        <input type="date" name="endDate" id="endDate" value="<?php echo $dataRR['endDate'];?>">
                     </div>
                     <div class="end_time">
                         <label for="">End Time</label>
-                        <input type="time" name="endTime" id="endTime">
+                        <input type="time" name="endTime" id="endTime" value="<?php echo $dataRR['endTime'];?>">
                     </div>
                 </div>
             </div>
@@ -148,47 +218,85 @@
                         <p class="header_options">Visilable</p>
                         <p class="header_options">Action</p>
                     </div>
+                    <?php
+                        if ($data_priceOption>0) {
+                            while ($infor_priceOption=$result->fetch_assoc()) {
+                    ?>
                     <span class="space"></span>
-                    <div class="price_item">
-                        <p class="pri_name">Individual Fee</p>
-                        <p class="pri_num">1110000</p>
-                        <p class="pri_quanl">1000</p>
+                    <form class="price_item" method="post">
+                        <p class="pri_name"><?php echo $infor_priceOption['priceName'];?></p>
+                        <p class="pri_num"><?php echo $infor_priceOption['price'];?></p>
+                        <p class="pri_quanl"><?php echo $infor_priceOption['quantity'];?></p>
+
                         <p class="visil">
                             <label class="switch">
                                 <input type="checkbox" name="" id="">
                                 <span class="slider round"></span>
                             </label>
                         </p>
+                        <input type="hidden" name="priceOptionid" value="<?php echo $infor_priceOption['_id'];?>">
+                        <!--<input type="submit" name="deleteOption" class="actio" value="<i class='fas fa-trash'></i>">
+
                         <p class="actio">
                             <i class="fas fa-trash"></i>
-                        </p>
-                    </div>
-                    <div class="price_item">
-                        <p class="pri_name">Free</p>
-                        <p class="pri_num">0</p>
-                        <p class="pri_quanl">1000</p>
-                        <p class="visil">
-                            <label class="switch">
-                                <input type="checkbox" name="" id="">
-                                <span class="slider round"></span>
-                            </label>
-                        </p>
-                        <form action="">
-                            <p class="actio">
-                                <i class="fas fa-trash"></i>
-                            </p>
-                        </form>
-                        
-                    </div>
+                        </p>-->
+                        <button type="submit" name="deleteOption" class="actio"><i class="fas fa-trash"></i></button>
+                    </form>
+                    <?php            
+                            }
+                        }
+                    ?>    
+
                     <!--Submit-->
                     <div class="input_web submit">
-                        <input type="submit" name="" id="submit-btn" value="Save All">
+                        <input type="submit" name="saveAll" id="submit-btn" value="Save All">
                     </div>
         
                 </div>
             </div>
         </div>
     </form>
+    <div class="overlay" id="overlay"></div>
+    <form action="" method="post" class="add_member_popup" id="addMemberPopup">
+        <span class="close_popup_button" id="closePopupBtn"><i class="fa fa-times"></i></span>
+        <p class="popup_title">Add New Team/Player Name</p>
+        <label for="">Price Name:</label>
+        <input class="inputText" type="text" placeholder="" name="priceName">
+        <label for="">Price Number:</label>
+        <input class="inputText" type="text" placeholder="" name="price">
+        <label for="">Price Quantity:</label>
+        <input class="inputText" type="text" placeholder="" name="quantity">
+        <div class="button_container">
+            <button id="closePopup" class="closeP">Close</button>
+            <!--<button id="addMember" class="addM">Add</button>-->
+            <input type="submit" name="addPriceOption" id="addMember" class="addM" value="Add">
+        </div>
+    </form>
     
+    <div class="add_member_button" id="openPopupBtn"><i class="fa fa-plus"></i></div>
+    <script>
+        // JavaScript mới
+        var overlay = document.getElementById('overlay');
+        var popup = document.getElementById('addMemberPopup');
+        var iframeOverlay = document.getElementById('iframeOverlay');
+
+        document.getElementById('openPopupBtn').addEventListener('click', function() {
+            overlay.classList.add('show');
+            popup.classList.add('show');
+            iframeOverlay.classList.add('show'); // Hiển thị overlay cho iframe
+        });
+
+        document.getElementById('closePopupBtn').addEventListener('click', function() {
+            overlay.classList.remove('show');
+            popup.classList.remove('show');
+            iframeOverlay.classList.remove('show'); // Ẩn overlay cho iframe
+        });
+
+        document.getElementById('closePopup').addEventListener('click', function() {
+            overlay.classList.remove('show');
+            popup.classList.remove('show');
+            iframeOverlay.classList.remove('show'); // Ẩn overlay cho iframe
+        });
+    </script>
 </body>
 </html>
