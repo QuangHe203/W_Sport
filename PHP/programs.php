@@ -20,6 +20,44 @@
             $rowCount = $result->num_rows;
             $stmt->close();
         }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
+            $_SESSION["program_id"]=$_POST["program_id"];
+            header("Location: programs.php");
+            header("Location: settings.php");
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
+            $del_id = $_POST["del_id"];
+        
+            if ($connect->connect_error) {
+                die('Cannot connect to database' . $connect_error);
+            } else {
+                $stmt_programs = $connect->prepare("DELETE FROM programs WHERE _id=?");
+                $stmt_programs->bind_param("s", $del_id);
+        
+                $stmt_games = $connect->prepare("DELETE FROM games WHERE program_id=?");
+                $stmt_games->bind_param("s", $del_id);
+        
+                $stmt_events = $connect->prepare("DELETE FROM events WHERE program_id=?");
+                $stmt_events->bind_param("s", $del_id);
+        
+                $stmt_registration = $connect->prepare("DELETE FROM registrationRequires WHERE program_id=?");
+                $stmt_registration->bind_param("s", $del_id);
+            }
+        
+            if ($stmt_programs->execute() && $stmt_games->execute() && $stmt_events->execute() && $stmt_registration->execute()) {
+                header("Location: programs.php");
+                $stmt_programs->close();
+                $stmt_games->close();
+                $stmt_events->close();
+                $stmt_registration->close();
+                exit;
+            } else {
+                echo "Error" . $stmt_programs->error;
+            }
+        }
+        
     ?>
     <div class="main">
         <div class="header">Programs</div>
@@ -60,8 +98,12 @@
                 <form action="" method="post" class="actionForm">
                     <p class="program_time"><?php echo $infor['startDate'];?></p>
                     <p class="program_sta">Published</p>
-                    <p class="del_program">Delete</p>
-                    <p class="more-link" onclick="toggleMore()">More</p>
+                    <input type="submit" class="del_program" value="Delete" name="delete">
+                    <input type="hidden" name="del_id" value="<?php echo $infor['_id'];?>">
+                </form>
+                <form>   
+                    <input type="hidden" id="program_id" name="program_id" value="<?php echo $infor['_id'];?>">
+                    <input type="submit" class="more-link" value="Edit" name="edit">
                 </form>
             </div>
         </div>        

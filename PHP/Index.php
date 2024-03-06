@@ -28,8 +28,8 @@
                 <div class="items">
                     <?php
                         if (isset($_SESSION["user_id"])) {
-                            echo '<a href="../PHP/Profile.php">Profile</a>
-                                <a href="../PHP/Logout.php">Logout</a>';
+                            echo '<a href="../PHP/Profile.php" class="sign_up">Profile</a>
+                                <a href="../PHP/Logout.php" class="sign_in">Logout</a>';
                         } else {
                             echo '<a href="../PHP/Login.php" class="sign_in">Log in</a>
                                 <a href="../PHP/SignUp.php" class="sign_up">Sign up</a>';

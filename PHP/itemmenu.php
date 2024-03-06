@@ -16,14 +16,26 @@
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-    
-                <!--khi da dang nhap, hien thi profile-->
-                <div class="nav_profile">
-                    <div class="dashboard">
-                        <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
-                        <p><img src="../img/profile.jpg" alt=""></p>
-                    </div>
-                </div>
+
+                <?php
+                    require_once 'ConnectData.php';
+
+                    if (isset($_SESSION["user_id"])) { 
+                        echo '<div class="nav_profile">
+                                <div class="dashboard" style="display: flex; align_items: center; justify-content: flex-end">
+                                    <a href="../PHP/Profile.php" class="Profile" style="font-weight: 500; background-color: #17bf63; padding: 8px 16px 8px 16px; border: 1px solid #17bf63; border-radius: 6px; color: white;">Profile</a>
+                                    <a href=../PHP/Logout.php class="Logout" style="font-weight: 500; background: white; margin-right: 50px; color: #718096;">Logout</a>
+                                </div>
+                            </div>';
+                    } else {
+                        echo '<div class="nav_profile">
+                                <div class="dashboard">
+                                    <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
+                                    <p><img src="../img/profile.jpg" alt=""></p>
+                                </div>
+                            </div>';
+                    }
+                ?>
             </div>
         </div>
     </div>

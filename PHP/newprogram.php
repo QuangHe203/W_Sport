@@ -22,8 +22,7 @@
             }
             if ($stmt->execute()) {
                 $_SESSION["program_id"]=$stmt->insert_id;
-                header("Location: index.php");
-                header("Location: Settings.php");
+                header("Location: programs.php");
                 exit();
             } else {
                 echo "Error".$stmt->error;
