@@ -222,31 +222,59 @@
                 ?>
                     <div class="view_info">
                     <div class="time">
-                        <p><?php echo $inforGame['startDate'];?></p>
+                        <p>Thứ Bảy, 18 tháng 3, 2023</p>
                     </div>
 
-                    <div class="match_location">
+                    <div class="match_location showMatch">
                         <div class="info_match">
                             <div class="info_time">
-                                <p>8:35</p>
+                                <p>8:30</p>
                                 <p>AM</p>
                             </div>
-                            <div class="info_status">
-                                <p>Training</p>
-                            </div>
-                            <div class="info_name">
-                                <p class="status">Training Regular</p>
-                                <p class="nameplay">Team/Player: Đội A</p>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI A</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI B</p>
+                                </div>
+                                <p class="nameplay">Team_Practice</p>
                             </div>
                         </div>
-    
-                        <div class="info_loca">
-                            <p class="stadium">Sân bóng B</p>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
                             <form action="" method="post">
                                 <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
                                 <i class="fas fa-trash"></i>
                             </form>
                             
+                        </div>
+                    </div>
+
+                    <div class="match_location showMatch">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>2:30</p>
+                                <p>PM</p>
+                            </div>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI C</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI D</p>
+                                </div>
+                                <p class="nameplay">Regular_season</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
                         </div>
                     </div>
                 </div>

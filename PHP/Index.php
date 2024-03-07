@@ -60,7 +60,7 @@
                             ?>
                         </div>
                         <div class="node-search">
-                            <a href="" class="a-search">Search Program</a>
+                            <a href="../PHP/SearchProgram.php" class="a-search">Search Program</a>
                         </div>
                     </div>
                     

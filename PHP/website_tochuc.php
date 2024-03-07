@@ -11,10 +11,10 @@
     <?php
     require_once 'ConnectData.php';
     
-        $sql = "SELECT * FROM website WHERE organization_name = 'King Ash'";  
+        $sql = "SELECT * FROM website";  
 
         
-        $result = $conn->query($sql);
+        $result = $connect->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -27,7 +27,7 @@
             echo "No data found.";
         }
 
-        $conn->close();
+        $connect->close();
 
     ?>
 

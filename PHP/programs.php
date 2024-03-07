@@ -23,7 +23,7 @@
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
             $_SESSION["program_id"]=$_POST["program_id"];
-            header("Location: programs.php");
+            header("Location: Settings.php");
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {

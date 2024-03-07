@@ -26,8 +26,8 @@
         if ($resultCheckEmail->num_rows > 0) {
             $userData = $resultCheckEmail->fetch_assoc();
 
-            $sqlAddMember = "INSERT INTO members (organization_id, created_at, name, phone, email) 
-                             VALUES ('$organization_id', '$userData[birthday]', '$userData[username]', '$userData[phone]', '$userData[email]')";
+            $sqlAddMember = "INSERT INTO members (_id, organization_id, created_at, name, phone, email) 
+                             VALUES ('$userData[_id]', '$organization_id', '$userData[birthday]', '$userData[username]', '$userData[phone]', '$userData[email]')";
             
             if ($connect->query($sqlAddMember) === TRUE) {
                 echo "Member added successfully.";
