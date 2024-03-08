@@ -4,7 +4,6 @@
   
 .main{
     padding-left: 250px;
-    height: 100%;
 }
 .main .enable{
     padding-top: 15px;
@@ -249,8 +248,8 @@ i.fa-trash{
 /* CSS cho nút plus */
 .add_member_button {
     position: fixed;
-    bottom: 120px;
-    right: 300px;
+    bottom: 250px;
+    right: 900px;
     background-color: green;
     color: white;
     font-size: 24px;
@@ -279,3 +278,16 @@ i.fa-trash{
     font-size: 20px;
     font-weight: bold;
 }
+
+button.actio {
+    background-color: transparent;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button.actio:hover {
+    color: darkred;
+}
+
