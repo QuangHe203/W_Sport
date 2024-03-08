@@ -38,7 +38,8 @@
                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../php/itemmenu.php">Go to Dashboard</a></p>
-                        <p><img src="../img/profile.jpg" alt=""></p>
+                        <a href="../PHP/itemmenu.php"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"> </a>
+                        
                     </div>
                 </div>
             </div>

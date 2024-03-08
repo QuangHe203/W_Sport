@@ -35,14 +35,15 @@
 
                     if (isset($_SESSION["user_id"])) { 
                         echo '<div class="nav_profile">
-                                <div class="dashboard" style="display: flex; align_items: center; justify-content: flex-end">
-                                    <a href="../PHP/Profile.php" class="Profile" style="font-weight: 500; background-color: #17bf63; padding: 8px 16px 8px 16px; border: 1px solid #17bf63; border-radius: 6px; color: white;">Profile</a>
-                                    <a href=../PHP/Logout.php class="Logout" style="font-weight: 500; background: white; margin-right: 50px; color: #718096;">Logout</a>
+                                <div class="items">
+                                    <a href="../PHP/Profile.php" class="sign_up"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"></a>
+
+                                    <a href=../PHP/Logout.php class="sign_in">Logout</a>
                                 </div>
                             </div>';
                     } else {
                         echo '<div class="nav_profile">
-                                <div class="dashboard">
+                                <div class="items">
                                     <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
                                     <p><img src="../img/profile.jpg" alt=""></p>
                                 </div>

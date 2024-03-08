@@ -121,6 +121,7 @@
     <script>
         document.getElementById("btn").addEventListener("click", function() {
             window.location.href = "../PHP/newprogram.php";
+
         });
 
         // Sự kiện khi nhấp vào nút "Edit"

@@ -23,6 +23,8 @@ a{
     padding-top: 25px;
     padding-bottom: 25px;
     justify-content: space-between;
+    align-items: center;
+    margin: 10px;
 }
 .navbar-item .logo h2{
     color: #17bf63;
@@ -35,23 +37,61 @@ a{
 .navbar-item .items a.sign_in{
     font-weight: 500;
     background: white;
-    margin-right: 50px;
     color: #718096;
+    padding: 5px 15px 0 20px;
+    font-size: 15px;
 }
 .navbar-item .items a.sign_in:hover{
-    color: black;
+    color: red;
+    text-decoration: underline;
+
 }
 .navbar-item .items a.sign_up{
     font-weight: 500;
-    background-color: #17bf63;
-    padding: 8px 16px 8px 16px;
-    border: 1px solid #17bf63;
+    /* background-color: #17bf63; */
+    padding: 5px 20px;
+    border: none;
     border-radius: 6px;
     color: white;
 }
 .navbar-item .items a.sign_up:hover{
     background-color: #0f8f53;
 }
+
+
+
+.navbar-item .items a.sign_ins{
+    font-weight: 500;
+    background: white;
+    color: #718096;
+    padding: 5px 15px 0 20px;
+    font-size: 15px;
+}
+.navbar-item .items a.sign_ins:hover{
+    color: black;
+
+}
+.navbar-item .items a.sign_ups{
+    font-weight: 500;
+    background-color: #17bf63;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+}
+.navbar-item .items a.sign_ups:hover{
+    background-color: #0f8f53;
+}
+
+
+.user-avatar {
+    width: 35px; 
+    height: 35px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+}
+
+
 
 /*main*/
 body .main_content{
