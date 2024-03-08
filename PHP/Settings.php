@@ -12,19 +12,19 @@
 <body>
     <?php
         require_once 'ConnectData.php';
-       $program_id=$_SESSION["program_id"];
 
         if ($connect->connect_error) {
             die('Cannot connect to database'.$connect_error);
         } else {
             $stmt=$connect->prepare("SELECT * FROM programs WHERE _id = ?");
-            $stmt->bind_param("s", $program_id);
+            $stmt->bind_param("s", $_SESSION["program_id"]);
             $stmt->execute();
             $result=$stmt->get_result();
             $row=$result->fetch_assoc();
             $stmt->close();
         }
     ?>
+    <?php echo $_SESSION['program_id']?>
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
