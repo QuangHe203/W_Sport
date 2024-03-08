@@ -16,7 +16,7 @@
           <div class="content">This concain all what you need <a href="../php/programs.php">programs</a>, <a href="">registrations</a>,<a href="../php/member.php">members</a>, and your <a href="">page</a></div>
           <div class="clb">
             <div class="info-website">Your Website: </div>
-            <div class="football"><a href="">football-lien-mac-school-club <i class="fas fa-link"></i></a></div>
+            <div class="football"><a href="../php/website_tochuc.php">football-lien-mac-school-club <i class="fas fa-link"></i></a></div>
         </div>  
       </div>
   </div>

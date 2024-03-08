@@ -222,26 +222,26 @@
                         if ($data_priceOption>0) {
                             while ($infor_priceOption=$result->fetch_assoc()) {
                     ?>
-                    <span class="space"></span>
-                    <form class="price_item" method="post">
-                        <p class="pri_name"><?php echo $infor_priceOption['priceName'];?></p>
-                        <p class="pri_num"><?php echo $infor_priceOption['price'];?></p>
-                        <p class="pri_quanl"><?php echo $infor_priceOption['quantity'];?></p>
+                        <span class="space"></span>
+                        <form class="price_item" method="post">
+                            <p class="pri_name"><?php echo $infor_priceOption['priceName'];?></p>
+                            <p class="pri_num"><?php echo $infor_priceOption['price'];?></p>
+                            <p class="pri_quanl"><?php echo $infor_priceOption['quantity'];?></p>
 
-                        <p class="visil">
-                            <label class="switch">
-                                <input type="checkbox" name="" id="">
-                                <span class="slider round"></span>
-                            </label>
-                        </p>
-                        <input type="hidden" name="priceOptionid" value="<?php echo $infor_priceOption['_id'];?>">
-                        <!--<input type="submit" name="deleteOption" class="actio" value="<i class='fas fa-trash'></i>">
+                            <p class="visil">
+                                <label class="switch">
+                                    <input type="checkbox" name="" id="">
+                                    <span class="slider round"></span>
+                                </label>
+                            </p>
+                            <input type="hidden" name="priceOptionid" value="<?php echo $infor_priceOption['_id'];?>">
+                            <!--<input type="submit" name="deleteOption" class="actio" value="<i class='fas fa-trash'></i>">
 
-                        <p class="actio">
-                            <i class="fas fa-trash"></i>
-                        </p>-->
-                        <button type="submit" name="deleteOption" class="actio"><i class="fas fa-trash"></i></button>
-                    </form>
+                            <p class="actio">
+                                <i class="fas fa-trash"></i>
+                            </p>-->
+                            <button type="submit" name="deleteOption" class="actio"><i class="fas fa-trash"></i></button>
+                        </form>
                     <?php            
                             }
                         }
