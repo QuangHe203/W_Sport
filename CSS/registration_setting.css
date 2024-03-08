@@ -4,7 +4,6 @@
   
 .main{
     padding-left: 250px;
-    height: 1500px;
 }
 .main .enable{
     padding-top: 15px;
@@ -250,7 +249,7 @@ i.fa-trash{
 .add_member_button {
     position: fixed;
     bottom: 250px;
-    right: 200px;
+    right: 900px;
     background-color: green;
     color: white;
     font-size: 24px;
