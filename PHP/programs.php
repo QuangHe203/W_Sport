@@ -23,8 +23,8 @@
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
             $_SESSION["program_id"]=$_POST["program_id"];
-            header("Location: programs.php");
-        }
+            header("Location: settings.php");
+        }   
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
             $del_id = $_POST["del_id"];
@@ -106,9 +106,10 @@
                     <input type="hidden" name="del_id" value="<?php echo $infor['_id'];?>">
                     <input type="submit" class="del_program" value="Delete" name="delete">
                 </form>
-                <form action="" method="post">   
+                <form action="settings.php" method="post">   
                     <input type="hidden" id="program_id" name="program_id" value="<?php echo $infor['_id'];?>">
-                    <input type="submit" class="more-link" value="Edit" name="edit">
+                    <input type="submit" id="bt_edit" class="more-link" value="Edit" name="edit">
+
                 </form>
             </div>
         </div>        
@@ -121,6 +122,20 @@
         document.getElementById("btn").addEventListener("click", function() {
             window.location.href = "../PHP/newprogram.php";
         });
+
+        // Sự kiện khi nhấp vào nút "Edit"
+        var editButtons = document.querySelectorAll('.more-link');
+        editButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var programId = this.parentNode.querySelector('[name="program_id"]').value;
+                var iframe = document.getElementById('content');
+                // Thay đổi src của iframe sang trang settings.php và truyền program_id qua phương thức POST
+                iframe.src = 'settings.php?program_id=' + programId;
+            });
+        });
+
+
     </script>
+
 </body>
 </html>

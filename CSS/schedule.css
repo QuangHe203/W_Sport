@@ -13,7 +13,7 @@
 .main .header form{
     display: flex;
     padding-left: 15px;
-    background: #fff;
+    /* background: #fff; */
     color: black;
 }
 
@@ -31,12 +31,14 @@
 
 .item_switch{
     display: flex;
-    padding-top: 2px;
-    padding-left: 75px;
+    padding-top: 15px;
+    /* padding-left: 75px; */
+    padding-right: 15px;
 }
 .item_switch .unpub{
     font-size: 15px;
     opacity: 80%;
+    padding-left: 5px;
 }
 
 .main .create_web{
@@ -60,15 +62,69 @@
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
 }
-/* Hiển thị popup */
 .popup-content {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
-    height: 450px;
+    width: 30%;
+    height: 580px;
 }
+
+.popup-content h2 {
+    font-size: 23px;
+    padding-bottom: 5px;
+}
+
+.popup-content .inp_editGames {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+}
+
+.inp_editGames label {
+    padding-right: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    flex: 1; 
+}
+
+.inp_editGames select,
+.inp_editGames input,
+.inp_editGames textarea {
+    padding: 5px;
+    flex: 2; 
+}
+
+.button_container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px; 
+}
+
+.button_container button {
+    margin-left: 10px; 
+    padding: 5px 5px 5px 5px;
+    cursor: pointer;
+}
+.button_container button#save{
+    border: 1px solid white;
+    background: #17bf63;
+    color: white;
+}
+.button_container button#save:hover{
+    background: green;
+}
+.button_container button#close{
+    border: 1px solid white;
+    background: gray;
+    color: white;
+}
+.button_container button#close:hover{
+    background: black;
+}
+
 
 /* Đóng popup */
 .close {
@@ -98,20 +154,6 @@
     text-decoration: none;
     cursor: pointer;
 }
-
-
-.popup-content h2{
-    font-size: 23px;
-}
-
-.popup-content .inp_editGames{
-    padding-top: 15px;
-}
-
-.inp_editGames label{
-    padding-right: 15px;
-}
-
 
 
 
@@ -257,7 +299,9 @@
 .doubleHour{
     position: absolute;
     left: 320px;
-    bottom: 215px;
+    /* bottom: 215px; */
+    /* bottom: 501px; */
+    top: 390px;
 }
 
 .prac{

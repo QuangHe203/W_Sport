@@ -48,148 +48,155 @@
                 <input type="button" value="Add Game" id="addGame" class="addG">
                 <input type="button" value="Add Event" id="addEvent" class="addE">
 
-                    <!-- Bảng popup -->
-                <form id="editGamesPopup" class="popup" method="post">
-                    <div class="popup-content">
-                        <span class="close">&times;</span>
-                        <h2>Edit Games</h2>
-                        <div class="inp_editGames">
-                            <label for="">Home Team:</label>
-                            <select name="nameTeam1" id="nameTeam1">
-                                <option value="Đội A">Đội A</option>
-                                <option value="Đội B">Đội B</option>
-                                <option value="Đội C">Đội C</option>
-                                <option value="Đội D">Đội D</option>
-                            </select>
+                   <!-- Bảng popup -->
+                <div id="editGamesPopup" class="popup" method="post">
+                    <form action="" method="post">
+                        <div class="popup-content">
+                            <span class="close">&times;</span>
+                            <h2>Edit Games</h2>
+                            <div class="inp_editGames">
+                                <label for="">Home Team:</label>
+                                <select name="nameTeam1" id="nameTeam1">
+                                    <option value="Đội A">Đội A</option>
+                                    <option value="Đội B">Đội B</option>
+                                    <option value="Đội C">Đội C</option>
+                                    <option value="Đội D">Đội D</option>
+                                </select>
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Away Team:</label>
+                                <select name="nameTeam2" id="nameTeam2">
+                                    <option value="Đội A">Đội A</option>
+                                    <option value="Đội B">Đội B</option>
+                                    <option value="Đội C">Đội C</option>
+                                    <option value="Đội D">Đội D</option>
+                                </select>
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Date:</label>
+                                <input type="date" id="date" name="date">
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Group</label>
+                                <select name="team" id="group" name="group">
+                                    <option value="none">None</option>
+                                    <option value="a">A</option>
+                                    <option value="a">B</option>
+                                    <option value="a">C</option>
+                                </select>
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Start Time</label>
+                                <input type="time" placeholder="" class="startTime" id="startTime" name="startTime">
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">End Time</label>
+                                <input type="time" placeholder="" id="endTime" name="endTime">
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Location</label>
+                                <input type="text" placeholder="" id="location" name="location">
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Game Type</label>
+                                <select name="gameType" id="gameType">
+                                    <option value="regular season">REGULAR SEASON</option>
+                                    <option value="a">a</option>
+                                </select>
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Game Note</label>
+                                <textarea name="gameNote" id="gameNote" cols="30" rows="2"></textarea>
+                            </div>
+                            
+    
+                            <div class="button_container">
+                                <button id="add" type="submit" name="addGame">Add</button>
+                                <button id="close">Close</button>
+                            </div>
                         </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Away Team:</label>
-                            <select name="nameTeam2" id="nameTeam2">
-                                <option value="Đội A">Đội A</option>
-                                <option value="Đội B">Đội B</option>
-                                <option value="Đội C">Đội C</option>
-                                <option value="Đội D">Đội D</option>
-                            </select>
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Date:</label>
-                            <input type="date" id="date" name="date">
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Group</label>
-                            <select name="team" id="group" name="group">
-                                <option value="none">None</option>
-                                <option value="a">A</option>
-                                <option value="a">B</option>
-                                <option value="a">C</option>
-                            </select>
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Start Time</label>
-                            <input type="time" placeholder="" class="startTime" id="startTime" name="startTime">
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">End Time</label>
-                            <input type="time" placeholder="" id="endTime" name="endTime">
-                        </div>
-                        <div class="inp_editGames">
-                            <label for="">Location</label>
-                            <input type="text" placeholder="" id="location" name="location">
-                        </div>
-                        <div class="inp_editGames">
-                            <label for="">Game Type</label>
-                            <select name="gameType" id="gameType">
-                                <option value="regular season">REGULAR SEASON</option>
-                                <option value="a">a</option>
-                            </select>
-                        </div>
-                        <div class="inp_editGames">
-                            <label for="">Game Note</label>
-                            <textarea name="gameNote" id="gameNote" cols="30" rows="2"></textarea>
-                        </div>
-                        
-
-                        <div class="button_container">
-                            <button id="add" type="submit" name="addGame">Add</button>
-                            <button id="close">Close</button>
-                        </div>
-                    </div>
-                </form>
-
-                <div id="editEventsPopup" class="popup">
-                    <div class="popup-content">
-                        <span class="closeE">&times;</span>
-                        <h2>Edit Events</h2>
-                        <div class="inp_editGames">
-                            <label for="">Home Team:</label>
-                            <select name="team" id="nameTeam">
-                                <option value="Đội A">Đội A</option>
-                                <option value="Đội B">Đội B</option>
-                                <option value="Đội C">Đội C</option>
-                                <option value="Đội D">Đội D</option>
-                            </select>
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Away Team:</label>
-                            <select name="team" id="nameTeam">
-                                <option value="Đội A">Đội A</option>
-                                <option value="Đội B">Đội B</option>
-                                <option value="Đội C">Đội C</option>
-                                <option value="Đội D">Đội D</option>
-                            </select>
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Date:</label>
-                            <input type="date" id="date">
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Group</label>
-                            <select name="team" id="group">
-                                <option value="none">None</option>
-                                <option value="a">a</option>
-                            </select>
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">Start Time</label>
-                            <input type="time" placeholder="" class="startTime">
-                        </div>
-
-                        <div class="inp_editGames">
-                            <label for="">End Time</label>
-                            <input type="time" placeholder="" id="endTime">
-                        </div>
-                        <div class="inp_editGames">
-                            <label for="">Location</label>
-                            <input type="text" placeholder="" id="location">
-                        </div>
-                        <div class="inp_editGames">
-                            <label for="">Game Type</label>
-                            <select name="team" id="gameType">
-                                <option value="none">REGULAR SEASON</option>
-                                <option value="a">a</option>
-                            </select>
-                        </div>
-                        <div class="inp_editGames">
-                            <label for="">Game Note</label>
-                            <textarea name="" id="gameNote" cols="30" rows="2"></textarea>
-                        </div>
-                        
-
-                        <div class="button_container">
-                            <button id="add">Add</button>
-                            <button id="close">Close</button>
-                        </div>
-                    </div>
+                    </form>
+                    
                 </div>
+                
+
+                <div id="editEventsPopup" class="popup" method="post">
+                    <form action="" method="post">
+                        <div class="popup-content">
+                            <span class="closeE">&times;</span>
+                            <h2>Edit Events</h2>
+                            <div class="inp_editGames">
+                                <label for="">Home Team:</label>
+                                <select name="team" id="nameTeam">
+                                    <option value="Đội A">Đội A</option>
+                                    <option value="Đội B">Đội B</option>
+                                    <option value="Đội C">Đội C</option>
+                                    <option value="Đội D">Đội D</option>
+                                </select>
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Away Team:</label>
+                                <select name="team" id="nameTeam">
+                                    <option value="Đội A">Đội A</option>
+                                    <option value="Đội B">Đội B</option>
+                                    <option value="Đội C">Đội C</option>
+                                    <option value="Đội D">Đội D</option>
+                                </select>
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Date:</label>
+                                <input type="date" id="date">
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Group</label>
+                                <select name="team" id="group">
+                                    <option value="none">None</option>
+                                    <option value="a">a</option>
+                                </select>
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">Start Time</label>
+                                <input type="time" placeholder="" class="startTime">
+                            </div>
+    
+                            <div class="inp_editGames">
+                                <label for="">End Time</label>
+                                <input type="time" placeholder="" id="endTime">
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Location</label>
+                                <input type="text" placeholder="" id="location">
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Game Type</label>
+                                <select name="team" id="gameType">
+                                    <option value="none">REGULAR SEASON</option>
+                                    <option value="a">a</option>
+                                </select>
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Game Note</label>
+                                <textarea name="" id="gameNote" cols="30" rows="2"></textarea>
+                            </div>
+                            
+    
+                            <div class="button_container">
+                                <button id="close">Close</button>
+                                <button id="save">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
             </form>
             <form action="">
                 <div class="item_switch">
@@ -431,6 +438,8 @@
         document.getElementById('closeE').addEventListener('click', function() {
             document.getElementById('editEventsPopup').style.display = 'none';
         });
+
+
     </script>
 </body>
 </html>
