@@ -23,7 +23,19 @@
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
             $_SESSION["program_id"]=$_POST["program_id"];
-            header("Location: programs.php");
+            header("Location: settings.php");
+            exit();
+        }
+
+        if ($connect->connect_error) {
+            die('Cannot connect to database'.$connect->connect_error); 
+        } else {
+            $stmt=$connect->prepare("SELECT _id FROM registrationRequires WHERE program_id=?");
+            $stmt->bind_param("s", $_SESSION["program_id"]);
+            $stmt->execute();
+            $stmt->bind_result($registrationRequires_id);
+            $stmt->fetch();
+            $stmt->close();
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
@@ -32,6 +44,9 @@
             if ($connect->connect_error) {
                 die('Cannot connect to database' . $connect_error);
             } else {
+                $stmt_priceOption = $connect->prepare("DELETE FROM priceOptions WHERE regisRequire_id=?");
+                $stmt_priceOption->bind_param("s", $registrationRequires_id);
+
                 $stmt_registration = $connect->prepare("DELETE FROM registrationRequires WHERE program_id=?");
                 $stmt_registration->bind_param("s", $del_id);
 
@@ -45,13 +60,14 @@
                 $stmt_programs->bind_param("s", $del_id);
             }
         
-            if ($stmt_programs->execute() && $stmt_games->execute() && $stmt_events->execute() && $stmt_registration->execute()) {
+            if ($stmt_priceOption->execute() && $stmt_games->execute() && $stmt_events->execute() && $stmt_registration->execute() && $stmt_programs->execute()) {
+                $stmt_priceOption->close();
                 $stmt_registration->close();
                 $stmt_games->close();
                 $stmt_events->close();
                 $stmt_programs->close();
-                header("Location: programs.php");
-                exit;
+                header('Location: programs.php');
+                exit();
             } else {
                 echo "Error" . $stmt_programs->error;
             }
@@ -77,10 +93,8 @@
                     <option value="c">C</option>
                 </select>
 
-
-                <input id="btn" type="button" value="Create Program">
+                <input class="add_member_button" id="btn" type="button" value="Create Program">
             </form>
-            
         </div>
     </div>
     <?php
@@ -104,9 +118,9 @@
                     };
                     ?>
                     <input type="hidden" name="del_id" value="<?php echo $infor['_id'];?>">
-                    <input type="submit" class="del_program" value="Delete" name="delete">
+                    <input type="submit" class="del_program" value="delete" name="delete">
                 </form>
-                <form action="settings.php" method="post">   
+                <form action="programs.php" method="post">   
                     <input type="hidden" id="program_id" name="program_id" value="<?php echo $infor['_id'];?>">
                     <input type="submit" id="bt_edit" class="more-link" value="edit" name="edit">
                 </form>
@@ -117,25 +131,46 @@
         }
     }
     ?>
+    <div class="overlay" id="overlay"></div>
+    <form action="" method="post" class="add_member_popup" id="addMemberPopup">
+        <span class="close_popup_button" id="closePopupBtn"><i class="fa fa-times"></i></span>
+        <p class="popup_title">Add New Team/Player Name</p>
+        <label for="">Price Name:</label>
+        <input class="inputText" type="text" placeholder="" name="priceName">
+        <label for="">Price Number:</label>
+        <input class="inputText" type="text" placeholder="" name="price">
+        <label for="">Price Quantity:</label>
+        <input class="inputText" type="text" placeholder="" name="quantity">
+        <div class="button_container">
+            <button id="closePopup" class="closeP">Close</button>
+            <input type="submit" name="addPriceOption" id="addMember" class="addM" value="Add">
+        </div>
+    </form>
+    
+    <!--<div class="add_member_button" id="openPopupBtn"><i class="fa fa-plus"></i></div>-->
     <script>
-        document.getElementById("btn").addEventListener("click", function() {
-            window.location.href = "../PHP/newprogram.php";
+        // JavaScript mới
+        var overlay = document.getElementById('overlay');
+        var popup = document.getElementById('addMemberPopup');
+        var iframeOverlay = document.getElementById('iframeOverlay');
 
+        document.getElementById('btn').addEventListener('click', function() {
+            overlay.classList.add('show');
+            popup.classList.add('show');
+            iframeOverlay.classList.add('show'); // Hiển thị overlay cho iframe
         });
 
-        // Sự kiện khi nhấp vào nút "Edit"
-        var editButtons = document.querySelectorAll('.more-link');
-        editButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var programId = this.parentNode.querySelector('[name="program_id"]').value;
-                var iframe = document.getElementById('content');
-                // Thay đổi src của iframe sang trang settings.php và truyền program_id qua phương thức POST
-                iframe.src = 'settings.php?program_id=' + programId;
-            });
+        document.getElementById('closePopupBtn').addEventListener('click', function() {
+            overlay.classList.remove('show');
+            popup.classList.remove('show');
+            iframeOverlay.classList.remove('show'); // Ẩn overlay cho iframe
         });
 
-
+        document.getElementById('closePopup').addEventListener('click', function() {
+            overlay.classList.remove('show');
+            popup.classList.remove('show');
+            iframeOverlay.classList.remove('show'); // Ẩn overlay cho iframe
+        });
     </script>
-
 </body>
 </html>

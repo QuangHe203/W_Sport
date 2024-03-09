@@ -24,7 +24,6 @@
             $stmt->close();
         }
     ?>
-    <?php echo $_SESSION['program_id']?>
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
