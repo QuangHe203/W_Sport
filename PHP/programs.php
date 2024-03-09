@@ -27,19 +27,19 @@
             exit();
         }
 
-        if ($connect->connect_error) {
-            die('Cannot connect to database'.$connect->connect_error); 
-        } else {
-            $stmt=$connect->prepare("SELECT _id FROM registrationRequires WHERE program_id=?");
-            $stmt->bind_param("s", $_SESSION["program_id"]);
-            $stmt->execute();
-            $stmt->bind_result($registrationRequires_id);
-            $stmt->fetch();
-            $stmt->close();
-        }
-
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
             $del_id = $_POST["del_id"];
+
+            if ($connect->connect_error) {
+                die('Cannot connect to database'.$connect->connect_error); 
+            } else {
+                $stmt=$connect->prepare("SELECT _id FROM registrationRequires WHERE program_id=?");
+                $stmt->bind_param("s", $del_id);
+                $stmt->execute();
+                $stmt->bind_result($registrationRequires_id);
+                $stmt->fetch();
+                $stmt->close();
+            }
         
             if ($connect->connect_error) {
                 die('Cannot connect to database' . $connect_error);
@@ -60,7 +60,7 @@
                 $stmt_programs->bind_param("s", $del_id);
             }
         
-            if ($stmt_priceOption->execute() && $stmt_games->execute() && $stmt_events->execute() && $stmt_registration->execute() && $stmt_programs->execute()) {
+            if ($stmt_priceOption->execute() && $stmt_registration->execute() && $stmt_games->execute() && $stmt_events->execute()  && $stmt_programs->execute()) {
                 $stmt_priceOption->close();
                 $stmt_registration->close();
                 $stmt_games->close();
@@ -72,7 +72,42 @@
                 echo "Error" . $stmt_programs->error;
             }
         }
-        
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["createProgram"])) {
+            $title = $_POST["title"];
+            $sport = $_POST["sport"];
+            $program = $_POST["program"];
+    
+            if ($connect->connect_error) {
+                die('Cannot connect to database' . $connect_error);
+            }
+    
+            $stmt = $connect->prepare("INSERT INTO programs (title, sport, type, organization_id) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $title, $sport, $program, $organization_id);
+    
+            if ($stmt->execute()) {
+                $_SESSION["program_id"] = $stmt->insert_id;
+    
+                $stmt->close();
+    
+                $stmt = $connect->prepare("INSERT INTO registrationRequires (program_id, name_email, phone, birthday, gender, individualPlayer, teamPlayer, coach, staff, individual) VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
+                $stmt->bind_param("s", $_SESSION["program_id"]);
+    
+                if ($stmt->execute()) {
+                    header("Location: itemmenu.php");
+                    header("Location: programs.php");
+                    exit();
+                } else {
+                echo "Error" . $stmt->error;
+                }
+    
+                $stmt->close();
+            } else {
+                echo "Error" . $stmt->error;
+            }
+    
+            $stmt->close();
+        }
     ?>
     <div class="main">
         <div class="header">Programs</div>
@@ -93,7 +128,7 @@
                     <option value="c">C</option>
                 </select>
 
-                <input class="add_member_button" id="btn" type="button" value="Create Program">
+                <input class="add_member_button" id="btn" type="button" value="Create Program" name="createProgram">
             </form>
         </div>
     </div>
@@ -108,7 +143,7 @@
             <div class="info">
                 <p class="program_name"><?php echo $infor['title'];?></p>
                 <p class="program_title"><?php echo $infor['subTitle'];?></p>
-                <form action="programs.php" method="post" class="actionForm">
+                <form action="" method="post" class="actionForm">
                     <p class="program_time"><?php echo $infor['startDate'];?></p>
                     <?php 
                     if ($infor['openRegister']==1) {
@@ -120,7 +155,7 @@
                     <input type="hidden" name="del_id" value="<?php echo $infor['_id'];?>">
                     <input type="submit" class="del_program" value="delete" name="delete">
                 </form>
-                <form action="programs.php" method="post">   
+                <form action="" method="post">   
                     <input type="hidden" id="program_id" name="program_id" value="<?php echo $infor['_id'];?>">
                     <input type="submit" id="bt_edit" class="more-link" value="edit" name="edit">
                 </form>
@@ -134,20 +169,40 @@
     <div class="overlay" id="overlay"></div>
     <form action="" method="post" class="add_member_popup" id="addMemberPopup">
         <span class="close_popup_button" id="closePopupBtn"><i class="fa fa-times"></i></span>
-        <p class="popup_title">Add New Team/Player Name</p>
-        <label for="">Price Name:</label>
-        <input class="inputText" type="text" placeholder="" name="priceName">
-        <label for="">Price Number:</label>
-        <input class="inputText" type="text" placeholder="" name="price">
-        <label for="">Price Quantity:</label>
-        <input class="inputText" type="text" placeholder="" name="quantity">
+        <p class="popup_title">New program</p>
+            <div class="input_program">
+                <label for="title">Title</label>
+                <input class="inp_program" type="text" id="title" required="required" placeholder="Enter your Title" name="title">
+            </div>
+    
+            <div class="input_program">
+                <label for="sport">Sport</label>
+                <select id="sport" name="sport">
+                    <option value="VolleyBall">VolleyBall</option>
+                    <option value="Football">Football</option>
+                    <option value="Badminton">Badminton</option>
+                    <option value="Tenis">Tenis</option>
+                </select>
+            </div>
+    
+            <div class="input_program">
+                <label for="program">Type of Program</label>
+                <select id="program" name="program">
+                    <option value="Tounament">Tounament</option>
+                    <option value="League">League</option>
+                    <option value="Camp">Camp</option>
+                    <option value="Class">Class</option>
+                    <option value="Training">Training</option>
+                    <option value="Event">Event</option>
+                    <option value="Club">Club</option>
+                </select>
+                </div>
         <div class="button_container">
             <button id="closePopup" class="closeP">Close</button>
-            <input type="submit" name="addPriceOption" id="addMember" class="addM" value="Add">
+            <input type="submit" name="createProgram" id="addMember" class="addM" value="Create">
         </div>
     </form>
     
-    <!--<div class="add_member_button" id="openPopupBtn"><i class="fa fa-plus"></i></div>-->
     <script>
         // JavaScript mới
         var overlay = document.getElementById('overlay');
