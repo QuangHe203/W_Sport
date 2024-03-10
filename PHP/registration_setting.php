@@ -186,22 +186,22 @@
                 <p class="header">SetUp Start & End Date for Register</p>
                 <div class="start">
                     <div class="start_date">
-                        <label for="">Start Date*</label>
+                        <label for="starDate">Start Date*</label>
                         <input type="date" name="startDate" id="starDate" value="<?php echo $dataRR['startDate'];?>">
                     </div>
                     <div class="start_time">
-                        <label for="">Start Time*</label>
+                        <label for="starTime">Start Time*</label>
                         <input type="time" name="startTime" id="starTime" value="<?php echo $dataRR['startTime'];?>">
                     </div>
                 </div>
     
                 <div class="end">
                     <div class="end_date">
-                        <label for="">End Date</label>
+                        <label for="endDate">End Date</label>
                         <input type="date" name="endDate" id="endDate" value="<?php echo $dataRR['endDate'];?>">
                     </div>
                     <div class="end_time">
-                        <label for="">End Time</label>
+                        <label for="endTime">End Time</label>
                         <input type="time" name="endTime" id="endTime" value="<?php echo $dataRR['endTime'];?>">
                     </div>
                 </div>
@@ -223,50 +223,44 @@
                             while ($infor_priceOption=$result->fetch_assoc()) {
                     ?>
                         <span class="space"></span>
-                        <form class="price_item" method="post">
+                        <div class="price_item" method="post">
                             <p class="pri_name"><?php echo $infor_priceOption['priceName'];?></p>
                             <p class="pri_num"><?php echo $infor_priceOption['price'];?></p>
                             <p class="pri_quanl"><?php echo $infor_priceOption['quantity'];?></p>
 
                             <p class="visil">
-                                <label class="switch">
-                                    <input type="checkbox" name="" id="">
+                                <label for="visiable" class="switch">
+                                    <input type="checkbox" name="visiable" id="visiable">
                                     <span class="slider round"></span>
                                 </label>
                             </p>
                             <input type="hidden" name="priceOptionid" value="<?php echo $infor_priceOption['_id'];?>">
-                            <!--<input type="submit" name="deleteOption" class="actio" value="<i class='fas fa-trash'></i>">
-
-                            <p class="actio">
-                                <i class="fas fa-trash"></i>
-                            </p>-->
                             <button type="submit" name="deleteOption" class="actio"><i class="fas fa-trash"></i></button>
-                        </form>
+
+                        </div>
                     <?php            
                             }
                         }
-                    ?>    
+                    ?>
+                   
                     <!--Submit-->
                     <div class="input_web submit">
                         <input type="submit" name="saveAll" id="submit-btn" value="Save All">
                     </div>
                 </div>
             </div>
-
-           
-
         </div>
     </form>
     <div class="overlay" id="overlay"></div>
     <form action="" method="post" class="add_member_popup" id="addMemberPopup">
         <span class="close_popup_button" id="closePopupBtn"><i class="fa fa-times"></i></span>
         <p class="popup_title">Add New Team/Player Name</p>
-        <label for="">Price Name:</label>
-        <input class="inputText" type="text" placeholder="" name="priceName">
-        <label for="">Price Number:</label>
-        <input class="inputText" type="text" placeholder="" name="price">
-        <label for="">Price Quantity:</label>
-        <input class="inputText" type="text" placeholder="" name="quantity">
+        <label for="priceName">Price Name:</label>
+        <input class="inputText" type="text" placeholder="" name="priceName" id="priceName">
+        <label for="price">Price Number:</label>
+        <input class="inputText" type="text" placeholder="" name="price" id="price">
+        <label for="quantity">Price Quantity:</label>
+        <input class="inputText" type="text" placeholder="" name="quantity" id="quantity">
         <div class="button_container">
             <button id="closePopup" class="closeP">Close</button>
             <!--<button id="addMember" class="addM">Add</button>-->

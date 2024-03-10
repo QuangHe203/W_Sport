@@ -243,13 +243,11 @@ i.fa-trash{
     border: 1px solid white;
 }
 
-
-
 /* CSS cho nút plus */
 .add_member_button {
     position: fixed;
-    bottom: 250px;
-    right: 900px;
+    top: 400px;
+    left:180px;
     background-color: green;
     color: white;
     font-size: 24px;
