@@ -58,7 +58,7 @@
     while ($row = $result->fetch_assoc()) {
         
         ?>  
-        <a class="container" href="../PHP/programDetail.php">
+        <a class="container" href="../PHP/programDetail.php" >
             <div class="profile">
                 <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
             </div>
