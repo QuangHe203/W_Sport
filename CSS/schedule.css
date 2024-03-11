@@ -238,6 +238,10 @@
 .view_info .info_match{
     display: flex;
 }
+.view_info .double{
+    display: flex;
+    align-items: center;
+}
 .info_match .info_time{
     width: 25px;
     padding-right: 35px;
@@ -297,11 +301,11 @@
     position: relative;
 }
 .doubleHour{
-    position: absolute;
+    /* position: absolute;
     left: 320px;
     /* bottom: 215px; */
     /* bottom: 501px; */
-    top: 390px;
+    /* top: 390px; */
 }
 
 .prac{
