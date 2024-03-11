@@ -36,7 +36,7 @@
             $connect->close();
         }
 
-        $stmt=$connect->prepare("SELECT * FROM games WHERE program_id = ? ORDER BY startDate ASC");
+        $stmt=$connect->prepare("SELECT * FROM games WHERE program_id = ?");
         $stmt->bind_param("s", $_SESSION["program_id"]);
         $stmt->execute();
         $result=$stmt->get_result();
@@ -44,7 +44,6 @@
         $stmt->close();
 
     ?>
-
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
@@ -260,7 +259,72 @@
             
             <!--Schedule-->
             <div id="scheduleContent" class="content">
-                
+                <?php
+                    if ($dataGame>0) {
+                        while ($inforGame=$result->fetch_assoc()) {
+                ?>
+                    <div class="view_info">
+                    <div class="time">
+                        <p>Thứ Bảy, 18 tháng 3, 2023</p>
+                    </div>
+
+                    <div class="match_location showMatch">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>8:30</p>
+                                <p>AM</p>
+                            </div>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI A</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI B</p>
+                                </div>
+                                <p class="nameplay">Team_Practice</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                            
+                        </div>
+                    </div>
+
+                    <div class="match_location showMatch">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>2:30</p>
+                                <p>PM</p>
+                            </div>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI C</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI D</p>
+                                </div>
+                                <p class="nameplay">Regular_season</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php            
+                        }
+                    }
+                ?>
                 <div class="view_info">
                     <div class="time">
                         <p>Thứ Sáu, 17 tháng 3, 2023</p>
@@ -291,33 +355,30 @@
                         </div>
                     </div>
                 </div>
-                
-                <?php
-                    if ($dataGame>0) {
-                        while ($inforGame=$result->fetch_assoc()) {
-                ?>
+
                 <div class="view_info">
                     <div class="time">
-                        <p><?php echo formatDate($inforGame['startDate']);?></p>
+                        <p>Thứ Bảy, 18 tháng 3, 2023</p>
                     </div>
 
                     <div class="match_location showMatch">
                         <div class="info_match">
                             <div class="info_time">
-                                <p><?php echo formatTime($inforGame['startTime']);?></p>
+                                <p>8:30</p>
+                                <p>AM</p>
                             </div>
                             
                             <div class="info_nameclub">
                                 <div class="nameClub">
-                                    <p class="club1"><?php echo $inforGame['team1'];?></p>
+                                    <p class="club1">ĐỘI A</p>
                                     <p class="vs">vs</p>
-                                    <p class="club2"><?php echo $inforGame['team2'];?></p>
+                                    <p class="club2">ĐỘI B</p>
                                 </div>
-                                <p class="nameplay"><?php echo $inforGame['typeGame'];?></p>
+                                <p class="nameplay">Team_Practice</p>
                             </div>
                         </div>
                         <div class="info_loca more">
-                            <p class="stadium">Location: <?php echo $inforGame['location'];?></p>
+                            <p class="stadium">Location: San Van Dong A</p>
                             <form action="" method="post">
                                 <i class="fa fa-pencil-square-o"></i>
                                 <i class="fas fa-trophy"></i>
@@ -360,7 +421,7 @@
                     </div>
 
                     <div class="match_location showMatch">
-                        <div class="info_match">
+                        <div class="info_match double">
                             <div class="info_time doubleTime">
                                 <p>8:30</p>
                                 <p>AM-</p>
