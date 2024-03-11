@@ -300,13 +300,14 @@
 .info_match .doubleTime{
     position: relative;
 }
-.doubleHour{
+/* .doubleHour{
     /* position: absolute;
     left: 320px;
     /* bottom: 215px; */
     /* bottom: 501px; */
     /* top: 390px; */
-}
+
+
 
 .prac{
     position: relative;
