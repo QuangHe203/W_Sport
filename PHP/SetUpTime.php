@@ -55,7 +55,7 @@
                 <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
-                        <p class="goto"><a href="../php/itemmenu.php">Go to Dashboard</a></p>
+                        <p class="goto"><a href="../php/Dashboard.php">Go to Dashboard</a></p>
                         <a href="../PHP/itemmenu.php"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"> </a>
                         
                     </div>
