@@ -51,6 +51,9 @@
     require_once 'ConnectData.php';
 
 
+
+
+
     $stmt = $connect->prepare("SELECT programs.*, organizations.name as organization_name FROM programs INNER JOIN organizations ON programs.organization_id = organizations._id");    
         $stmt->execute();
     $result = $stmt->get_result();
@@ -58,7 +61,7 @@
     while ($row = $result->fetch_assoc()) {
         
         ?>  
-        <a class="container" href="../PHP/programDetail.php">
+        <a class="container" href="../PHP/programDetail.php" onclick="saveProgramId()">
             <div class="profile">
                 <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
             </div>
@@ -79,7 +82,8 @@
     function saveProgramId(programId) {
         <?php $_SESSION['program_id'] = $programId; ?>
     }
-    </script>
+</script>
+
     
 </body>
 </html>

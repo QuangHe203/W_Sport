@@ -8,6 +8,24 @@
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 <body>
+
+<?php
+require_once 'ConnectData.php';
+
+
+$programId = $_SESSION['program_id'];
+
+$stmt = $connect->prepare("SELECT * FROM programs WHERE _id = ?");
+$stmt->bind_param("s", $programId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+//  tra xem có dữ liệu hay không
+if ($result->num_rows > 0) 
+    $row = $result->fetch_assoc();
+    $stmt->close();
+?>
+
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
@@ -17,8 +35,7 @@
                     </a>
                 </div>
     
-                <!--khi da dang nhap, hien thi profile-->
-                <div class="nav_profile">
+                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
                         <p><img src="../img/profile.jpg" alt=""></p>
@@ -43,24 +60,24 @@
                     </div>
                     <div class="time_reg">
 
-                        <p><strong>Sport: </strong> </p>
-                        <p><strong>Duration: </strong> </p>
-                        <p><strong>Type: </strong> </p>
+
+                        <p><strong>Title: </strong><?php echo $row['title']; ?></p>
+                        <p><strong>Sport: </strong><?php echo $row['sport']; ?> </p>
+                        <p><strong>Duration: </strong> <?php echo $row['duration']; ?></p>
+                        <p><strong>Type: </strong> <?php echo $row['type']; ?></p>
 
 
-                        <p><strong>StartDate: </strong> Thứ Sáu, 17 tháng 3 năm 2023</p>
-                        <p><strong>DailyStart: </strong> </p>
-                        <p><strong>DailyMatch: </strong> </p>
+                        <p><strong>StartDate: </strong> <?php echo $row['startDate']; ?></p>
+                        <p><strong>DailyStart: </strong> <?php echo $row['dailyStart']; ?></p>
+                        <p><strong>DailyMatch: </strong> <?php echo $row['dailyMatch']; ?></p>
 
 
 
-                        <p><strong>Start Register: </strong>8:34 AM Thứ Năm, 6 tháng 4, 2023</p>
-                        <p><strong>End Register: </strong> 1:15 PM Thứ Sáu, 28 tháng 4, 2023</p>
                     </div>
 
                     <div class="free">
-                        <p>Individual Fee: 1110000 VND</p>
-                        <p>Free: 0 VND</p>
+                        <p>Individual Fee: </p>
+                        <p>Free: </p>
                     </div>
                 </div>
             </div>

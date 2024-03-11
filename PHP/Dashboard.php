@@ -12,7 +12,7 @@
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="index.html" class="logo-title"> 
+                    <a href="Index.php" class="logo-title"> 
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>

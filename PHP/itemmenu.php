@@ -52,17 +52,14 @@
             </ul> 
         </div>
         <div class="main_content" id="content">
-            <!-- Nội dung sẽ được tải vào đây -->
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            // Bắt sự kiện khi nhấp vào một liên kết trong ul
             $('#sidebar ul li a').click(function(e) {
-                e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+                e.preventDefault(); 
                 
-                // Tải nội dung của URL liên kết vào phần tử #content
                 $('#content').load($(this).attr('href'));
             });
         });
