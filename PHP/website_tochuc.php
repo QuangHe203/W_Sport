@@ -12,11 +12,11 @@
 <body>
     <?php
     require_once 'ConnectData.php';
-    $stmt = $connect->prepare("SELECT website.*, * programs FROM programs INNER JOIN website ON programs.organization_id = website.organization_id WHERE programs.program_id = ?");
-    $stmt->bind_param("s", $_SESSION['program_id']);
+    $stmt = $connect->prepare("SELECT * from website");
+    $stmt = $connect->prepare("SELECT * from programs");
     $stmt->execute();
     $result = $stmt->get_result();
-    $data = $result->fetch_assoc();
+    $row = $result->fetch_assoc();
     $stmt->close();
     ?>
 
@@ -42,8 +42,10 @@
 
     <div class="main">
         <div class="header">
-            <h2><?php echo $organization_name; ?></h2>
-            <p><?php echo $tagline; ?></p>
+
+            <h2><?php echo "Organization_name" . $row['organization_name']; ?></h2>
+            <p><?php echo "tagline" . $row['tagline']; ?></p>
+
         </div>
 
         <div class="content">
@@ -60,9 +62,12 @@
                         <input id="btn" type="button" value="Register">
                     </div>
                     <div class="time_reg">
-                        <p><strong>Start: <?php echo $data['startDate']; ?></strong> </p>
-                        <p><strong>Start Register: </strong></p>
-                        <p><strong>End Register: </strong> </p>
+                        <<<<<<< HEAD <p><strong>Start: <?php echo $data['startDate']; ?></strong> </p>
+
+                            <p><strong>Start: <?php echo $row['startDate']; ?></strong> </p>
+
+                            <p><strong>Start Register: </strong></p>
+                            <p><strong>End Register: </strong> </p>
                     </div>
 
                     <div class="free">
@@ -79,11 +84,15 @@
                 <div class="item">
                     <p class="item_title"><?php echo $data['organization_name']; ?></p>
                     <p class="item_main"><?php echo $data['description']; ?></p>
+
+                    <p class="item_title"><?php echo $row['organization_name']; ?></p>
+                    <p class="item_main"><?php echo $row['description']; ?></p>
+
                 </div>
 
                 <div class="item">
                     <p class="item_title">Location</p>
-                    <p class="item_main"><?php echo $data['address']; ?></p>
+                    <p class="item_main"><?php echo $row['address']; ?></p>
                 </div>
 
                 <div class="item">

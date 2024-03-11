@@ -23,11 +23,11 @@
         $stmt->close();
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
-        $_SESSION["program_id"] = $_POST["program_id"];
-        header("Location: settings.php");
-        exit();
-    }
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
+            $_SESSION["program_id"]=$_POST["program_id"];
+            header("Location: settings.php");
+            exit();
+        }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete"])) {
         $del_id = $_POST["del_id"];
@@ -115,7 +115,7 @@
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="index.html" class="logo-title">
+                    <a href="index.html" class="logo-title"> 
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>

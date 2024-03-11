@@ -30,12 +30,14 @@
                              VALUES ('$userData[_id]', '$organization_id', '$userData[birthday]', '$userData[username]', '$userData[phone]', '$userData[email]')";
 
             if ($connect->query($sqlAddMember) === TRUE) {
-                echo "Member added successfully.";
-            } else {
-                echo "Error adding member: " . $connect->error;
+                echo '<script>alert("Member added successfully");</script>';
+             } else {
+                echo '<script>alert("Error");</script>';
+                $connect->error;
             }
         } else {
-            echo "Email does not exist. Please enter a valid email.";
+            echo '<script>alert("Email does not exist. Please enter a valid email.");</script>';
+
         }
 
         $connect->close();
@@ -45,11 +47,11 @@
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="index.html" class="logo-title">
+                    <a href="index.html" class="logo-title"> 
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-
+    
                 <!--khi đã đăng nhập, hiển thị profile-->
                 <div class="nav_profile">
                     <div class="items">

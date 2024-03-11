@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/schedule.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/settings.css">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -32,6 +34,11 @@
         } else {
             echo "Error" . $stmt->error;
         }
+        $stmt=$connect->prepare("SELECT * FROM games WHERE program_id = ?");
+        $stmt->bind_param("s", $_SESSION["program_id"]);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        $dataGame=$result->num_rows; //Data games
         $stmt->close();
         $connect->close();
     }
@@ -44,6 +51,40 @@
     $stmt->close();
 
     ?>
+    <div class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-item">
+                <div class="logo">
+                    <a href="index.php" class="logo-title"> 
+                        <h2 title="Sport Management">SportManagement</h2>
+                    </a>
+                </div>
+    
+                <!--khi da dang nhap, hien thi profile-->
+                <div class="nav_profile">
+                    <div class="dashboard">
+                        <p class="goto"><a href="../php/Dashboard.php">Go to Dashboard</a></p>
+                        <a href="../PHP/itemmenu.php"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"> </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="name_programs">
+        <h3><?php echo $row['title']?></h3>
+    </div>
+
+    <div class="menu_setting">
+        <ul>
+            <li><a href="../PHP/BasicInfo.php" target="content">Basic Info</a></li>
+            <li><a href="../PHP/SetUpTime.php" target="content">Setup Time</a></li>
+            <li><a href="../PHP/registration_setting.php" target="content">Registration</a></li>
+            <li><a href="../PHP/teamgroup.php" target="content">Team & Group</a></li>
+            <li><a href="../PHP/schedule.php" target="content">Schedule</a></li>
+        </ul>
+    </div>
     <div class="main">
         <div class="header">
             <form action="" method="post">
@@ -225,7 +266,72 @@
 
             <!--Schedule-->
             <div id="scheduleContent" class="content">
+                <?php
+                    if ($dataGame>0) {
+                        while ($inforGame=$result->fetch_assoc()) {
+                ?>
+                    <div class="view_info">
+                    <div class="time">
+                        <p>Thứ Bảy, 18 tháng 3, 2023</p>
+                    </div>
 
+                    <div class="match_location showMatch">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>8:30</p>
+                                <p>AM</p>
+                            </div>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI A</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI B</p>
+                                </div>
+                                <p class="nameplay">Team_Practice</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                            
+                        </div>
+                    </div>
+
+                    <div class="match_location showMatch">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>2:30</p>
+                                <p>PM</p>
+                            </div>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI C</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI D</p>
+                                </div>
+                                <p class="nameplay">Regular_season</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <?php            
+                        }
+                    }
+                ?>
                 <div class="view_info">
                     <div class="time">
                         <p>Thứ Sáu, 17 tháng 3, 2023</p>
@@ -295,6 +401,101 @@
                     }
                 }
                     ?>
+
+
+                <div class="view_info">
+                    <div class="time">
+                        <p>Thứ Bảy, 18 tháng 3, 2023</p>
+                    </div>
+
+                    <div class="match_location showMatch">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>8:30</p>
+                                <p>AM</p>
+                            </div>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI A</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI B</p>
+                                </div>
+                                <p class="nameplay">Team_Practice</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                            
+                        </div>
+                    </div>
+
+                    <div class="match_location showMatch">
+                        <div class="info_match">
+                            <div class="info_time">
+                                <p>2:30</p>
+                                <p>PM</p>
+                            </div>
+                            
+                            <div class="info_nameclub">
+                                <div class="nameClub">
+                                    <p class="club1">ĐỘI C</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI D</p>
+                                </div>
+                                <p class="nameplay">Regular_season</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="view_info">
+                    <div class="time">
+                        <p>Chủ Nhật, 19 tháng 3, 2023</p>
+                    </div>
+
+                    <div class="match_location showMatch">
+                        <div class="info_match double">
+                            <div class="info_time doubleTime">
+                                <p>8:30</p>
+                                <p>AM-</p>
+                                <p>10:30</p>
+                                <p>AM</p>
+                            </div>
+                            
+                            <div class="info_nameclub doubleHour">
+                                <div class="nameClub ">
+                                    <p class="club1">ĐỘI E</p>
+                                    <p class="vs">vs</p>
+                                    <p class="club2">ĐỘI C</p>
+                                </div>
+                                <p class="nameplay">quarterfinals</p>
+                            </div>
+                        </div>
+                        <div class="info_loca more">
+                            <p class="stadium">Location: San Van Dong A</p>
+                            <form action="" method="post">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <i class="fas fa-trophy"></i>
+                                <i class="fas fa-trash"></i>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+>>>>>>> 87f15928a7ac3d0a82983dd878e2d0e49f6ed18f
 
                     <div class="view_info">
                         <div class="time">

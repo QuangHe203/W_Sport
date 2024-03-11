@@ -52,12 +52,27 @@
         <?php
         require_once 'ConnectData.php';
 
-
-        $stmt = $connect->prepare("SELECT programs.*, organizations.name as organization_name FROM programs INNER JOIN organizations ON programs.organization_id = organizations._id");
+    $stmt = $connect->prepare("SELECT programs.*, organizations.name as organization_name FROM programs INNER JOIN organizations ON programs.organization_id = organizations._id");    
         $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        while ($row = $result->fetch_assoc()) {
+    $result = $stmt->get_result();
+    $stmt->close();
+    while ($row = $result->fetch_assoc()) {
+        
+        ?>  
+        <a class="container" href="../PHP/programDetail.php" onclick="saveProgramId()">
+            <div class="profile">
+                <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
+            </div>
+            <div class="info">
+                <p class="program_name"><?php echo $row['title'];?></p>
+                <p class="program_title">Sport: <?php echo $row['sport']?></p>
+                <p class="program_organ">Organization: <?php echo $row['organization_name'];?></p>
+                <p class="program_address">Location: <?php echo $row['location']?></p>
+            </div>
+        </a>
+    
+    <?php
+            }
 
         ?>
             <a class="container" href="../PHP/programDetail.php">
@@ -73,7 +88,7 @@
             </a>
 
         <?php
-        }
+        
 
         ?>
     </div>

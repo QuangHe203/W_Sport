@@ -13,32 +13,32 @@
     <?php
     require_once 'ConnectData.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $gender = $_POST['gender'];
-        $role = $_POST['role'];
-        $teamName = $_POST['teamName'];
-        $price = $_POST['price'];
-        $note = $_POST['note'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $gender = $_POST['gender'];
+    $role = $_POST['role'];
+    $teamName = $_POST['teamName'];
+    $price = $_POST['price'];
+    $note = $_POST['note'];
 
-        session_start();
-        $programId = $_SESSION['program_id'];
+    session_start();
+    $programId = $_SESSION['program_id'];
 
-        $stmt = $connect->prepare("INSERT INTO registrations (program_id, name, email, phone, gender, role, team_name, price_option, note) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssss", $programId,  $phone, $gender, $role, $teamName, $price, $note);
-
-        if ($stmt->execute()) {
-            echo "Registration successful!";
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-        $connect->close();
+    $stmt = $connect->prepare("INSERT INTO registrations (program_id, name, email, phone, gender, role, team_name, price_option, note) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issssss", $programId,  $phone, $gender, $role, $teamName, $price, $note);
+    
+    if ($stmt->execute()) {
+        echo "Registration successful!";
+    } else {
+        echo "Error: " . $stmt->error;
     }
-    ?>
+
+    $stmt->close();
+    $connect->close();
+}
+?>
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
@@ -47,7 +47,7 @@
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-
+    
                 <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
@@ -80,7 +80,7 @@
                     <label for="phone">Phone:</label>
                     <input class="inp_program" type="text" id="phone" required="required" placeholder="Enter your Phone" name="phone">
                 </div>
-
+    
                 <div class="input_web">
                     <label for="gender">Gender: </label>
                     <input class="inp_program" type="text" id="gender" required="required" placeholder="Enter your Gender" name="gender">
@@ -105,8 +105,8 @@
                 <div class="input_web">
                     <label for="note">Note:</label>
                     <textarea class="inp_descrip " name="note" id="note" cols="30" rows="2" placeholder="Enter your Note"></textarea>
-                </div>
-
+                </div>  
+    
                 <!--Submit-->
                 <div class="input_web submit">
                     <input type="submit" name="" id="submit-btn" value="Register">
