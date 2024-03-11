@@ -6,16 +6,23 @@ if (isset($_POST['action'])) {
         getData($query);
     }
 
-    if($_POST['action'] == 'searchRecord') {
+    if ($_POST['action'] == 'searchRecord') {
         $program_title = $_POST['program_title'];
         $query = "SELECT * FROM programs WHERE title LIKE '%$program_title%' ORDER BY _id DESC";
         getData($query);
-
     }
-    if($_POST['action'] =='searchBySport') {
+
+    if ($_POST['action'] == 'searchBySport') {
         $program_sport = $_POST['program_sport'];
 
         $query = "SELECT * FROM programs WHERE sport = '$program_sport'";
+        getData($query);
+    }
+
+    if ($_POST['action'] == 'searchByType') {
+        $program_type = $_POST['program_type'];
+
+        $query = "SELECT * FROM programs WHERE type = '$program_type'";
         getData($query);
     }
 }
@@ -61,4 +68,3 @@ function getData($query)
     }
     echo $output;
 }
-

@@ -294,6 +294,24 @@
                 }
             });
         });
+
+        $('#all').on('change', function() {
+            event.preventDefault();
+            var action = 'searchByType';
+            var program_type = $(this).val();
+            $.ajax({
+                url: "livesearch_program.php",
+                method: "POST",
+                data: {
+                    action: action,
+                    program_type: program_type
+                },
+                success: function(data) {
+                    $('#searchresult').html(data);
+
+                }
+            });
+        });
     </script>
 </body>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,17 @@
     <link rel="stylesheet" href="../css/programDetail.css">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
+
 <body>
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="Index.php" class="logo-title"> 
+                    <a href="Index.php" class="logo-title">
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-    
+
                 <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
@@ -29,13 +31,13 @@
     </div>
 
     <div class="main">
-        
+
         <div class="content">
             <div class="home">
                 <div class="info">
                     <div class="reg">
                         <div>
-                            
+
                             <p></p>
                             <p>+ San Van Dong A</p>
                         </div>
@@ -84,7 +86,7 @@
                     <p class="item_main"><i class="fas fa-envelope"></i>abc@gmail.com</p>
                     <p class="item_main"><i class="fas fa-phone"></i>0355879632</p>
                 </div>
-                
+
             </div>
         </div>
 
@@ -95,4 +97,5 @@
         });
     </script>
 </body>
+
 </html>

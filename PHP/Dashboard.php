@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Side Navigation Bar</title>
-	<link rel="stylesheet" href="../css/dashboard.css">
-  <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <meta charset="UTF-8">
+    <title>Side Navigation Bar</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 </head>
+
 <body>
-  <div class="navbar">
+    <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="index.html" class="logo-title"> 
+                    <a href="index.php" class="logo-title">
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-    
+
                 <!--khi đã đăng nhập, hiển thị profile-->
                 <div class="nav_profile">
                     <div class="items">
@@ -27,9 +29,9 @@
                 </div>
             </div>
         </div>
-  </div>
+    </div>
 
-  <div class="wrapper">
+    <div class="wrapper">
         <div class="sidebar" id="sidebar">
             <ul>
                 <li><a href="../PHP/dashboard.php" target="content"><i class="fas fa-home"></i>Dashboard</a></li>
@@ -41,19 +43,20 @@
         </div>
         <div class="main_content" id="content">
             <div class="main">
-                <div class="header">Dash board</div>  
-                  <div class="info">
+                <div class="header">Dash board</div>
+                <div class="info">
                     <div class="info-title">Your dashboard</div>
                     <div class="content">You can find everything that you manage from your Dashboard here.</div>
                     <div class="content">This concain all what you need <a href="../php/programs.php">programs</a>, <a href="">registrations</a>,<a href="../php/member.php">members</a>, and your <a href="">page</a></div>
                     <div class="clb">
-                      <div class="info-website">Your Website: </div>
-                      <div class="football"><a href="../php/website_tochuc.php">football-lien-mac-school-club <i class="fas fa-link"></i></a></div>
-                  </div>  
+                        <div class="info-website">Your Website: </div>
+                        <div class="football"><a href="../php/website_tochuc.php">football-lien-mac-school-club <i class="fas fa-link"></i></a></div>
+                    </div>
                 </div>
             </div>
         </div>
-  </div>
-  
+    </div>
+
 </body>
+
 </html>
