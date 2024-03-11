@@ -21,4 +21,30 @@
     $result=$stmt->get_result();
     $data=$result->fetch_assoc();
     $stmt->close();
+
+    function formatDate($dateString) {
+        $timestamp = strtotime($dateString);
+    
+        $dayOfWeek = date("l", $timestamp);
+    
+        $day = date("d", $timestamp);
+        $month = date("F", $timestamp);
+        $year = date("Y", $timestamp);
+    
+        $formattedDate = "$dayOfWeek, $month $day $year";
+    
+        return $formattedDate;
+    }
+
+    function formatTime($startTime) {
+        $dateTime = new DateTime($startTime);
+    
+        $hour = $dateTime->format('h');
+        $minute = $dateTime->format('i');
+    
+        $period = $dateTime->format('a');
+        $periodText = ($period == 'am') ? 'AM' : 'PM';
+    
+        return "{$hour}:{$minute} {$periodText}";
+    }
 ?>

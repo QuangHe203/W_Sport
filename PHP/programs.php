@@ -203,8 +203,8 @@
         <span class="close_popup_button" id="closePopupBtn"><i class="fa fa-times"></i></span>
         <p class="popup_title">New program</p>
             <div class="input_program">
-                <label for="title">Title</label>
-                <input class="inp_program" type="text" id="title" required="required" placeholder="Enter your Title" name="title">
+                <label for="live_search_title">Title</label>
+                <input class="inp_program" type="text" id="live_search_title" required="required" placeholder="Enter your Title" name="live_search_title">
             </div>
     
             <div class="input_program">
@@ -261,6 +261,15 @@
             overlay.classList.remove('show');
             popup.classList.remove('show');
             iframeOverlay.classList.remove('show'); // Ẩn overlay cho iframe
+        });
+    </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery("#live_search_title").keyup(function(){
+                var input_title = jQuery(this).val();
+                console.log(input_title);
+            });
         });
     </script>
 </body>
