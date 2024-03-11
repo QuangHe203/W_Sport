@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 06, 2024 lúc 03:06 PM
--- Phiên bản máy phục vụ: 10.4.28-MariaDB
--- Phiên bản PHP: 8.2.4
+-- Thời gian đã tạo: Th3 11, 2024 lúc 06:54 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -71,7 +71,10 @@ CREATE TABLE `games` (
 CREATE TABLE `members` (
   `_id` int(10) NOT NULL,
   `organization_id` int(10) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `name` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phone` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -146,9 +149,8 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`_id`, `organization_id`, `title`, `subTitle`, `description`, `sport`, `type`, `public`, `openRegister`, `teams`, `groups`, `publicGame`, `publicEvent`, `regisRequire`, `location`, `startDate`, `dailyStart`, `duration`, `dailyMatch`, `createdAT`, `updateAT`) VALUES
-(13, 4, 'PKA_FB', '', '', 'Football', 'League', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(14, 4, 'No_club', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(18, 4, 'PKA_FC', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '2024-03-02', '07:20', 30, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(13, 4, ' PKA_FB', '', '', 'Football', 'League', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(18, 4, ' PKA_FC', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '2024-03-02', '07:20', 30, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -195,7 +197,10 @@ CREATE TABLE `registrations` (
   `role` varchar(40) NOT NULL,
   `team` varchar(40) NOT NULL,
   `priceOption` int(3) NOT NULL,
-  `note` varchar(40) NOT NULL
+  `note` varchar(40) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `name` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -221,8 +226,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`_id`, `username`, `password`, `name`, `email`, `birthday`, `gender`, `phone`, `avatar`) VALUES
-(4, 'quanghe203', '33333333', 'Nguyễn Quang Hệ', 'Quanghe2003@gmail.com', '2003-01-25', 'Male', '0377556203', '../Image/IMG_3087.JPG'),
+(4, ' quanghe203', '33333333', 'Nguyễn Quang Hệ', ' Quanghe2003@gmail.com', '2003-01-25', 'Male', '0377556203', '../Image/IMG_3087.JPG'),
 (5, 'Long2024', '2024', 'Hồ Văn Long', 'Long2024@gmail.com', '2024-01-01', 'Female', '012345678', '../Image/profile.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `website`
+--
+
+CREATE TABLE `website` (
+  `_id` int(11) NOT NULL,
+  `organization_id` int(10) NOT NULL,
+  `tagline` varchar(40) NOT NULL,
+  `description` text NOT NULL,
+  `address` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -292,6 +311,13 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`_id`);
 
 --
+-- Chỉ mục cho bảng `website`
+--
+ALTER TABLE `website`
+  ADD PRIMARY KEY (`_id`),
+  ADD KEY `fk_web_organization_id` (`organization_id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -329,13 +355,13 @@ ALTER TABLE `priceoptions`
 -- AUTO_INCREMENT cho bảng `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `registrationrequires`
 --
 ALTER TABLE `registrationrequires`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `registrations`
@@ -348,6 +374,12 @@ ALTER TABLE `registrations`
 --
 ALTER TABLE `users`
   MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `website`
+--
+ALTER TABLE `website`
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -402,6 +434,12 @@ ALTER TABLE `registrationrequires`
 ALTER TABLE `registrations`
   ADD CONSTRAINT `fk_registration_program_id` FOREIGN KEY (`program_id`) REFERENCES `programs` (`_id`),
   ADD CONSTRAINT `fk_res_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`_id`);
+
+--
+-- Các ràng buộc cho bảng `website`
+--
+ALTER TABLE `website`
+  ADD CONSTRAINT `fk_web_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
