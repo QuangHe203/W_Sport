@@ -62,7 +62,7 @@
                         <input id="btn" type="button" value="Register">
                     </div>
                     <div class="time_reg">
-                        <<<<<<< HEAD <p><strong>Start: <?php echo $data['startDate']; ?></strong> </p>
+                        <<<<<<< HEAD <p><strong>Start: <?php echo $row['startDate']; ?></strong> </p>
 
                             <p><strong>Start: <?php echo $row['startDate']; ?></strong> </p>
 
@@ -82,8 +82,8 @@
                     <h4>About</h4>
                 </div>
                 <div class="item">
-                    <p class="item_title"><?php echo $data['organization_name']; ?></p>
-                    <p class="item_main"><?php echo $data['description']; ?></p>
+                    <p class="item_title"><?php echo $row['organization_name']; ?></p>
+                    <p class="item_main"><?php echo $row['description']; ?></p>
 
                     <p class="item_title"><?php echo $row['organization_name']; ?></p>
                     <p class="item_main"><?php echo $row['description']; ?></p>

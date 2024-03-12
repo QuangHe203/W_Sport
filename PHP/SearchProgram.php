@@ -75,7 +75,7 @@
             }
 
         ?>
-            <a class="container" href="../PHP/programDetail.php">
+            <a class="container" href="../PHP/programDetail.php" onclick="saveProgram()">
                 <div class="profile">
                     <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
                 </div>

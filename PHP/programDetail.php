@@ -22,7 +22,6 @@ $stmt->bind_param("s", $programId);
 $stmt->execute();
 $result = $stmt->get_result();
 
-//  tra xem có dữ liệu hay không
 if ($result->num_rows > 0) 
     $row = $result->fetch_assoc();
     $stmt->close();
@@ -37,7 +36,6 @@ if ($result->num_rows > 0)
                     </a>
                 </div>
     
-                <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>

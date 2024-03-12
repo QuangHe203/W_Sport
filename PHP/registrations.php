@@ -16,6 +16,18 @@
     $stmt->execute();
     $result = $stmt->get_result();
 
+    if ($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['del_registration']) ) {
+      $del_id=$_POST['del_id'];
+      if ($connect->connect_error) {
+
+      } else {
+        $stmt=$connect->prepare("DELETE FROM registrations WHERE _id = ?");
+        $stmt->bind_param("s", $del_id);
+        $stmt->execute();
+        $stmt->close();
+      }
+    }    
+
   if ($result->num_rows > 0) {
   ?>
 
@@ -89,6 +101,10 @@
             <p class="active"><?php echo $row['note']; ?></p>
           </div>
           <p class="more-link" onclick="toggleMore()">More...</p>
+          <form action="" method="post">
+              <input type="hidden" name="del_id" value="<?php echo $row['_id'];?>">
+              <input type="submit" value="Delete" name="del_registration">
+            </form>
         </div>
       </div>
       <?php

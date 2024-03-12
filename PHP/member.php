@@ -17,8 +17,6 @@
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-    
-                <!--khi đã đăng nhập, hiển thị profile-->
                 <div class="nav_profile">
                     <div class="items">
                         <a href="../PHP/Profile.php" class="sign_up"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"></a>
@@ -90,6 +88,10 @@
                     <p><strong>Phone:</strong> <?php echo $row['phone']; ?></p>
                 
                     <p class="more-link" onclick="toggleMore()">More...</p>
+                    <form action="" method="post">
+              <input type="hidden" name="del_id" value="<?php echo $row['_id'];?>">
+              <input type="submit" value="Delete" name="del_member">
+            </form>
                 </div>
             </div>
 
