@@ -11,28 +11,28 @@
 <body>
 
     <?php
-    require_once 'ConnectData.php';
+    require_once 'ConnectData.php';    
+    
+
+    $programId = isset($_GET['programId']) ? $_GET['programId'] : null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $gender = $_POST['gender'];
     $role = $_POST['role'];
     $teamName = $_POST['teamName'];
     $price = $_POST['price'];
     $note = $_POST['note'];
 
-    session_start();
-    $programId = $_SESSION['program_id'];
 
-    $stmt = $connect->prepare("INSERT INTO registrations (program_id, name, email, phone, gender, role, team_name, price_option, note) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issssss", $programId,  $phone, $gender, $role, $teamName, $price, $note);
-    
+
+    $stmt = $connect->prepare("INSERT INTO registrations (program_id, user_id, organization_id, name, email, phone, role, team, priceOption, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssss", $programId, $user_id, $organization_id, $name, $email, $phone, $role, $teamName, $price, $note);
     if ($stmt->execute()) {
-        echo "Registration successful!";
+        echo '<script>alert("Registration successful!");</script>';
     } else {
-        echo "Error: " . $stmt->error;
+        echo '<script>alert("Error: ' . $stmt->error . '");</script>';
     }
 
     $stmt->close();
@@ -48,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </a>
                 </div>
     
-                <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
@@ -82,11 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
     
                 <div class="input_web">
-                    <label for="gender">Gender: </label>
-                    <input class="inp_program" type="text" id="gender" required="required" placeholder="Enter your Gender" name="gender">
-                </div>
-
-                <div class="input_web">
                     <label for="role">Role:</label>
                     <input class="inp_program" type="text" id="role" required="required" placeholder="Enter your Role" name="role">
                 </div>
@@ -107,7 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <textarea class="inp_descrip " name="note" id="note" cols="30" rows="2" placeholder="Enter your Note"></textarea>
                 </div>  
     
-                <!--Submit-->
                 <div class="input_web submit">
                     <input type="submit" name="" id="submit-btn" value="Register">
                 </div>

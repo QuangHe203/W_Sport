@@ -90,6 +90,10 @@
                     <p><strong>Phone:</strong> <?php echo $row['phone']; ?></p>
                 
                     <p class="more-link" onclick="toggleMore()">More...</p>
+                    <form action="" method="post">
+              <input type="hidden" name="del_id" value="<?php echo $row['_id'];?>">
+              <input type="submit" value="Delete" name="del_member">
+            </form>
                 </div>
             </div>
 

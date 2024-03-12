@@ -12,13 +12,27 @@
 <body>
     <?php
     require_once 'ConnectData.php';
-    $stmt = $connect->prepare("SELECT * from website");
-    $stmt = $connect->prepare("SELECT * from programs");
+
+    $stmt = $connect->prepare("SELECT * FROM website CROSS JOIN programs");
     $stmt->execute();
     $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+
+    while ($row = $result->fetch_assoc()) {
+        $organization_name = $row['organization_name'];
+        $tagline = $row['tagline'];
+        $description = $row['description'];
+        $address = $row['address'];
+
+        $title = $row['title'];
+        $sport = $row['sport'];
+        $typeGame = $row['type'];
+        $startDate = $row['startDate'];
+        $dailyStart = $row['dailyStart'];
+        $duration = $row['duration'];
+    }
+
     $stmt->close();
-    ?>
+?>
 
 
     <div class="navbar">
@@ -43,8 +57,8 @@
     <div class="main">
         <div class="header">
 
-            <h2><?php echo "Organization_name" . $row['organization_name']; ?></h2>
-            <p><?php echo "tagline" . $row['tagline']; ?></p>
+            <h2><?php echo $organization_name ?></h2>
+            <p><?php  echo $tagline?></p>
 
         </div>
 
@@ -57,17 +71,19 @@
                     <div class="reg">
                         <div>
                             <a href=""></a>
-                            <p>+ </p>
+                            <p> <?php echo $title?> </p>
                         </div>
                         <input id="btn" type="button" value="Register">
                     </div>
                     <div class="time_reg">
-                        <<<<<<< HEAD <p><strong>Start: <?php echo $data['startDate']; ?></strong> </p>
+                         <p><strong>Sport: <?php echo $sport ?></strong> </p>
 
-                            <p><strong>Start: <?php echo $row['startDate']; ?></strong> </p>
+                         <p><strong>Type Game: <?php echo $typeGame ?></strong> </p>
 
-                            <p><strong>Start Register: </strong></p>
-                            <p><strong>End Register: </strong> </p>
+                            <p><strong>Start Date: <?php echo $startDate ?></strong> </p>
+
+                            <p><strong>Daily Start: <?php echo $dailyStart?></strong></p>
+                            <p><strong>Duration: <?php  echo $duration ?> </strong> </p>
                     </div>
 
                     <div class="free">
@@ -82,19 +98,13 @@
                     <h4>About</h4>
                 </div>
                 <div class="item">
-                    <p class="item_title"><?php echo $data['organization_name']; ?></p>
-                    <p class="item_main"><?php echo $data['description']; ?></p>
-
-                    <p class="item_title"><?php echo $row['organization_name']; ?></p>
-                    <p class="item_main"><?php echo $row['description']; ?></p>
-
+                    <p class="item_title"><?php echo $organization_name ?></p>
+                    <p class="item_main"><?php echo $tagline ?></p>
                 </div>
-
                 <div class="item">
                     <p class="item_title">Location</p>
-                    <p class="item_main"><?php echo $row['address']; ?></p>
+                    <p class="item_main"><?php echo $address ?></p>
                 </div>
-
                 <div class="item">
                     <p class="item_title">Contact</p>
                     <p class="item_main"><i class="fas fa-envelope"></i>abc@gmail.com</p>

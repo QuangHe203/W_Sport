@@ -21,7 +21,6 @@
                     </a>
                 </div>
 
-                <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
@@ -59,7 +58,7 @@
     while ($row = $result->fetch_assoc()) {
         
         ?>  
-        <a class="container" href="../PHP/programDetail.php" onclick="saveProgramId()">
+        <a class="container" href="../PHP/programDetail.php?programId=<?php echo urlencode($row['_id']); ?>">
             <div class="profile">
                 <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
             </div>
@@ -73,22 +72,6 @@
     
     <?php
             }
-
-        ?>
-            <a class="container" href="../PHP/programDetail.php">
-                <div class="profile">
-                    <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
-                </div>
-                <div class="info">
-                    <p class="program_name"><?php echo $row['title']; ?></p>
-                    <p class="program_title">Sport: <?php echo $row['sport'] ?></p>
-                    <p class="program_organ">Organization: <?php echo $row['organization_name']; ?></p>
-                    <p class="program_address">Location: <?php echo $row['location'] ?></p>
-                </div>
-            </a>
-
-        <?php
-        
 
         ?>
     </div>
