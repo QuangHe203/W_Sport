@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $connect->prepare("INSERT INTO registrations (program_id, user_id, organization_id, name, email, phone, role, team, priceOption, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssssssss", $programId, $user_id, $organization_id, $name, $email, $phone, $role, $teamName, $price, $note);
+
     if ($stmt->execute()) {
         echo '<script>alert("Registration successful!");</script>';
     } else {

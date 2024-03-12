@@ -72,7 +72,6 @@
     
     <?php
             }
-
         ?>
     </div>
     <script>

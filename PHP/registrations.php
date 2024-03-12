@@ -26,7 +26,7 @@
         $stmt->execute();
         $stmt->close();
       }
-    }  
+    }    
 
   if ($result->num_rows > 0) {
   ?>

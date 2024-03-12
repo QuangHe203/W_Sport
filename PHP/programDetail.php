@@ -51,9 +51,14 @@ $stmt->close();
         <div class="info">
           <div class="reg">
             <div>
-              
               <p></p>
               <p>+ San Van Dong A</p>
+                <div class="nav_profile">
+                    <div class="dashboard">
+                        <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
+                        <p><img src="../img/profile.jpg" alt=""></p>
+                    </div>
+                </div>
             </div>
             <input id="btn" type="button" value="Register">
           </div>

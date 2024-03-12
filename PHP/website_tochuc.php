@@ -76,8 +76,8 @@
                         <input id="btn" type="button" value="Register">
                     </div>
                     <div class="time_reg">
-                         <p><strong>Sport: <?php echo $sport ?></strong> </p>
 
+                         <p><strong>Sport: <?php echo $sport ?></strong> </p>
                          <p><strong>Type Game: <?php echo $typeGame ?></strong> </p>
 
                             <p><strong>Start Date: <?php echo $startDate ?></strong> </p>
@@ -98,8 +98,10 @@
                     <h4>About</h4>
                 </div>
                 <div class="item">
+
                     <p class="item_title"><?php echo $organization_name ?></p>
                     <p class="item_main"><?php echo $tagline ?></p>
+
                 </div>
                 <div class="item">
                     <p class="item_title">Location</p>

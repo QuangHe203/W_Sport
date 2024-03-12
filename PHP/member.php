@@ -17,8 +17,6 @@
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-    
-                <!--khi đã đăng nhập, hiển thị profile-->
                 <div class="nav_profile">
                     <div class="items">
                         <a href="../PHP/Profile.php" class="sign_up"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"></a>
