@@ -11,7 +11,10 @@
 <body>
 
     <?php
-    require_once 'ConnectData.php';
+    require_once 'ConnectData.php';    
+    
+
+    $programId = isset($_GET['programId']) ? $_GET['programId'] : null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
@@ -22,12 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price = $_POST['price'];
     $note = $_POST['note'];
 
-    // $programId = $_SESSION['program_id'];
-   $programId = 20;
 
-   $stmt = $connect->prepare("INSERT INTO registrations (program_id, user_id, organization_id, name, email, phone, role, team, priceOption, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-   $stmt->bind_param("ssssssssss", $programId, $user_id, $organization_id, $name, $email, $phone, $role, $teamName, $price, $note);
-    
+
+    $stmt = $connect->prepare("INSERT INTO registrations (program_id, user_id, organization_id, name, email, phone, role, team, priceOption, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssss", $programId, $user_id, $organization_id, $name, $email, $phone, $role, $teamName, $price, $note);
+
     if ($stmt->execute()) {
         echo '<script>alert("Registration successful!");</script>';
     } else {
@@ -47,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </a>
                 </div>
     
-                <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../PHP/itemmenu.php">Go to Dashboard</a></p>
@@ -101,7 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <textarea class="inp_descrip " name="note" id="note" cols="30" rows="2" placeholder="Enter your Note"></textarea>
                 </div>  
     
-                <!--Submit-->
                 <div class="input_web submit">
                     <input type="submit" name="" id="submit-btn" value="Register">
                 </div>
