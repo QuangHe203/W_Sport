@@ -134,7 +134,7 @@
     </div>
 
     <div class="name_programs">
-        <h3><?php echo $row['title']?></h3>
+        <h3><?php echo $dataProgram['title']?></h3>
     </div>
 
     <div class="menu_setting">

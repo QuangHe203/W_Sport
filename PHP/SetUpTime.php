@@ -34,7 +34,7 @@
             die('Cannot connect to database' . $connect_error);
         } else {
             $stmt = $connect->prepare("UPDATE programs SET startDate=?, dailyStart=?, duration=?, dailyMatch=? WHERE _id=?");
-            $stmt->bind_param("sssss", $startDate, $dailyStart, $duration, $dailyMatch, $program_id);
+            $stmt->bind_param("sssss", $startDate, $dailyStart, $duration, $dailyMatch, $_SESSION["program_id"]);
         }
         if ($stmt->execute()) {
             $stmt->close();

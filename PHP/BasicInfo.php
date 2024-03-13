@@ -33,11 +33,11 @@
             die('Cannot connect to database' . $connect_error);
         } else {
             $stmt = $connect->prepare("UPDATE programs SET subTitle=?, description=?, location=? WHERE _id=?");
-            $stmt->bind_param("ssss", $subtitle, $description, $location, $program_id);
+            $stmt->bind_param("ssss", $subtitle, $description, $location, $_SESSION['program_id']);
         }
         if ($stmt->execute()) {
             $stmt->close();
-            header("Location: SetUpTime.php");
+            header("Location: BasicInfor.php");
             exit();
         } else {
             echo "Error" . $stmt->error;

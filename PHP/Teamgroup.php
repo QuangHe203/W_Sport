@@ -13,6 +13,17 @@
 </head>
 
 <body>
+
+<?php
+    require_once 'ConnectData.php';
+
+     $stmt = $connect->prepare("SELECT * FROM programs WHERE _id = ?");
+     $stmt->bind_param("s", $_SESSION["program_id"]);
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $dataProgram = $result->fetch_assoc(); //Data program
+     $stmt->close();
+?>
 <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
@@ -35,7 +46,7 @@
     </div>
 
     <div class="name_programs">
-        <h3><?php echo $row['title']?></h3>
+        <h3><?php echo $dataProgram['title']?></h3>
     </div>
 
     <div class="menu_setting">

@@ -16,6 +16,13 @@
     <?php
     require_once 'ConnectData.php';
 
+    $stmt = $connect->prepare("SELECT * FROM programs WHERE _id = ?");
+     $stmt->bind_param("s", $_SESSION["program_id"]);
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $dataProgram = $result->fetch_assoc(); //Data program
+     $stmt->close();
+
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addGame"])) {
         $team1 = $_POST["nameTeam1"];
         $team2 = $_POST["nameTeam2"];
@@ -34,13 +41,6 @@
         } else {
             echo "Error" . $stmt->error;
         }
-        $stmt=$connect->prepare("SELECT * FROM games WHERE program_id = ?");
-        $stmt->bind_param("s", $_SESSION["program_id"]);
-        $stmt->execute();
-        $result=$stmt->get_result();
-        $dataGame=$result->num_rows; //Data games
-        $stmt->close();
-        $connect->close();
     }
 
     $stmt = $connect->prepare("SELECT * FROM games WHERE program_id = ? ORDER BY startDate ASC");
@@ -73,7 +73,7 @@
     </div>
 
     <div class="name_programs">
-        <h3><?php echo $row['title']?></h3>
+        <h3><?php echo $dataProgram['title']?></h3>
     </div>
 
     <div class="menu_setting">
@@ -495,7 +495,6 @@
                         </div>
                     </div>
                 </div>
->>>>>>> 87f15928a7ac3d0a82983dd878e2d0e49f6ed18f
 
                     <div class="view_info">
                         <div class="time">
