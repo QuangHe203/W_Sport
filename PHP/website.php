@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/website.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 
 <body>
@@ -37,8 +38,6 @@
                 <div class="logo">
 
                     <a href="index.php" class="logo-title">
-
-
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>

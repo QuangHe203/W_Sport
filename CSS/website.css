@@ -14,6 +14,8 @@ body{
 /*nav*/
 .navbar {
     width: 100%;
+    max-width: 1360px; 
+    margin: 0 auto;
   }
   
   .navbar-content .navbar-item{
@@ -33,7 +35,6 @@ body{
   }
   .navbar-item .items a.sign_in{
     font-weight: 500;
-    /* background: white; */
     color: #718096;
     padding: 5px 15px 0 20px;
     font-size: 15px;
@@ -76,7 +77,6 @@ body{
     padding: 65px 0px;
     position: fixed;
   }
-  
   
   
   .wrapper .sidebar ul li{
