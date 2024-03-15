@@ -37,7 +37,7 @@
     width: 550px;
     padding-bottom: 10px;
 }
-.cre_gr .closeicon i{
+.cre_gr .closeicon button{
     color: red;
     position: absolute;
     left: 555px;
