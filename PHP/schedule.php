@@ -17,11 +17,11 @@
     require_once 'ConnectData.php';
 
     $stmt = $connect->prepare("SELECT * FROM programs WHERE _id = ?");
-     $stmt->bind_param("s", $_SESSION["program_id"]);
-     $stmt->execute();
-     $result = $stmt->get_result();
-     $dataProgram = $result->fetch_assoc(); //Data program
-     $stmt->close();
+    $stmt->bind_param("s", $_SESSION["program_id"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataProgram = $result->fetch_assoc(); //Data program
+    $stmt->close();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addGame"])) {
         $team1 = $_POST["nameTeam1"];
@@ -258,9 +258,6 @@
                     <p class="unpub">Unpublish event</p>
                 </div>
             </form>
-
-
-
         </div>
         <div class="create_web">
 

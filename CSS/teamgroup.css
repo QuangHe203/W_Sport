@@ -106,8 +106,16 @@ input#submit-btn:hover{
     border: 1px solid #ccc;
 }
 
+.add_member_popup #type {
+    width: calc(100% - 16px);
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
 .add_member_popup .button_container {
-    padding-top: 55px;
+    padding-top: 30px;
     padding-left: 280px;
 }
 
@@ -134,8 +142,8 @@ input#submit-btn:hover{
 /* CSS cho nút plus */
 .add_member_button {
     position: fixed;
-    bottom: 150px;
-    right: 20px;
+    top: 200px;
+    right: 400px;
     background-color: green;
     color: white;
     font-size: 24px;

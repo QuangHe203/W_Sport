@@ -33,8 +33,6 @@
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-
-                <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../php/itemmenu.php">Go to Dashboard</a></p>
@@ -71,10 +69,6 @@
                 });
             });
         });
-        window.onload = function() {
-            var iframe = document.getElementsByName("content")[0];
-            iframe.src = "../PHP/BasicInfo.php";
-        };
     </script>
 </body>
 

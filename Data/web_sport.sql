@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 11, 2024 lúc 06:54 PM
+-- Thời gian đã tạo: Th3 15, 2024 lúc 12:12 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -65,6 +65,18 @@ CREATE TABLE `games` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `groups`
+--
+
+CREATE TABLE `groups` (
+  `_id` int(10) NOT NULL,
+  `program_id` int(10) NOT NULL,
+  `name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `members`
 --
 
@@ -74,7 +86,7 @@ CREATE TABLE `members` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `name` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `phone` int(20) NOT NULL
+  `phone` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -97,7 +109,8 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`_id`, `name`, `owner`, `tagline`, `description`, `publish`) VALUES
-(4, 'PKA_FC', 4, '', 'Dương Nội 2, Yên Nghĩa, Hà Đông, Hà Nội', 0);
+(4, 'PKA_FC', 4, '', 'Dương Nội 2, Yên Nghĩa, Hà Đông, Hà Nội', 0),
+(5, 'PKA_FC', 6, '', 'Quyfnh Minh, Quỳnh Lưu, Nghệ An', 0);
 
 -- --------------------------------------------------------
 
@@ -113,6 +126,13 @@ CREATE TABLE `priceoptions` (
   `quantity` int(5) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `priceoptions`
+--
+
+INSERT INTO `priceoptions` (`_id`, `regisRequire_id`, `priceName`, `price`, `quantity`, `status`) VALUES
+(14, 10, 'FEE1', 100, 1000000, 0);
 
 -- --------------------------------------------------------
 
@@ -149,8 +169,10 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`_id`, `organization_id`, `title`, `subTitle`, `description`, `sport`, `type`, `public`, `openRegister`, `teams`, `groups`, `publicGame`, `publicEvent`, `regisRequire`, `location`, `startDate`, `dailyStart`, `duration`, `dailyMatch`, `createdAT`, `updateAT`) VALUES
-(13, 4, ' PKA_FB', '', '', 'Football', 'League', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(18, 4, ' PKA_FC', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '2024-03-02', '07:20', 30, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(20, 4, 'hr', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(21, 4, 'aa', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(22, 4, 'bb', '', '', 'VolleyBall', 'Tounament', 0, 0, '', '', 0, 0, '', '', '0000-00-00', '', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(23, 4, 'PKA_FC', 'Come and join !!!', 'A sport evnent for everyone who love sport.', 'Football', 'League', 0, 1, '', '', 0, 0, '', 'Yên Nghĩa, Hà Đông, Hà Nội', '2024-03-13', '07:10', 30, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -181,7 +203,10 @@ CREATE TABLE `registrationrequires` (
 --
 
 INSERT INTO `registrationrequires` (`_id`, `program_id`, `name_email`, `phone`, `birthday`, `gender`, `individualPlayer`, `teamPlayer`, `coach`, `staff`, `individual`, `startDate`, `startTime`, `endDate`, `endTime`) VALUES
-(3, 18, 1, 1, 0, 1, 1, 1, 0, 0, 0, '2024-03-01', '06:00:00', '2024-03-10', '17:00:00');
+(7, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '00:00:00', '0000-00-00', '00:00:00'),
+(8, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '00:00:00', '0000-00-00', '00:00:00'),
+(9, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '00:00:00', '0000-00-00', '00:00:00'),
+(10, 23, 1, 1, 1, 1, 0, 1, 1, 1, 1, '2024-03-15', '07:00:00', '2024-03-22', '17:00:00');
 
 -- --------------------------------------------------------
 
@@ -200,6 +225,25 @@ CREATE TABLE `registrations` (
   `note` varchar(40) NOT NULL,
   `phone` varchar(30) NOT NULL,
   `email` varchar(60) NOT NULL,
+  `name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `registrations`
+--
+
+INSERT INTO `registrations` (`_id`, `program_id`, `user_id`, `organization_id`, `role`, `team`, `priceOption`, `note`, `phone`, `email`, `name`) VALUES
+(9, 20, 6, 5, 'Staff', 'a', 0, '', '0377556203', 'quanghe2003@gmail.com', 'Nguyễn Quang Hệ');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `teams_players`
+--
+
+CREATE TABLE `teams_players` (
+  `_id` int(10) NOT NULL,
+  `program_id` int(10) NOT NULL,
   `name` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -227,7 +271,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`_id`, `username`, `password`, `name`, `email`, `birthday`, `gender`, `phone`, `avatar`) VALUES
 (4, ' quanghe203', '33333333', 'Nguyễn Quang Hệ', ' Quanghe2003@gmail.com', '2003-01-25', 'Male', '0377556203', '../Image/IMG_3087.JPG'),
-(5, 'Long2024', '2024', 'Hồ Văn Long', 'Long2024@gmail.com', '2024-01-01', 'Female', '012345678', '../Image/profile.jpg');
+(5, 'Long2024', '2024', 'Hồ Văn Long', 'Long2024@gmail.com', '2024-01-01', 'Female', '012345678', '../Image/profile.jpg'),
+(6, 'quanghe203', '33333333', 'Nguyễn Quang Hệ', 'Quanghe2003@gmail.com', '2003-01-25', 'Male', '0377556203', '../Image/IMG_3087.JPG');
 
 -- --------------------------------------------------------
 
@@ -260,6 +305,13 @@ ALTER TABLE `events`
 ALTER TABLE `games`
   ADD PRIMARY KEY (`_id`),
   ADD KEY `fk_programid_game` (`program_id`);
+
+--
+-- Chỉ mục cho bảng `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`_id`),
+  ADD KEY `fk_program_id` (`program_id`);
 
 --
 -- Chỉ mục cho bảng `members`
@@ -305,6 +357,13 @@ ALTER TABLE `registrations`
   ADD KEY `fk_res_organization_id` (`organization_id`);
 
 --
+-- Chỉ mục cho bảng `teams_players`
+--
+ALTER TABLE `teams_players`
+  ADD PRIMARY KEY (`_id`),
+  ADD KEY `fk_program_id2` (`program_id`);
+
+--
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
@@ -334,46 +393,58 @@ ALTER TABLE `games`
   MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT cho bảng `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `members`
 --
 ALTER TABLE `members`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `priceoptions`
 --
 ALTER TABLE `priceoptions`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `registrationrequires`
 --
 ALTER TABLE `registrationrequires`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `registrations`
 --
 ALTER TABLE `registrations`
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT cho bảng `teams_players`
+--
+ALTER TABLE `teams_players`
   MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `website`
@@ -396,6 +467,12 @@ ALTER TABLE `events`
 --
 ALTER TABLE `games`
   ADD CONSTRAINT `fk_programid_game` FOREIGN KEY (`program_id`) REFERENCES `programs` (`_id`);
+
+--
+-- Các ràng buộc cho bảng `groups`
+--
+ALTER TABLE `groups`
+  ADD CONSTRAINT `fk_program_id` FOREIGN KEY (`program_id`) REFERENCES `programs` (`_id`);
 
 --
 -- Các ràng buộc cho bảng `members`
@@ -434,6 +511,12 @@ ALTER TABLE `registrationrequires`
 ALTER TABLE `registrations`
   ADD CONSTRAINT `fk_registration_program_id` FOREIGN KEY (`program_id`) REFERENCES `programs` (`_id`),
   ADD CONSTRAINT `fk_res_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`_id`);
+
+--
+-- Các ràng buộc cho bảng `teams_players`
+--
+ALTER TABLE `teams_players`
+  ADD CONSTRAINT `fk_program_id2` FOREIGN KEY (`program_id`) REFERENCES `programs` (`_id`);
 
 --
 -- Các ràng buộc cho bảng `website`

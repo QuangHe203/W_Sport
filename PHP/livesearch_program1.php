@@ -46,7 +46,7 @@ function getData($query)
                             <p class="program_time">' . formatDate($row['startDate']) . '</p>';
 
             if ($row['openRegister'] == 1) {
-                $output .= '<p class="program_sta">Published</p>';
+                $output .= '<p class="program_sta" style="color:green;">Published</p>';
             } else {
                 $output .= '<p class="program_sta" style="color: red;">Unpublished</p>';
             }

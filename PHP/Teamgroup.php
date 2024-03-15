@@ -23,6 +23,22 @@
      $result = $stmt->get_result();
      $dataProgram = $result->fetch_assoc(); //Data program
      $stmt->close();
+
+    $stmt = $connect->prepare("SELECT * FROM groups WHERE program_id = ?");
+    $stmt->bind_param("s", $_SESSION["program_id"]);
+    $stmt->execute();
+    $result1 = $stmt->get_result();
+    $dataGroup = $result1->fetch_assoc(); //Data group
+    $stmt->close();
+
+    $stmt = $connect->prepare("SELECT * FROM teams_players WHERE program_id = ?");
+    $stmt->bind_param("s", $_SESSION["program_id"]);
+    $stmt->execute();
+    $result2 = $stmt->get_result();
+    $dataTeams_Players = $result2->fetch_assoc(); //Data program
+    $stmt->close();
+
+
 ?>
 <div class="navbar">
         <div class="navbar-content">
@@ -64,34 +80,24 @@
                 <p class="header"><i class="fa fa-arrow-circle-up"></i>Edit Group</p>
                 <p class="note">Nhấp vào tên Group để sửa đổi. Ấn <span><i class="fa fa-plus-circle"></i></span> để thêm tên nhóm.</p>
                 <div class="name_group">
+                    <?php
+                        $query1 = "SELECT * FROM groups WHERE program_id = '" . $_SESSION['program_id'] . "'";
+                        $total_row1=mysqli_query($connect,$query1) or die('error');
+                        if (mysqli_num_rows($total_row1) > 0) {
+                            foreach ($total_row1 as $row1) {
+                    ?>
                     <div class="cre_gr">
                         <form action="" method="post">
-                            <input type="text">
+                            <input type="text" value="<?php echo $row1['name']?>">
                             <p class="closeicon">
                                 <i class="fa fa-window-close"></i>
                             </p>
                         </form>
                     </div>
-
-                    <div class="cre_gr">
-                        <form action="" method="post">
-                            <input type="text">
-                            <p class="closeicon">
-                                <i class="fa fa-window-close"></i>
-                            </p>
-                        </form>
-                    </div>
-
-                    <div class="cre_gr">
-                        <form action="" method="post">
-                            <input type="text">
-                            <p class="closeicon">
-                                <i class="fa fa-window-close"></i>
-                            </p>
-                        </form>
-                    </div>
-
-
+                    <?php
+                            } 
+                        }
+                    ?>
                 </div>
 
                 <!--Submit-->
@@ -104,8 +110,25 @@
         <form action="" method="post">
             <div class="edit">
                 <p class="header"><i class="fa fa-arrow-circle-up"></i>Edit Teams/Players</p>
-                <p class="note">Nhấp vào tên Group để sửa đổi. Ấn <span><i class="fa fa-plus-circle"></i></span> để thêm tên nhóm.</p>
+                <p class="note">Nhấp vào tên Team/Player để sửa đổi. Ấn <span><i class="fa fa-plus-circle"></i></span> để thêm tên nhóm.</p>
                 <div class="name_group">
+                <?php 
+                        if ($dataTeams_Players>0) {
+                            while ($inforTeams_Players=$result2->fetch_assoc()) {
+
+                    ?>
+                    <div class="cre_gr">
+                        <form action="" method="post">
+                            <input type="text" value="<?php echo $inforTeams_Players['name']?>">
+                            <p class="closeicon">
+                                <i class="fa fa-window-close"></i>
+                            </p>
+                        </form>
+                    </div>
+                    <?php
+                            } 
+                        }
+                    ?>
                     <div class="cre_gr">
                         <form action="" method="post">
                             <input type="text">
@@ -144,8 +167,13 @@
     <div class="overlay" id="overlay"></div>
     <div class="add_member_popup" id="addMemberPopup">
         <span class="close_popup_button" id="closePopupBtn"><i class="fa fa-times"></i></span>
-        <p class="popup_title">Add New Team/Player Name</p>
-        <label for="">Name:</label>
+        <p class="popup_title">Add New Team/Player/Group Name</p>
+        <label for="type">Type:</label>
+        <select name="type" id="type">
+            <option value="team_player">Team/Player</option>
+            <option value="group">Group</option>
+        </select>
+        <label for="name">Name:</label>
         <input class="inputText" type="text" placeholder="">
         <div class="button_container">
             <button id="closePopup" class="closeP">Close</button>
