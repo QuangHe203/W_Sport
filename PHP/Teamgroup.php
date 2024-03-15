@@ -48,7 +48,7 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["del_group"])) {
-        $id_group = $_POST["id"];
+        $id_group = $_POST["group_id"];
 
         $stmt = $connect->prepare("DELETE FROM groups WHERE _id=?");
         $stmt->bind_param("s", $id_group);
