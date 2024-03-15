@@ -6,7 +6,6 @@
     <title>Side Navigation Bar</title>
     <link rel="stylesheet" href="../css/itemmenu.css">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>

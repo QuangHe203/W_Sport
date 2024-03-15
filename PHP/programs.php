@@ -244,7 +244,7 @@
         function fetchdata() {
             var action = 'fetchData';
             $.ajax({
-                url: "livesearch_program.php",
+                url: "livesearch_program1.php",
                 method: "POST",
                 data: {
                     action: action
@@ -264,7 +264,7 @@
                 if (program_title != '') {
 
                     $.ajax({
-                        url: "livesearch_program.php",
+                        url: "livesearch_program1.php",
                         method: "POST",
                         data: {
                             action: action,
@@ -283,7 +283,7 @@
             var action = 'searchBySport';
             var program_sport = $(this).val();
             $.ajax({
-                url: "livesearch_program.php",
+                url: "livesearch_program1.php",
                 method: "POST",
                 data: {
                     action: action,
@@ -301,7 +301,7 @@
             var action = 'searchByType';
             var program_type = $(this).val();
             $.ajax({
-                url: "livesearch_program.php",
+                url: "livesearch_program1.php",
                 method: "POST",
                 data: {
                     action: action,

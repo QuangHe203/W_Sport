@@ -19,21 +19,32 @@
 
 .main .items{
     padding-top: 20px;
-    /* height: 400px; */
     background: #fff;
 }
-.main .items form #selec_program{
-    height: 30px;
-    padding: 5px 20px 5px 5px;
-}
-.main .items form .search{
-    width: 280px;
+.main .items form .search,
+.main .items form #sport,
+.main .items form #all,
+.main .items form #btn{
     height: 30px;
     margin: 10px;
-    padding: 0 10px;
 }
-.main .items form #sport{
+.main .items form .search{
+    width: 180px;
+}
+.main .items form #sport,
+.main .items form #all{
     width: 130px;
+}
+.main .items form #btn{
+    background: #17bf63;
+    color: white;
+    border: 1px solid #17bf63;
+    text-align: center;
+    cursor: pointer;
+    padding: 0px 24px;
+}
+.main .items form #btn:hover {
+    background-color: green; /* Màu nền khi di chuột qua */
 }
 .items .showResult{
     padding-left: 10px;
