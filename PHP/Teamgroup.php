@@ -72,8 +72,8 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_group"])) {
-        $group_data_string = $_POST['groupdata']; // Lấy chuỗi từ trường hidden
-        $group_data = explode(',', $group_data_string); // Chuyển chuỗi thành mảng
+        $group_data_string = $_POST['groupdata'];
+        $group_data = explode(',', $group_data_string);
     
         if (is_array($group_data)) {
             $size = count($group_data);
@@ -81,17 +81,14 @@
                 $group_id = $_POST['group_' . $group_data[$i]];
                 $group_name = $_POST['name_' . $group_data[$i]];
         
-                echo $group_id;
-                echo $group_name;
-        
-                /*$stmt = $connect->prepare("UPDATE groups SET name=? WHERE _id=?");
+                $stmt = $connect->prepare("UPDATE groups SET name=? WHERE _id=?");
                 $stmt->bind_param("ss", $group_name, $group_id);
         
                 if ($stmt->execute()) {
                     $stmt->close();
                 } else {
                     echo "Error: " . $stmt->error;
-                }*/
+                }
             }
         }
     }
@@ -149,10 +146,12 @@
                     ?>
                             <div class="cre_gr">
                                 <input type="text" name="name_<?php echo $row1['_id']; ?>" value="<?php echo $row1['name'] ?>">
+                                <form action="" method="post">
                                 <p class="closeicon">
                                     <button type="submit" name="del_group" class="fa fa-window-close"></button>
                                 </p>
                                 <input type="hidden" name="group_id" value="<?php echo $row1['_id']; ?>">
+                                </form>
                                 <input type="hidden" name="group_<?php echo $row1['_id']; ?>" value="<?php echo $row1['_id']; ?>">
                             </div>
                     <?php
