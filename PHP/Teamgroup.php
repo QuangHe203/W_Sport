@@ -60,7 +60,7 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["del_tpl"])) {
-        $id_tpl = $_POST["id"];
+        $id_tpl = $_POST["tpl_id"];
 
         $stmt = $connect->prepare("DELETE FROM teams_players WHERE _id=?");
         $stmt->bind_param("s", $id_tpl);
@@ -83,6 +83,28 @@
         
                 $stmt = $connect->prepare("UPDATE groups SET name=? WHERE _id=?");
                 $stmt->bind_param("ss", $group_name, $group_id);
+        
+                if ($stmt->execute()) {
+                    $stmt->close();
+                } else {
+                    echo "Error: " . $stmt->error;
+                }
+            }
+        }
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_tpl"])) {
+        $tpl_data_string = $_POST['tpldata'];
+        $tpl_data = explode(',', $tpl_data_string);
+    
+        if (is_array($tpl_data)) {
+            $size = count($tpl_data);
+            for ($i = 0; $i < $size; $i++) {
+                $tpl_id = $_POST['tpl_' . $tpl_data[$i]];
+                $tpl_name = $_POST['name_' . $tpl_data[$i]];
+        
+                $stmt = $connect->prepare("UPDATE teams_players SET name=? WHERE _id=?");
+                $stmt->bind_param("ss", $tpl_name, $tpl_id);
         
                 if ($stmt->execute()) {
                     $stmt->close();
@@ -178,26 +200,31 @@
                     $query2 = "SELECT * FROM teams_players WHERE program_id = '" . $_SESSION['program_id'] . "'";
                     $total_row2 = mysqli_query($connect, $query2) or die('error');
                     if (mysqli_num_rows($total_row2) > 0) {
+                        $count_tpl = 0;
+                        $tpl_data = [];
                         foreach ($total_row2 as $row2) {
+                            $tpl_data[$count_tpl] = $row2['_id'];
+                            $count_tpl++;
                     ?>
                             <div class="cre_gr">
+                                <input type="text" name="name_<?php echo $row2['_id']; ?>" value="<?php echo $row2['name'] ?>">
                                 <form action="" method="post">
-                                    <input type="text" value="<?php echo $row2['name']; ?>">
-                                    <p class="closeicon">
-                                        <button type="submit" name="del_tpl" class="fa fa-window-close"></button>
-                                    </p>
-                                    <input type="hidden" name="id" value="<?php echo $row2['_id']; ?>">
+                                <p class="closeicon">
+                                    <button type="submit" name="del_tpl" class="fa fa-window-close"></button>
+                                </p>
+                                <input type="hidden" name="tpl_id" value="<?php echo $row2['_id']; ?>">
                                 </form>
+                                <input type="hidden" name="tpl_<?php echo $row2['_id']; ?>" value="<?php echo $row2['_id']; ?>">
                             </div>
                     <?php
                         }
                     }
                     ?>
                 </div>
-
+                <input type="hidden" name="tpldata" value="<?php echo implode(',', $tpl_data); ?>">
                 <!--Submit-->
                 <div class="input_web submit">
-                    <input type="submit" name="" id="submit-btn" value="Save">
+                    <input type="submit" name="save_tpl" id="submit-btn" value="Save">
                 </div>
             </div>
         </form>
