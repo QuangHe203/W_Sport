@@ -72,28 +72,30 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_group"])) {
-        // Lấy giá trị ids và names từ form
-        $ids = $_POST["ids"];
-        $names = $_POST["name"];
-
-        // Loop qua các phần tử trong mảng ids
-        foreach ($ids as $key => $id) {
-            // Lấy tên tương ứng từ mảng names
-            $name = $names[$key];
-
-            $stmt = $connect->prepare("UPDATE groups SET name=? WHERE _id=?");
-            // Chỉnh sửa bind parameters để phù hợp với loại dữ liệu của trường _id
-            $stmt->bind_param("si", $name, $id);
-
-            if ($stmt->execute()) {
-                echo "Name updated successfully for ID: " . $id . "<br>";
-            } else {
-                echo "Error updating name for ID: " . $id . "<br>";
+        $group_data_string = $_POST['groupdata']; // Lấy chuỗi từ trường hidden
+        $group_data = explode(',', $group_data_string); // Chuyển chuỗi thành mảng
+    
+        if (is_array($group_data)) {
+            $size = count($group_data);
+            for ($i = 0; $i < $size; $i++) {
+                $group_id = $_POST['group_' . $group_data[$i]];
+                $group_name = $_POST['name_' . $group_data[$i]];
+        
+                echo $group_id;
+                echo $group_name;
+        
+                /*$stmt = $connect->prepare("UPDATE groups SET name=? WHERE _id=?");
+                $stmt->bind_param("ss", $group_name, $group_id);
+        
+                if ($stmt->execute()) {
+                    $stmt->close();
+                } else {
+                    echo "Error: " . $stmt->error;
+                }*/
             }
         }
     }
-
-
+    
     ?>
     <div class="navbar">
         <div class="navbar-content">
@@ -135,34 +137,37 @@
                 <p class="header"><i class="fa fa-arrow-circle-up"></i>Edit Group</p>
                 <p class="note">Nhấp vào tên Group để sửa đổi. Ấn <span><i class="fa fa-plus-circle"></i></span> để thêm tên nhóm.</p>
                 <div class="name_group">
-
                     <?php
                     $query1 = "SELECT * FROM groups WHERE program_id = '" . $_SESSION['program_id'] . "'";
                     $total_row1 = mysqli_query($connect, $query1) or die('error');
                     if (mysqli_num_rows($total_row1) > 0) {
+                        $count = 0;
+                        $group_data = [];
                         foreach ($total_row1 as $row1) {
-                            $group_data[$row1['_id']] = $row1['_id'];
+                            $group_data[$count] = $row1['_id'];
+                            $count++;
                     ?>
                             <div class="cre_gr">
-                                <form action="" method="post">
-                                    <input type="text" name="name_<?php echo $row1['_id']; ?>" value="<?php echo $row1['name'] ?>">
-                                    <p class="closeicon">
-                                        <button type="submit" name="del_group" class="fa fa-window-close"></button>
-                                    </p>
-                                    <input type="hidden" name="group_id" value="<?php echo $row1['_id']; ?>">
-                                </form>
+                                <input type="text" name="name_<?php echo $row1['_id']; ?>" value="<?php echo $row1['name'] ?>">
+                                <p class="closeicon">
+                                    <button type="submit" name="del_group" class="fa fa-window-close"></button>
+                                </p>
+                                <input type="hidden" name="group_id" value="<?php echo $row1['_id']; ?>">
+                                <input type="hidden" name="group_<?php echo $row1['_id']; ?>" value="<?php echo $row1['_id']; ?>">
                             </div>
                     <?php
                         }
                     }
                     ?>
                 </div>
+                <input type="hidden" name="groupdata" value="<?php echo implode(',', $group_data); ?>">
                 <!--Submit-->
                 <div class="input_web submit">
                     <input type="submit" name="save_group" id="submit-btn" value="Save">
                 </div>
             </div>
         </form>
+
 
 
         <form action="" method="post">
