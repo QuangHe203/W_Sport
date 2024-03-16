@@ -43,29 +43,22 @@
         }
     }
 
-    $stmt = $connect->prepare("SELECT * FROM games WHERE program_id = ? ORDER BY startDate ASC");
-    $stmt->bind_param("s", $_SESSION["program_id"]);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $dataGame = $result->num_rows; //Data games
-    $stmt->close();
-
     ?>
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="index.php" class="logo-title"> 
+                    <a href="index.php" class="logo-title">
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-    
+
                 <!--khi da dang nhap, hien thi profile-->
                 <div class="nav_profile">
                     <div class="dashboard">
                         <p class="goto"><a href="../php/Dashboard.php">Go to Dashboard</a></p>
                         <a href="../PHP/itemmenu.php"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"> </a>
-                        
+
                     </div>
                 </div>
             </div>
@@ -73,7 +66,7 @@
     </div>
 
     <div class="name_programs">
-        <h3><?php echo $dataProgram['title']?></h3>
+        <h3><?php echo $dataProgram['title'] ?></h3>
     </div>
 
     <div class="menu_setting">
@@ -100,20 +93,42 @@
                             <div class="inp_editGames">
                                 <label for="">Home Team:</label>
                                 <select name="nameTeam1" id="nameTeam1">
-                                    <option value="Đội A">Đội A</option>
-                                    <option value="Đội B">Đội B</option>
-                                    <option value="Đội C">Đội C</option>
-                                    <option value="Đội D">Đội D</option>
+                                    <?php
+                                    $query = "SELECT * from teams_players";
+                                    $total_row = mysqli_query($connect, $query) or die('error');
+                                    if (mysqli_num_rows($total_row) > 0) {
+                                        foreach ($total_row as $row) {
+                                    ?>
+                                            <option value="<?php echo $row['_id']; ?>">
+                                                <?php echo $row['name'] ?>
+                                            </option>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo 'No Data Found!';
+                                    }
+                                    ?>
                                 </select>
                             </div>
 
                             <div class="inp_editGames">
                                 <label for="">Away Team:</label>
                                 <select name="nameTeam2" id="nameTeam2">
-                                    <option value="Đội A">Đội A</option>
-                                    <option value="Đội B">Đội B</option>
-                                    <option value="Đội C">Đội C</option>
-                                    <option value="Đội D">Đội D</option>
+                                    <?php
+                                    $query = "SELECT * from teams_players";
+                                    $total_row = mysqli_query($connect, $query) or die('error');
+                                    if (mysqli_num_rows($total_row) > 0) {
+                                        foreach ($total_row as $row) {
+                                    ?>
+                                            <option value="<?php echo $row['_id']; ?>">
+                                                <?php echo $row['name'] ?>
+                                            </option>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo 'No Data Found!';
+                                    }
+                                    ?>
                                 </select>
                             </div>
 
@@ -126,9 +141,21 @@
                                 <label for="">Group</label>
                                 <select name="team" id="group" name="group">
                                     <option value="none">None</option>
-                                    <option value="a">A</option>
-                                    <option value="a">B</option>
-                                    <option value="a">C</option>
+                                    <?php
+                                    $query = "SELECT * from groups";
+                                    $total_row = mysqli_query($connect, $query) or die('error');
+                                    if (mysqli_num_rows($total_row) > 0) {
+                                        foreach ($total_row as $row) {
+                                    ?>
+                                            <option value=<?php echo $row['name']; ?>>
+                                                <?php echo $row['name'] ?>
+                                            </option>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo 'No Data Found!';
+                                    }
+                                    ?>
                                 </select>
                             </div>
 
@@ -148,8 +175,10 @@
                             <div class="inp_editGames">
                                 <label for="">Game Type</label>
                                 <select name="gameType" id="gameType">
-                                    <option value="regular season">REGULAR SEASON</option>
-                                    <option value="a">a</option>
+                                    <option value="Group stage">Group stage</option>
+                                    <option value="Quarter-finals">Quarter-finals</option>
+                                    <option value="Semi-finals">Semi-finals</option>
+                                    <option value="Finals">Finals</option>
                                 </select>
                             </div>
                             <div class="inp_editGames">
@@ -260,75 +289,74 @@
             </form>
         </div>
         <div class="create_web">
-
             <!--Schedule-->
             <div id="scheduleContent" class="content">
                 <?php
-                    if ($dataGame>0) {
-                        while ($inforGame=$result->fetch_assoc()) {
-                ?>
-                    <div class="view_info">
-                    <div class="time">
-                        <p>Thứ Bảy, 18 tháng 3, 2023</p>
-                    </div>
-
-                    <div class="match_location showMatch">
-                        <div class="info_match">
-                            <div class="info_time">
-                                <p>8:30</p>
-                                <p>AM</p>
-                            </div>
-                            
-                            <div class="info_nameclub">
-                                <div class="nameClub">
-                                    <p class="club1">ĐỘI A</p>
-                                    <p class="vs">vs</p>
-                                    <p class="club2">ĐỘI B</p>
-                                </div>
-                                <p class="nameplay">Team_Practice</p>
-                            </div>
-                        </div>
-                        <div class="info_loca more">
-                            <p class="stadium">Location: San Van Dong A</p>
-                            <form action="" method="post">
-                                <i class="fa fa-pencil-square-o"></i>
-                                <i class="fas fa-trophy"></i>
-                                <i class="fas fa-trash"></i>
-                            </form>
-                            
-                        </div>
-                    </div>
-
-                    <div class="match_location showMatch">
-                        <div class="info_match">
-                            <div class="info_time">
-                                <p>2:30</p>
-                                <p>PM</p>
-                            </div>
-                            
-                            <div class="info_nameclub">
-                                <div class="nameClub">
-                                    <p class="club1">ĐỘI C</p>
-                                    <p class="vs">vs</p>
-                                    <p class="club2">ĐỘI D</p>
-                                </div>
-                                <p class="nameplay">Regular_season</p>
-                            </div>
-                        </div>
-                        <div class="info_loca more">
-                            <p class="stadium">Location: San Van Dong A</p>
-                            <form action="" method="post">
-                                <i class="fa fa-pencil-square-o"></i>
-                                <i class="fas fa-trophy"></i>
-                                <i class="fas fa-trash"></i>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <?php            
-                        }
+                function getName($team_id)
+                {
+                    $connect = new mysqli("localhost", "root", "", "web_sport");
+                    if ($connect->connect_error) {
+                        echo "Connection error : " . $connect->connect_error;
                     }
+
+                    $stmt = $connect->prepare("SELECT name FROM teams_players WHERE _id = ?");
+                    $stmt->bind_param("s", $team_id);
+                    $stmt->execute();
+                    $stmt->bind_result($team_name);
+                    $stmt->fetch();
+                    $stmt->close();
+
+                    return $team_name;
+                }
+
+                $query_game = "SELECT * FROM games WHERE program_id= '" . $_SESSION['program_id'] . "'";
+                $total_row = mysqli_query($connect, $query_game) or die('error');
+                $prev_start_date = null;
+                if (mysqli_num_rows($total_row) > 0) {
+                    foreach ($total_row as $row) {
                 ?>
+                        <div class="view_info">
+                            <?php
+                            if ($row['startDate'] != $prev_start_date) {
+                                echo '
+                <div class="time">
+                    <p>' . formatDate($row['startDate']) . '</p>
+                </div>
+                ';
+                            }
+                            $prev_start_date = $row['startDate'];
+                            ?>
+
+                            <div class="match_location showMatch">
+                                <div class="info_match">
+                                    <div class="info_time">
+                                        <p><?php echo formatTime($row['startTime']); ?></p>
+                                    </div>
+
+                                    <div class="info_nameclub">
+                                        <div class="nameClub">
+                                            <p class="club1"><?php echo getName($row['team1']); ?></p>
+                                            <p class="vs">vs</p>
+                                            <p class="club2"><?php echo getName($row['team2']); ?></p>
+                                        </div>
+                                        <p class="nameplay"><?php echo $row['typeGame']; ?></p>
+                                    </div>
+                                </div>
+                                <div class="info_loca more">
+                                    <p class="stadium">Location: <?php echo $row['location']; ?></p>
+                                    <form action="" method="post">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                        <i class="fas fa-trophy"></i>
+                                        <i class="fas fa-trash"></i>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                <?php
+                    }
+                }
+                ?>
+
                 <div class="view_info">
                     <div class="time">
                         <p>Thứ Sáu, 17 tháng 3, 2023</p>
@@ -359,194 +387,28 @@
                         </div>
                     </div>
                 </div>
-
-                <?php
-                if ($dataGame > 0) {
-                    while ($inforGame = $result->fetch_assoc()) {
-                ?>
-                        <div class="view_info">
-                            <div class="time">
-                                <p><?php echo formatDate($inforGame['startDate']); ?></p>
-                            </div>
-
-                            <div class="match_location showMatch">
-                                <div class="info_match">
-                                    <div class="info_time">
-                                        <p><?php echo formatTime($inforGame['startTime']); ?></p>
-                                    </div>
-
-                                    <div class="info_nameclub">
-                                        <div class="nameClub">
-                                            <p class="club1"><?php echo $inforGame['team1']; ?></p>
-                                            <p class="vs">vs</p>
-                                            <p class="club2"><?php echo $inforGame['team2']; ?></p>
-                                        </div>
-                                        <p class="nameplay"><?php echo $inforGame['typeGame']; ?></p>
-                                    </div>
-                                </div>
-                                <div class="info_loca more">
-                                    <p class="stadium">Location: <?php echo $inforGame['location']; ?></p>
-                                    <form action="" method="post">
-                                        <i class="fa fa-pencil-square-o"></i>
-                                        <i class="fas fa-trophy"></i>
-                                        <i class="fas fa-trash"></i>
-                                    </form>
-
-                                </div>
-                            </div>
-                    <?php
-                    }
-                }
-                    ?>
-
-
-                <div class="view_info">
-                    <div class="time">
-                        <p>Thứ Bảy, 18 tháng 3, 2023</p>
-                    </div>
-
-                    <div class="match_location showMatch">
-                        <div class="info_match">
-                            <div class="info_time">
-                                <p>8:30</p>
-                                <p>AM</p>
-                            </div>
-                            
-                            <div class="info_nameclub">
-                                <div class="nameClub">
-                                    <p class="club1">ĐỘI A</p>
-                                    <p class="vs">vs</p>
-                                    <p class="club2">ĐỘI B</p>
-                                </div>
-                                <p class="nameplay">Team_Practice</p>
-                            </div>
-                        </div>
-                        <div class="info_loca more">
-                            <p class="stadium">Location: San Van Dong A</p>
-                            <form action="" method="post">
-                                <i class="fa fa-pencil-square-o"></i>
-                                <i class="fas fa-trophy"></i>
-                                <i class="fas fa-trash"></i>
-                            </form>
-                            
-                        </div>
-                    </div>
-
-                    <div class="match_location showMatch">
-                        <div class="info_match">
-                            <div class="info_time">
-                                <p>2:30</p>
-                                <p>PM</p>
-                            </div>
-                            
-                            <div class="info_nameclub">
-                                <div class="nameClub">
-                                    <p class="club1">ĐỘI C</p>
-                                    <p class="vs">vs</p>
-                                    <p class="club2">ĐỘI D</p>
-                                </div>
-                                <p class="nameplay">Regular_season</p>
-                            </div>
-                        </div>
-                        <div class="info_loca more">
-                            <p class="stadium">Location: San Van Dong A</p>
-                            <form action="" method="post">
-                                <i class="fa fa-pencil-square-o"></i>
-                                <i class="fas fa-trophy"></i>
-                                <i class="fas fa-trash"></i>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="view_info">
-                    <div class="time">
-                        <p>Chủ Nhật, 19 tháng 3, 2023</p>
-                    </div>
-
-                    <div class="match_location showMatch">
-                        <div class="info_match double">
-                            <div class="info_time doubleTime">
-                                <p>8:30</p>
-                                <p>AM-</p>
-                                <p>10:30</p>
-                                <p>AM</p>
-                            </div>
-                            
-                            <div class="info_nameclub doubleHour">
-                                <div class="nameClub ">
-                                    <p class="club1">ĐỘI E</p>
-                                    <p class="vs">vs</p>
-                                    <p class="club2">ĐỘI C</p>
-                                </div>
-                                <p class="nameplay">quarterfinals</p>
-                            </div>
-                        </div>
-                        <div class="info_loca more">
-                            <p class="stadium">Location: San Van Dong A</p>
-                            <form action="" method="post">
-                                <i class="fa fa-pencil-square-o"></i>
-                                <i class="fas fa-trophy"></i>
-                                <i class="fas fa-trash"></i>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                    <div class="view_info">
-                        <div class="time">
-                            <p>Thứ Hai, 20 tháng 3, 2023</p>
-                        </div>
-
-                        <div class="match_location ">
-                            <div class="info_match prac">
-                                <div class="info_time doubleTime">
-                                    <p>8:30</p>
-                                    <p>AM-</p>
-                                    <p>10:30</p>
-                                    <p>AM</p>
-                                </div>
-                                <div class="info_status practice">
-                                    <p class="prac_title">Practice</p>
-                                </div>
-                                <div class="info_name nameprac">
-                                    <p class="status">Practice Regular</p>
-                                    <p class="nameplay">Team/Player: Đội A</p>
-                                </div>
-                            </div>
-
-                            <div class="info_loca">
-                                <p class="stadium">Sân bóng B</p>
-                                <form action="" method="post">
-                                    <i class="fa fa-pencil-square-o"></i>
-                                    <i class="fas fa-trash"></i>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                        </div>
-            </div>
         </div>
-        <script>
-            document.getElementById('addGame').addEventListener('click', function() {
-                document.getElementById('editGamesPopup').style.display = 'block';
-            });
-            document.getElementById('close').addEventListener('click', function() {
-                document.getElementById('editGamesPopup').style.display = 'none';
-            });
-            document.querySelector('.close').addEventListener('click', function() {
-                document.getElementById('editGamesPopup').style.display = 'none';
-            });
-            document.querySelector('.closeE').addEventListener('click', function() {
-                document.getElementById('editEventsPopup').style.display = 'none';
-            });
-            document.getElementById('addEvent').addEventListener('click', function() {
-                document.getElementById('editEventsPopup').style.display = 'block';
-            });
-            document.getElementById('closeE').addEventListener('click', function() {
-                document.getElementById('editEventsPopup').style.display = 'none';
-            });
-        </script>
+    </div>
+    <script>
+        document.getElementById('addGame').addEventListener('click', function() {
+            document.getElementById('editGamesPopup').style.display = 'block';
+        });
+        document.getElementById('close').addEventListener('click', function() {
+            document.getElementById('editGamesPopup').style.display = 'none';
+        });
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('editGamesPopup').style.display = 'none';
+        });
+        document.querySelector('.closeE').addEventListener('click', function() {
+            document.getElementById('editEventsPopup').style.display = 'none';
+        });
+        document.getElementById('addEvent').addEventListener('click', function() {
+            document.getElementById('editEventsPopup').style.display = 'block';
+        });
+        document.getElementById('closeE').addEventListener('click', function() {
+            document.getElementById('editEventsPopup').style.display = 'none';
+        });
+    </script>
 </body>
 
 </html>
