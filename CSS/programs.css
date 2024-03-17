@@ -16,8 +16,13 @@ body{
   
 /*nav*/
 .navbar {
-    width: 100%;
-  }
+  width: 100%;
+  box-shadow: 5px 5px 5px rgb(210, 208, 208);
+  position: fixed; /* Thêm thuộc tính này để navbar giữ nguyên khi cuộn trang */
+  top: 0; /* Đặt navbar ở trên cùng của trang */
+  box-shadow: 5px 5px 5px rgb(210, 208, 208);
+  z-index: 999; /* Đảm bảo navbar hiển thị trên tất cả các phần khác */
+}
   
   .navbar-content .navbar-item{
     display: flex;
@@ -71,15 +76,19 @@ body{
   height: 500px;
 }
 
+/*
 .wrapper .sidebar{
   width: 200px;
   height: 100%;
   background: #a9f3a5;
   padding: 65px 0px;
   position: fixed;
+  padding-top: 150px;
 }
-
-
+*/
+#searchresult{
+  background-color: white;
+}
 
 .wrapper .sidebar ul li{
   list-style: none;
