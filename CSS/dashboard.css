@@ -24,6 +24,8 @@ body{
   top: 0; 
   z-index: 10000; 
   background-color: white;
+  box-shadow: 5px 5px 5px rgb(210, 208, 208);
+  
 }
 
 .navbar-content .navbar-item{
