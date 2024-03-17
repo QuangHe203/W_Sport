@@ -29,7 +29,7 @@
       }
     }    
 
-  if ($result->num_rows > 0) {
+  
   ?>
 
   <div class="navbar">
@@ -85,6 +85,7 @@
             </form>
 
       <?php
+      if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
       ?>
       <div class="container">
@@ -110,22 +111,13 @@
       </div>
       <?php
         }
+      }
       ?>
     </div>
   </div>
         </div>
   </div>
 
-  
-  <?php
-  } else {
-    echo "No data found";
-  }
-
-    $stmt->close();
-    
-    $connect->close();
-  ?>
 </body>
 
 </html>

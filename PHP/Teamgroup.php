@@ -256,19 +256,19 @@
         document.getElementById('openPopupBtn').addEventListener('click', function() {
             overlay.classList.add('show');
             popup.classList.add('show');
-            iframeOverlay.classList.add('show'); // Hiển thị overlay cho iframe
+            iframeOverlay.classList.add('show');
         });
 
         document.getElementById('closePopupBtn').addEventListener('click', function() {
             overlay.classList.remove('show');
             popup.classList.remove('show');
-            iframeOverlay.classList.remove('show'); // Ẩn overlay cho iframe
+            iframeOverlay.classList.remove('show');
         });
 
         document.getElementById('closePopup').addEventListener('click', function() {
             overlay.classList.remove('show');
             popup.classList.remove('show');
-            iframeOverlay.classList.remove('show'); // Ẩn overlay cho iframe
+            iframeOverlay.classList.remove('show');
         });
     </script>
 </body>
