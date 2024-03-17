@@ -243,14 +243,22 @@
     align-items: center;
 }
 .info_match .info_time{
-    width: 25px;
+    width: 190px;
     padding-right: 35px;
     font-size: 14px;
     margin-right: 20px;
 }
+.info_match .info_score{
+    width: 300px;
+    padding-left: 35px;
+    font-size: 20px;
+    margin-left: 20px;
+    align-items: left;
+}
 
 .info_match .info_status{
     width: 80px;
+    height: 30px;
     background: orange;
     position: relative;
     border-radius: 8px;
@@ -258,7 +266,7 @@
 .info_status p{
     position: absolute;
     top: 8px;
-    right: 10px;
+    left: 10px;
     color: cornsilk;
 }
 .info_name p.status{

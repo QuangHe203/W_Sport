@@ -33,15 +33,45 @@
         $typeGame = $_POST["gameType"];
         $gameNote = $_POST["gameNote"];
 
-        $stmt = $connect->prepare("INSERT INTO games (program_id, team1, team2, startDate, startTime, endTime, location, typeGame, gameNote) value (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $connect->prepare("INSERT INTO games (program_id, team1, team2, startDate, startTime, endTime, team1Score, team2Score, location, typeGame, gameNote) value (?, ?, ?, ?, ?, ?, '-', '-', ?, ?, ?)");
         $stmt->bind_param("sssssssss", $_SESSION["program_id"], $team1, $team2, $startDate, $startTime, $endTime, $location, $typeGame, $gameNote);
         if ($stmt->execute()) {
-            header("Location: schedule.PHP");
+            header("Location: schedule.php");
+            $stmt->close();
             exit();
         } else {
             echo "Error" . $stmt->error;
         }
     }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addEvent"])) {
+        $typeEvent = $_POST['typeEvent'];
+        $date = $_POST['date'];
+        $startTime = $_POST['startTime'];
+        $endTime = $_POST['endTime'];
+        $location = $_POST['location'];
+        $eventNote = $_POST['eventNote'];
+
+        $stmt = $connect->prepare("INSERT INTO events (program_id, typeEvent, location, startDate, startTime, endTime, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+        if (!$stmt) {
+            echo "Prepare failed: (" . $connect->errno . ") " . $connect->error;
+        }
+
+        if (!$stmt->bind_param("sssssss", $_SESSION["program_id"], $typeEvent, $location, $date, $startTime, $endTime, $eventNote)) {
+            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+        }
+
+        if ($stmt->execute()) {
+            header("Location: schedule.php");
+            $stmt->close();
+            exit();
+        } else {
+            // Nếu có lỗi, hiển thị thông báo lỗi
+            echo "Error: (" . $stmt->errno . ") " . $stmt->error;
+        }
+    }
+
 
     ?>
     <div class="navbar">
@@ -203,74 +233,48 @@
                             <span class="closeE">&times;</span>
                             <h2>Edit Events</h2>
                             <div class="inp_editGames">
-                                <label for="">Home Team:</label>
-                                <select name="team" id="nameTeam">
-                                    <option value="Đội A">Đội A</option>
-                                    <option value="Đội B">Đội B</option>
-                                    <option value="Đội C">Đội C</option>
-                                    <option value="Đội D">Đội D</option>
-                                </select>
-                            </div>
-
-                            <div class="inp_editGames">
-                                <label for="">Away Team:</label>
-                                <select name="team" id="nameTeam">
-                                    <option value="Đội A">Đội A</option>
-                                    <option value="Đội B">Đội B</option>
-                                    <option value="Đội C">Đội C</option>
-                                    <option value="Đội D">Đội D</option>
+                                <label for="">Type event:</label>
+                                <select name="typeEvent" id="typeEvent">
+                                    <option value="Opening ceremony">Opening ceremony</option>
+                                    <option value="Closing ceremony">Closing ceremony</option>
+                                    <option value="Award ceremony">Award ceremony</option>
+                                    <option value="Press conference">Press conference</option>
                                 </select>
                             </div>
 
                             <div class="inp_editGames">
                                 <label for="">Date:</label>
-                                <input type="date" id="date">
-                            </div>
-
-                            <div class="inp_editGames">
-                                <label for="">Group</label>
-                                <select name="team" id="group">
-                                    <option value="none">None</option>
-                                    <option value="a">a</option>
-                                </select>
+                                <input type="date" id="date" name="date">
                             </div>
 
                             <div class="inp_editGames">
                                 <label for="">Start Time</label>
-                                <input type="time" placeholder="" class="startTime">
+                                <input type="time" placeholder="" class="startTime" name="startTime">
                             </div>
 
                             <div class="inp_editGames">
                                 <label for="">End Time</label>
-                                <input type="time" placeholder="" id="endTime">
+                                <input type="time" placeholder="" id="endTime" name="endTime">
                             </div>
                             <div class="inp_editGames">
                                 <label for="">Location</label>
-                                <input type="text" placeholder="" id="location">
+                                <input type="text" placeholder="" id="location" name="location">
                             </div>
                             <div class="inp_editGames">
-                                <label for="">Game Type</label>
-                                <select name="team" id="gameType">
-                                    <option value="none">REGULAR SEASON</option>
-                                    <option value="a">a</option>
-                                </select>
-                            </div>
-                            <div class="inp_editGames">
-                                <label for="">Game Note</label>
-                                <textarea name="" id="gameNote" cols="30" rows="2"></textarea>
+                                <label for="">Event note</label>
+                                <textarea id="eventNote" cols="30" rows="2" name="eventNote"></textarea>
                             </div>
 
 
                             <div class="button_container">
                                 <button id="close">Close</button>
-                                <button id="save">Save</button>
+                                <button id="save" type="submit" name="addEvent">Save</button>
                             </div>
                         </div>
                     </form>
                 </div>
-
             </form>
-            <form action="">
+            <!--<form action="">
                 <div class="item_switch">
                     <label class="switch">
                         <input type="checkbox" name="" id="">
@@ -286,7 +290,7 @@
                     </label>
                     <p class="unpub">Unpublish event</p>
                 </div>
-            </form>
+            </form>-->
         </div>
         <div class="create_web">
             <!--Schedule-->
@@ -309,76 +313,103 @@
                     return $team_name;
                 }
 
+                // Tạo một mảng rỗng để lưu thông tin về cả game và sự kiện
+                $events_and_games = array();
+
+                // Thực hiện truy vấn games và thêm kết quả vào mảng
                 $query_game = "SELECT * FROM games WHERE program_id= '" . $_SESSION['program_id'] . "'";
-                $total_row = mysqli_query($connect, $query_game) or die('error');
+                $result_game = mysqli_query($connect, $query_game) or die('error');
+                while ($row = mysqli_fetch_assoc($result_game)) {
+                    // Thêm mỗi dòng dữ liệu từ kết quả truy vấn vào mảng với một cờ để phân biệt giữa game và sự kiện
+                    $row['type'] = 'game';
+                    $events_and_games[] = $row;
+                }
+
+                // Thực hiện truy vấn events và thêm kết quả vào mảng
+                $query_event = "SELECT * FROM events WHERE program_id = '" . $_SESSION['program_id'] . "'";
+                $result_event = mysqli_query($connect, $query_event) or die('error');
+                while ($row = mysqli_fetch_assoc($result_event)) {
+                    // Thêm mỗi dòng dữ liệu từ kết quả truy vấn vào mảng với một cờ để phân biệt giữa game và sự kiện
+                    $row['type'] = 'event';
+                    $events_and_games[] = $row;
+                }
+
+                // Sắp xếp mảng theo thời gian
+                usort($events_and_games, function ($a, $b) {
+                    return strtotime($a['startDate'] . ' ' . $a['startTime']) - strtotime($b['startDate'] . ' ' . $b['startTime']);
+                });
+
+                $output = "";
                 $prev_start_date = null;
-                if (mysqli_num_rows($total_row) > 0) {
-                    foreach ($total_row as $row) {
-                ?>
-                        <div class="view_info">
-                            <?php
-                            if ($row['startDate'] != $prev_start_date) {
-                                echo '
+
+                // Lặp qua mảng đã sắp xếp để hiển thị thông tin
+                foreach ($events_and_games as $row) {
+                    if ($row['type'] == 'game') {
+
+                        echo '<div class="view_info ">';
+                        if ($row['startDate'] != $prev_start_date) {
+                            echo '
                 <div class="time">
                     <p>' . formatDate($row['startDate']) . '</p>
                 </div>
-                ';
-                            }
-                            $prev_start_date = $row['startDate'];
-                            ?>
+            ';
+                        }
+                        $prev_start_date = $row['startDate'];
 
-                            <div class="match_location showMatch">
-                                <div class="info_match">
-                                    <div class="info_time">
-                                        <p><?php echo formatTime($row['startTime']); ?></p>
-                                    </div>
+                        echo '
 
-                                    <div class="info_nameclub">
-                                        <div class="nameClub">
-                                            <p class="club1"><?php echo getName($row['team1']); ?></p>
-                                            <p class="vs">vs</p>
-                                            <p class="club2"><?php echo getName($row['team2']); ?></p>
-                                        </div>
-                                        <p class="nameplay"><?php echo $row['typeGame']; ?></p>
-                                    </div>
-                                </div>
-                                <div class="info_loca more">
-                                    <p class="stadium">Location: <?php echo $row['location']; ?></p>
-                                    <form action="" method="post">
-                                        <i class="fa fa-pencil-square-o"></i>
-                                        <i class="fas fa-trophy"></i>
-                                        <i class="fas fa-trash"></i>
-                                    </form>
-                                </div>
-                            </div>
+            <div class="match_location showMatch">
+                <div class="info_match">
+                    <div class="info_time">
+                        <p>' . formatTime($row['startTime']) . ' : ' . formatTime($row['endTime']) . '</p>
+                    </div>
+
+                    <div class="info_nameclub">
+                        <div class="nameClub">
+                            <p class="club1">' . getName($row['team1']) . '</p>
+                            <p class="vs">vs</p>
+                            <p class="club2">' . getName($row['team2']) . '</p>
                         </div>
-                <?php
-                    }
-                }
-                ?>
+                        <p class="nameplay">' . $row['typeGame'] . '</p>
+                    </div>
 
-                <div class="view_info">
-                    <div class="time">
-                        <p>Thứ Sáu, 17 tháng 3, 2023</p>
+                    <div class="info_score">
+                        <p>Score: ' . $row['team1Score'] . ' _ ' . $row['team2Score'] . '</p>
+                    </div>
+                </div>
+                <div class="info_loca more">
+                    <p class="stadium">Location: ' . $row['location'] . '</p>
+                    <form action="" method="post">
+                        <i class="fa fa-pencil-square-o"></i>
+                        <i class="fas fa-trophy"></i>
+                        <i class="fas fa-trash"></i>
+                    </form>
+                </div>
+            </div>
+        </div>
+        ';
+                    } else {
+                        echo '
+        <div class="view_info">
+        <div class="time">
+                        <p>' . formatDate($row['startDate']) . '</p>
                     </div>
 
                     <div class="match_location">
                         <div class="info_match">
                             <div class="info_time">
-                                <p>8:35</p>
-                                <p>AM</p>
+                                <p>' . formatTime($row['startTime']) . ' : ' . formatTime($row['endTime']) . '</p>
                             </div>
                             <div class="info_status">
-                                <p>Training</p>
+                                <p>Event</p>
                             </div>
                             <div class="info_name">
-                                <p class="status">Training Regular</p>
-                                <p class="nameplay">Team/Player: Đội A</p>
+                                <p class="status">' . $row['typeEvent'] . '</p>
                             </div>
                         </div>
 
                         <div class="info_loca">
-                            <p class="stadium">Sân bóng B</p>
+                            <p class="stadium">Location: ' . $row['location'] . '</p>
                             <form action="" method="post">
                                 <i class="fa fa-pencil-square-o"></i>
                                 <i class="fas fa-trash"></i>
@@ -386,29 +417,33 @@
 
                         </div>
                     </div>
-                </div>
+                    </div>';
+                    }
+                }
+
+                ?>
+            </div>
         </div>
-    </div>
-    <script>
-        document.getElementById('addGame').addEventListener('click', function() {
-            document.getElementById('editGamesPopup').style.display = 'block';
-        });
-        document.getElementById('close').addEventListener('click', function() {
-            document.getElementById('editGamesPopup').style.display = 'none';
-        });
-        document.querySelector('.close').addEventListener('click', function() {
-            document.getElementById('editGamesPopup').style.display = 'none';
-        });
-        document.querySelector('.closeE').addEventListener('click', function() {
-            document.getElementById('editEventsPopup').style.display = 'none';
-        });
-        document.getElementById('addEvent').addEventListener('click', function() {
-            document.getElementById('editEventsPopup').style.display = 'block';
-        });
-        document.getElementById('closeE').addEventListener('click', function() {
-            document.getElementById('editEventsPopup').style.display = 'none';
-        });
-    </script>
+        <script>
+            document.getElementById('addGame').addEventListener('click', function() {
+                document.getElementById('editGamesPopup').style.display = 'block';
+            });
+            document.getElementById('close').addEventListener('click', function() {
+                document.getElementById('editGamesPopup').style.display = 'none';
+            });
+            document.querySelector('.close').addEventListener('click', function() {
+                document.getElementById('editGamesPopup').style.display = 'none';
+            });
+            document.querySelector('.closeE').addEventListener('click', function() {
+                document.getElementById('editEventsPopup').style.display = 'none';
+            });
+            document.getElementById('addEvent').addEventListener('click', function() {
+                document.getElementById('editEventsPopup').style.display = 'block';
+            });
+            document.getElementById('closeE').addEventListener('click', function() {
+                document.getElementById('editEventsPopup').style.display = 'none';
+            });
+        </script>
 </body>
 
 </html>
