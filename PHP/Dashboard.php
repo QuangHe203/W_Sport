@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Side Navigation Bar</title>
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 </head>
@@ -44,11 +45,11 @@
     <div class="wrapper">
         <div class="sidebar" id="sidebar">
             <ul>
-                <li><a href="../PHP/dashboard.php" target="content"><i class="fas fa-home"></i>Dashboard</a></li>
-                <li><a href="../php/programs.php" target="content"><i class="fas fa-address-card"></i>Programs</a></li>
-                <li><a href="../php/registrations.php" target="content"><i class="fas fa-clipboard"></i>Registrations</a></li>
-                <li><a href="../php/member.php" target="content"><i class="fas fa-users"></i>Members</a></li>
-                <li><a href="../php/website.php" target="content"><i class="fas fa-globe"></i>Website</a></li>
+                <li class="d"><a href="../PHP/dashboard.php" target="content"><i class="fas fa-home"></i>Dashboard</a></li>
+                <li><a href="../PHP/programs.php" target="content"><i class="fas fa-address-card"></i>Programs</a></li>
+                <li><a href="../PHP/registrations.php" target="content"><i class="fas fa-clipboard"></i>Registrations</a></li>
+                <li><a href="../PHP/member.php" target="content"><i class="fas fa-users"></i>Members</a></li>
+                <li><a href="../PHP/website.php" target="content"><i class="fas fa-globe"></i>Website</a></li>
             </ul>
         </div>
         <div class="main_content" id="content">

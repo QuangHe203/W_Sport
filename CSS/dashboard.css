@@ -20,6 +20,7 @@ body{
 /*nav*/
 .navbar {
   width: 100%;
+  
 }
 
 .navbar-content .navbar-item{
@@ -89,7 +90,7 @@ body{
   border-bottom: 1px solid rgba(0,0,0,0.05);
   border-top: 1px solid rgba(255,255,255,0.05);
 }    
-
+ 
 .wrapper .sidebar ul li a{
   color: black;
   display: block;
@@ -132,6 +133,7 @@ body{
   width: calc(100% - 200px);
   margin-left: 200px;
   background: #fff;
+  padding-top: 150px;
 }
 
 .wrapper .main_content .header{
