@@ -31,7 +31,7 @@
     $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
     $result = $stmt->get_result();
-    $dataOwner = $result->fetch_assoc(); //Data owner
+    $dataOwner = $result->fetch_assoc(); //Data organization
     $stmt->close();
 
     /*$stmt = $connect->prepare("SELECT * FROM website CROSS JOIN programs");
@@ -99,7 +99,8 @@
                                     <p> <?php echo $row['title']; ?> </p>
                                 </div>
                                 <div>
-                                    <a href="../PHP/programDetail.php?programId=<?php echo urlencode($row['_id']); ?>" id="view_detail">View detail</a>
+                                    <input class="btn-register" type="button" value="Register">
+                                    <input class="btn-view" style="background-color: white; color: #0000FF; width:100px" type="button" value="Check schedule">
                                 </div>
                             </div>
                             <div class="time_reg">

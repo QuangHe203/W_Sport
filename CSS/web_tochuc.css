@@ -158,13 +158,12 @@ body{
 .reg p{
     font-size: 12px;
 }
-
-.reg #view_detail{
+.reg input{
     color: white;
     background: blue;
     border: 1px solid blue;
     border-radius: 5px;
-    width: 200px;
+    width: 80px;
 }
 .info .time_reg{
     padding-top: 15px;

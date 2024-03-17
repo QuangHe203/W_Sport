@@ -66,11 +66,6 @@
                         <input class="inp_organ" name="address" type="text" id="address" required="required" placeholder="Enter your organization address" name="address">
                     </div>
 
-                    <div class="input-organ">
-                        <label for="address">Description</label>
-                        <input class="inp_organ" name="description" type="text" id="address" required="required" placeholder="Enter your organization address" name="address">
-                    </div>
-
                     <!--Submit-->
                     <div class="input-organ submit">
                         <input type="submit" name="" id="submit-btn" value="Create">

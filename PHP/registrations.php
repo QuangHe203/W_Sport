@@ -28,9 +28,7 @@
         $stmt->execute();
         $stmt->close();
       }
-    }
-    
-    
+    }    
 
   if ($result->num_rows > 0) {
   ?>
@@ -96,8 +94,7 @@
         </div>
         <div class="info">
           <p><strong>Program ID:</strong> <?php echo $row['program_id']; ?></p>
-          <p></p>
-          <p>Name: <?php echo $row['name'];?></p>
+          <p>Summer Football 2024</p>
           <p><strong>User ID:</strong> <?php echo $row['user_id']; ?></p>
           <p><?php echo $row['organization_id']; ?></p>
           <div class="info_mem">
@@ -105,6 +102,7 @@
             <p><?php echo $row['team']; ?></p>
             <p class="active"><?php echo $row['note']; ?></p>
           </div>
+          <p class="more-link" onclick="toggleMore()">More...</p>
           <form action="" method="post">
               <input type="hidden" name="del_id" value="<?php echo $row['_id'];?>">
               <input type="submit" value="Delete" name="del_registration">

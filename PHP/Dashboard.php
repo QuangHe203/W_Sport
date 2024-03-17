@@ -12,14 +12,14 @@
 
 <body>
     <?php
-    require_once 'ConnectData.php';
+        require_once 'ConnectData.php';
 
-    $stmt = $connect->prepare("SELECT * FROM organizations WHERE _id = ?");
-    $stmt->bind_param("s", $organization_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $data = $result->fetch_assoc();
-    $stmt->close();
+        $stmt = $connect->prepare("SELECT * FROM organizations WHERE _id = ?");
+        $stmt->bind_param("s", $organization_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
     ?>
     <div class="navbar">
         <div class="navbar-content">
@@ -32,8 +32,7 @@
 
                 <!--khi đã đăng nhập, hiển thị profile-->
                 <div class="nav_profile">
-
-                <div class="items">
+                    <div class="items">
                         <a href="../PHP/Profile.php" class="sign_up"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"></a>
 
                         <a href=../PHP/Logout.php class="sign_in">Logout</a>
@@ -41,7 +40,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div class="wrapper">
@@ -63,7 +61,7 @@
                     <div class="content">This concain all what you need <a href="../php/programs.php">programs</a>, <a href="">registrations</a>,<a href="../php/member.php">members</a>, and your <a href="">page</a></div>
                     <div class="clb">
                         <div class="info-website">Your Website: </div>
-                        <div class="football"><a href="../php/website_tochuc.php"><?php echo $data['name'] ?><i class="fas fa-link"></i></a></div>
+                        <div class="football"><a href="../php/website_tochuc.php"><?php echo $data['name']?><i class="fas fa-link"></i></a></div>
                     </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@
                     <?php
                     if (isset($_SESSION["user_id"])) {
                         echo '
-                                <a href="../PHP/Profile.php" class="sign_up"><img src="'.$data['avatar'].'" alt="User Avatar" class="user-avatar"></a>
+                                <a href="../PHP/Profile.php" class="sign_up"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"></a>
                                 <a href="../PHP/Logout.php" class="sign_in">Logout</a>';
                     } else {
                         echo '<a href="../PHP/Login.php" class="sign_ins">Log in</a>
