@@ -124,6 +124,7 @@ body{
 .main .content{
     display: flex;
     justify-content: space-around;
+    background-color: #f3f5f9;
 }
 .content .title h4{
     color: #387f75;

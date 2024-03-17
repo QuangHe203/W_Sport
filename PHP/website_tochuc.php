@@ -13,7 +13,28 @@
     <?php
     require_once 'ConnectData.php';
 
-    $stmt = $connect->prepare("SELECT * FROM website CROSS JOIN programs");
+    $stmt = $connect->prepare("SELECT * FROM  website WHERE organization_id = ?");
+    $stmt->bind_param("s", $organization_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataWebsite = $result->fetch_assoc(); //Data website
+    $stmt->close();
+
+    $stmt = $connect->prepare("SELECT * FROM  organizations WHERE _id = ?");
+    $stmt->bind_param("s", $organization_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataOrganization = $result->fetch_assoc(); //Data organization
+    $stmt->close();
+
+    $stmt = $connect->prepare("SELECT * FROM  users WHERE _id = ?");
+    $stmt->bind_param("s", $_SESSION["user_id"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataOwner = $result->fetch_assoc(); //Data organization
+    $stmt->close();
+
+    /*$stmt = $connect->prepare("SELECT * FROM website CROSS JOIN programs");
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -29,10 +50,8 @@
         $startDate = $row['startDate'];
         $dailyStart = $row['dailyStart'];
         $duration = $row['duration'];
-    }
-
-    $stmt->close();
-?>
+    }*/
+    ?>
 
 
     <div class="navbar">
@@ -57,8 +76,8 @@
     <div class="main">
         <div class="header">
 
-            <h2><?php echo $organization_name ?></h2>
-            <p><?php  echo $tagline?></p>
+            <h2><?php echo $dataWebsite['web_name']; ?></h2>
+            <p><?php echo $dataWebsite['tagline']; ?></p>
 
         </div>
 
@@ -67,30 +86,46 @@
                 <div class="title">
                     <h4>Home</h4>
                 </div>
-                <div class="info">
-                    <div class="reg">
-                        <div>
-                            <a href=""></a>
-                            <p> <?php echo $title?> </p>
+                <?php
+                $query = "SELECT * FROM programs WHERE organization_id = '" . $organization_id .  "'";
+                $total_row = mysqli_query($connect, $query) or die('error');
+                if (mysqli_num_rows($total_row) > 0) {
+                    foreach ($total_row as $row) {
+                ?>
+                        <div class="info">
+                            <div class="reg">
+                                <div>
+                                    <a href=""></a>
+                                    <p> <?php echo $row['title']; ?> </p>
+                                </div>
+                                <div>
+                                    <input class="btn-register" type="button" value="Register">
+                                    <input class="btn-view" style="background-color: white; color: #0000FF; width:100px" type="button" value="Check schedule">
+                                </div>
+                            </div>
+                            <div class="time_reg">
+
+                                <p><strong>Sport: <?php echo $row['sport']; ?></strong> </p>
+                                <p><strong>Type Game: <?php echo $row['type']; ?></strong> </p>
+
+                                <p><strong>Start Date: <?php echo formatDate($row['startDate']); ?></strong> </p>
+
+                                <p><strong>Daily Start: <?php echo formatTime($row['dailyStart']); ?></strong></p>
+                                <p><strong>Duration: <?php echo $row['duration'] ?> Minute</strong> </p>
+                            </div>
+
+                            <div class="free">
+                                <p></p>
+                                <p>Free: 0 VND</p>
+                            </div>
                         </div>
-                        <input id="btn" type="button" value="Register">
-                    </div>
-                    <div class="time_reg">
+                <?php
+                    }
+                } else {
+                    echo "No programs available";
+                }
+                ?>
 
-                         <p><strong>Sport: <?php echo $sport ?></strong> </p>
-                         <p><strong>Type Game: <?php echo $typeGame ?></strong> </p>
-
-                            <p><strong>Start Date: <?php echo $startDate ?></strong> </p>
-
-                            <p><strong>Daily Start: <?php echo $dailyStart?></strong></p>
-                            <p><strong>Duration: <?php  echo $duration ?> </strong> </p>
-                    </div>
-
-                    <div class="free">
-                        <p></p>
-                        <p>Free: 0 VND</p>
-                    </div>
-                </div>
             </div>
 
             <div class="about">
@@ -99,18 +134,18 @@
                 </div>
                 <div class="item">
 
-                    <p class="item_title"><?php echo $organization_name ?></p>
-                    <p class="item_main"><?php echo $tagline ?></p>
+                    <p class="item_title"><?php echo $dataOrganization['name'] ?></p>
+                    <p class="item_main"><?php echo $dataOrganization['description'] ?></p>
 
                 </div>
                 <div class="item">
                     <p class="item_title">Location</p>
-                    <p class="item_main"><?php echo $address ?></p>
+                    <p class="item_main">Đang nghiên cứu</p>
                 </div>
                 <div class="item">
                     <p class="item_title">Contact</p>
-                    <p class="item_main"><i class="fas fa-envelope"></i>abc@gmail.com</p>
-                    <p class="item_main"><i class="fas fa-phone"></i>0355879632</p>
+                    <p class="item_main"><i class="fas fa-envelope"></i><?php echo $dataOwner['email'] ?></p>
+                    <p class="item_main"><i class="fas fa-phone"></i><?php echo $dataOwner['phone'] ?></p>
                 </div>
 
             </div>
@@ -118,8 +153,11 @@
 
     </div>
     <script>
-        document.getElementById("btn").addEventListener("click", function() {
-            window.location.href = "../php/reg_show.php";
+        var registerButtons = document.querySelectorAll(".btn-register");
+        registerButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                window.location.href = "../php/reg_show.php";
+            });
         });
     </script>
 </body>

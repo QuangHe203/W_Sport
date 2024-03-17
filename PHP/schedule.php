@@ -67,7 +67,6 @@
             $stmt->close();
             exit();
         } else {
-            // Nếu có lỗi, hiển thị thông báo lỗi
             echo "Error: (" . $stmt->errno . ") " . $stmt->error;
         }
     }

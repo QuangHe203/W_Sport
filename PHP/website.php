@@ -14,20 +14,15 @@
     require_once 'ConnectData.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $organization_name = $_POST["title"];
+        $web_name = $_POST["title"];
         $tagline = $_POST["tagline"];
         $description = $_POST["description"];
         $address = $_POST["address"];
 
-        $sqlInsert = "INSERT INTO website (organization_name, tagline, description, address) 
-                      VALUES ('$organization_name', '$tagline', '$description', '$address')";
+        $sqlInsert = "INSERT INTO website (organization_id, web_name, tagline, description, address) 
+                      VALUES ($organization_id, $web_name, '$tagline', '$description', '$address')";
 
-        if ($connect->query($sqlInsert) === TRUE) {
-            echo "Record inserted successfully.";
-        } else {
-            echo "Error inserting record: " . $connect->error;
-        }
-
+        $connect->query($sqlInsert);
         $connect->close();
     }
     ?>
@@ -70,8 +65,8 @@
                 <div class="create_web">
                     <form action="" id="new_web" method="post">
                         <div class="input_web">
-                            <label for="title">Organization name:</label>
-                            <input class="inp_program" type="text" id="title" required="required" placeholder="Enter your Organization Name" name="title">
+                            <label for="title">Website name:</label>
+                            <input class="inp_program" type="text" id="title" required="required" placeholder="Enter your website Name" name="title">
                         </div>
 
                         <div class="input_web">
