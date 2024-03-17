@@ -16,8 +16,13 @@ body{
  
 /*nav*/
 .navbar {
-    width: 100%;
-  }
+  width: 100%;
+  box-shadow: 5px 5px 5px rgb(210, 208, 208);
+  position: fixed; 
+  top: 0; 
+  z-index: 10000; 
+  background-color: white;
+}
   
   .navbar-content .navbar-item{
     display: flex;
@@ -79,6 +84,7 @@ body{
     background: #a9f3a5;
     padding: 65px 0px;
     position: fixed;
+    padding-top: 150px;
   }
   
   
@@ -131,6 +137,8 @@ body{
     width: calc(100% - 200px);
     margin-left: 200px;
     background: #fff;
+    background: #fff;
+    padding-top: 100px;
   }
   
   .wrapper .main_content .header{

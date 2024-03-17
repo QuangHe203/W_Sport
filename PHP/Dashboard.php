@@ -6,6 +6,7 @@
     <title>Side Navigation Bar</title>
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/nav.css">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 </head>

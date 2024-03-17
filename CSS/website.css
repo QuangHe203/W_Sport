@@ -16,6 +16,11 @@ body{
     width: 100%;
     max-width: 1360px; 
     margin: 0 auto;
+    box-shadow: 5px 5px 5px rgb(210, 208, 208);
+    position: fixed; 
+    top: 0; 
+    z-index: 10000; 
+    background-color: white;
   }
   
   .navbar-content .navbar-item{
@@ -76,6 +81,7 @@ body{
     background: #a9f3a5;
     padding: 65px 0px;
     position: fixed;
+    padding-top: 150px;
   }
   
   
@@ -127,6 +133,7 @@ body{
     width: calc(100% - 200px);
     margin-left: 200px;
     background: #fff;
+    padding-top: 100px;
   }
   
   .wrapper .main_content .header{
