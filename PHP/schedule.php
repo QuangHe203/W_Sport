@@ -311,29 +311,22 @@
 
                     return $team_name;
                 }
-
-                // Tạo một mảng rỗng để lưu thông tin về cả game và sự kiện
                 $events_and_games = array();
 
-                // Thực hiện truy vấn games và thêm kết quả vào mảng
                 $query_game = "SELECT * FROM games WHERE program_id= '" . $_SESSION['program_id'] . "'";
                 $result_game = mysqli_query($connect, $query_game) or die('error');
                 while ($row = mysqli_fetch_assoc($result_game)) {
-                    // Thêm mỗi dòng dữ liệu từ kết quả truy vấn vào mảng với một cờ để phân biệt giữa game và sự kiện
                     $row['type'] = 'game';
                     $events_and_games[] = $row;
                 }
 
-                // Thực hiện truy vấn events và thêm kết quả vào mảng
                 $query_event = "SELECT * FROM events WHERE program_id = '" . $_SESSION['program_id'] . "'";
                 $result_event = mysqli_query($connect, $query_event) or die('error');
                 while ($row = mysqli_fetch_assoc($result_event)) {
-                    // Thêm mỗi dòng dữ liệu từ kết quả truy vấn vào mảng với một cờ để phân biệt giữa game và sự kiện
                     $row['type'] = 'event';
                     $events_and_games[] = $row;
                 }
 
-                // Sắp xếp mảng theo thời gian
                 usort($events_and_games, function ($a, $b) {
                     return strtotime($a['startDate'] . ' ' . $a['startTime']) - strtotime($b['startDate'] . ' ' . $b['startTime']);
                 });
@@ -341,7 +334,6 @@
                 $output = "";
                 $prev_start_date = null;
 
-                // Lặp qua mảng đã sắp xếp để hiển thị thông tin
                 foreach ($events_and_games as $row) {
                     if ($row['type'] == 'game') {
 
