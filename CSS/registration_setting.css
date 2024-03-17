@@ -1,5 +1,6 @@
 *{
-    
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
@@ -10,11 +11,52 @@ body{
     max-width: 1360px; 
     margin: 0 auto;
 }
+.name_programs{
+    background: #940000;
+    color: white;
+    box-shadow: 2px 2px 2px 2px rgb(140, 145, 149);
+    text-align: center;
+    opacity: 70%;
+    padding: 10px 0px 10px 0px;
+}
+
+.menu_setting {
+    background-color: #fff;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+.menu_setting ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.menu_setting ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.menu_setting ul li a {
+    color: #333;
+    text-decoration: none;
+    padding-bottom: 5px; 
+    border-bottom: 2px solid transparent; 
+}
+.menu_setting ul li a:hover {
+    border-bottom-color: #17bf63; 
+}
+.menu_setting ul li a.active {
+    border-bottom-color: #17bf63; 
+    color: #17bf63;
+}
+
 
 /**/
 .navbar {
     width: 100%;
     box-shadow: 5px 5px 5px rgb(210, 208, 208);
+    margin: 0;
+    padding: 0;
   }
   .navbar-content .navbar-item{
     display: flex;
@@ -156,8 +198,12 @@ input:checked + .slider:before {
 .price .header{
     font-weight: bold;
 }
+.setUp .header{
+    padding-bottom: 5px;
+}
 .option .header{
-    height: 5px;
+    height: 30px;
+    padding-top: 4px;
 }
 .option .required{
     display: flex;
@@ -169,7 +215,8 @@ input:checked + .slider:before {
     padding-right: 7px;
 }
 .required_checkbox p{
-    padding-left: 3px;
+    
+    padding: 17px 5px 5px 3px; 
 }
 #requiredCheck{
     accent-color: #17bf63;
@@ -228,7 +275,7 @@ input:checked + .slider:before {
 
 
 .price_option .price_item p{
-    padding-right: 155px;
+    padding-right: 157px;
     width: 100px;
 }
 .price_item .pri_num{
@@ -242,11 +289,12 @@ input:checked + .slider:before {
 }
 .price_option .price_item{
     position: relative;
+    padding-top: 20px;
 }
 .price_option .price_item::after{
     content: ''; 
     position: absolute; 
-    bottom: -5px; 
+    bottom: -15px; 
     left: 0; 
     width: 74%; 
     border-bottom: 1px solid gray; 
@@ -255,12 +303,16 @@ i.fa-trash{
     color: red;
     cursor: pointer;
 }
+.submit{
+    padding-top: 5px;
+}
 .submit input{
     margin: 15px 5px 15px 5px;
     background: #17bf63;
     color: white;
     border: 1px solid #17bf63;
     cursor: pointer;
+    padding: 5px 5px;
 }
 .submit input:hover{
     background: green;
