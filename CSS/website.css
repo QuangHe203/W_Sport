@@ -4,11 +4,13 @@
     box-sizing: border-box;
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
+    list-style: none;
 }
   
 body{
     background-color: #f3f5f9;
-    width: 100%;
+    max-width: 1360px; 
+    margin: 0 auto;
 }
 
 /*nav*/
