@@ -20,7 +20,10 @@ body{
 /*nav*/
 .navbar {
   width: 100%;
-  
+  position: fixed; 
+  top: 0; 
+  z-index: 10000; 
+  background-color: white;
 }
 
 .navbar-content .navbar-item{
@@ -81,6 +84,7 @@ body{
   background: #a9f3a5;
   padding: 65px 0px;
   position: fixed;
+  padding-top: 150px;
 }
 
 
@@ -130,10 +134,10 @@ body{
 }
 
 .wrapper .main_content{
-  width: calc(100% - 200px);
+  width: 100%;
   margin-left: 200px;
   background: #fff;
-  padding-top: 150px;
+  padding-top: 100px;
 }
 
 .wrapper .main_content .header{

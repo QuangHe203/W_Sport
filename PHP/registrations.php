@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrations</title>
   <link rel="stylesheet" href="../css/registrations.css">
-  <link rel="stylesheet" href="../css/navbar.css">
   <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 
