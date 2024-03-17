@@ -91,18 +91,11 @@ body{
     background-color: #f1f1f1;
 }
 
-
-
-
-
-
-
-
 /**/
 
 .main{
     background: #f3f5f9;
-    height: 550px;
+    height: 100%;
 }
 
 .main .content{
@@ -170,6 +163,142 @@ body{
     padding-right: 5px;
 }
 
+/*schedule*/
+#scheduleContent {
+    display: flex; /* Sử dụng flexbox để tự động căn chỉnh các phần tử con */
+    flex-direction: column;
+}
+
+.view_info{
+    width: 940px;
+    padding-bottom: 20px;
+}
+.view_info .time{
+    background: rgb(250, 202, 209);
+    padding-left: 4px;
+}
+.view_info .time p{
+    color: red;
+}
+.view_info .match_location{
+    display: flex;
+    background: white;
+    justify-content: space-between;
+    text-align: center;
+    border-left: 5px solid lightgreen;
+    padding: 15px 15px 15px 15px;
+    border-bottom: 1px solid lightslategrey;
+}
+.view_info .showMatch{
+    border-left: 5px solid purple;
+}
+.view_info .info_match{
+    display: flex;
+}
+.view_info .double{
+    display: flex;
+    align-items: center;
+}
+.info_match .info_time{
+    width: 190px;
+    font-size: 14px;
+}
+.info_match .info_score{
+    width: 300px;
+    padding-left: 35px;
+    font-size: 20px;
+    margin-left: 20px;
+    align-items: left;
+}
+
+.info_match .info_status{
+    width: 80px;
+    height: 30px;
+    background: orange;
+    position: relative;
+    border-radius: 8px;
+}
+.info_status p{
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    color: cornsilk;
+}
+.info_name p.status{
+    font-weight: bold;
+    padding-left: 5px;
+}
+.info_name p.nameplay,
+.info_nameclub p.nameplay{
+    color: gray;
+    font-size: 12px;
+}
+
+.info_loca{
+    display: flex;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+}
+.info_loca .stadium{
+    padding-right: 10px;
+}
+.more .stadium {
+    color: red;
+    font-style: italic;
+    padding-right: 5px;
+}
+.info_loca form i{
+    color: #17bf63;
+    cursor: pointer;
+}
+
+
+.info_nameclub .nameClub{
+    display: flex;
+}
+.info_nameclub p.nameplay{
+    text-transform: uppercase;
+}
+
+.info_match .doubleTime{
+    position: relative;
+}
+/* .doubleHour{
+    /* position: absolute;
+    left: 320px;
+    /* bottom: 215px; */
+    /* bottom: 501px; */
+    /* top: 390px; */
+
+
+
+.prac{
+    position: relative;
+}
+
+.practice{
+    position: absolute;
+    height: 35px;
+    top: 15px;
+    left: 8px;
+}
+.nameprac{
+    position: absolute;
+    left: 125px;
+    top: 17px;
+    width: 150px;
+}
+.nameClub .club1{
+    color: #17bf63;
+    font-weight: bold;
+    padding-right: 5px;
+}
+.nameClub .club2{
+    color: darkblue;
+    font-weight: bold;
+    padding-left: 5px;
+}
 
 
     
