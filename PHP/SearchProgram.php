@@ -57,11 +57,6 @@
         <div id="searchresult"></div>
 
     </div>
-    <script>
-        function saveProgramId(programId) {
-            <?php $_SESSION['program_id'] = $programId; ?>
-        } 
-    </script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript">
         fetchdata();
