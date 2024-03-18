@@ -189,8 +189,6 @@
             </div>
         </form>
 
-
-
         <form action="" method="post">
             <div class="edit">
                 <p class="header"><i class="fa fa-arrow-circle-up"></i>Edit Teams/Players</p>

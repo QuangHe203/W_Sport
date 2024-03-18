@@ -41,17 +41,23 @@ function getData($query)
             $output .= '
             <a class="container" href="../PHP/programDetail.php?programId=' . urlencode($row['_id']) . '">
                 <div class="profile">
-                    <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
+                    <img src="'.$row['img'].'" alt="Profile Picture">
                 </div>
                 <div class="info">
-                    <p class="program_name">' . $row['title'] . '</p>
+                    <p class="program_name">' . $row['title'] . '</p>';
+                    
+            if ($row['openRegister'] != 1) {
+                $output .= '<p class="program_title" style="color: red;">LOCK</p>';
+            }
+            $output .= '
                     <p class="program_title">Sport: ' . $row['sport'] . '</p>
                     <p class="program_organ">Organization: ' . $row['organization_name'] . '</p>
                     <p class="program_address">Location: ' . $row['location'] . '</p>
                 </div>
             </a>';
         }
-    } else {
+    }
+     else {
         $output = "<h4>Data not found</h4>";
     }
     echo $output;

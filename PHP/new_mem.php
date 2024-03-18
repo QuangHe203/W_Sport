@@ -31,14 +31,22 @@
                              VALUES ('$userData[_id]', '$organization_id', '$userData[birthday]', '$userData[username]', '$userData[phone]', '$userData[email]')";
 
             if ($connect->query($sqlAddMember) === TRUE) {
+                
+                    $stmt = $connect->prepare("DELETE FROM registrations WHERE user_id = ?");
+                    $stmt->bind_param("s", $userData['_id']);
+                    $stmt->execute();
+                    $stmt->close();
+                    header('location: member.php');
+                    exit();
+                
+
                 echo '<script>alert("Member added successfully");</script>';
-             } else {
+            } else {
                 echo '<script>alert("Error");</script>';
                 $connect->error;
             }
         } else {
             echo '<script>alert("Email does not exist. Please enter a valid email.");</script>';
-
         }
 
         $connect->close();
@@ -48,11 +56,11 @@
         <div class="navbar-content">
             <div class="navbar-item">
                 <div class="logo">
-                    <a href="index.php" class="logo-title"> 
+                    <a href="index.php" class="logo-title">
                         <h2 title="Sport Management">SportManagement</h2>
                     </a>
                 </div>
-    
+
                 <div class="nav_profile">
                     <div class="items">
                         <a href="../PHP/Profile.php" class="sign_up"><img src="../Image/profile.jpg" alt="User Avatar" class="user-avatar"></a>

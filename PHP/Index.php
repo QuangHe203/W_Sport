@@ -12,7 +12,7 @@
     require_once 'ConnectData.php';
 
     $stmt = $connect->prepare("SELECT * FROM organizations WHERE owner = ?");
-    $stmt->bind_param("s", $user_id);
+    $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

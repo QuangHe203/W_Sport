@@ -2,27 +2,31 @@
 if (isset($_POST['action'])) {
 
     if ($_POST['action'] == 'fetchData') {
-        $query = "SELECT * FROM programs ORDER BY _id DESC";
+        $organization_id = $_POST['organization_id'];
+        $query = "SELECT * FROM programs  WHERE organization_id = '$organization_id' ORDER BY _id DESC";
         getData($query);
     }
 
     if ($_POST['action'] == 'searchRecord') {
+        $organization_id = $_POST['organization_id'];
         $program_title = $_POST['program_title'];
-        $query = "SELECT * FROM programs WHERE title LIKE '%$program_title%' ORDER BY _id DESC";
+        $query = "SELECT * FROM programs WHERE title LIKE '%$program_title%' AND organization_id='$organization_id' ORDER BY _id DESC";
         getData($query);
     }
 
     if ($_POST['action'] == 'searchBySport') {
+        $organization_id = $_POST['organization_id'];
         $program_sport = $_POST['program_sport'];
 
-        $query = "SELECT * FROM programs WHERE sport = '$program_sport'";
+        $query = "SELECT * FROM programs WHERE sport = '$program_sport' AND organization_id='$organization_id'";
         getData($query);
     }
 
     if ($_POST['action'] == 'searchByType') {
+        $organization_id = $_POST['organization_id'];
         $program_type = $_POST['program_type'];
 
-        $query = "SELECT * FROM programs WHERE type = '$program_type'";
+        $query = "SELECT * FROM programs WHERE type = '$program_type' AND organization_id='$organization_id'";
         getData($query);
     }
 }
@@ -37,7 +41,7 @@ function getData($query)
             $output .= '
                 <div class="container" id="program_inf">
                     <div class="profile">
-                        <img src="../image/cau-long-vu.jpg" alt="Profile Picture">
+                        <img src="'.$row['img'].'" alt="Profile Picture">
                     </div>
                     <div class="info">
                         <p class="program_name">' . $row['title'] . '</p>

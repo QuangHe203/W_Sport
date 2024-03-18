@@ -290,9 +290,8 @@
                 <div class="price_option">
                     <div class="name_options">
                         <p class="header_options">Price Name</p>
-                        <p class="header_options">Price Number</p>
+                        <p class="header_options">Price</p>
                         <p class="header_options">Price Quanlity</p>
-                        <p class="header_options">Visilable</p>
                         <p class="header_options">Action</p>
                     </div>
                     <?php
@@ -302,18 +301,13 @@
                             <span class="space"></span>
                             <div class="price_item" method="post">
                                 <p class="pri_name"><?php echo $infor_priceOption['priceName']; ?></p>
-                                <p class="pri_num"><?php echo $infor_priceOption['price']; ?></p>
+                                <p class="pri_num"><?php echo  formatPrice($infor_priceOption['price']); ?></p>
                                 <p class="pri_quanl"><?php echo $infor_priceOption['quantity']; ?></p>
 
-                                <p class="visil">
-                                    <label for="visiable" class="switch">
-                                        <input type="checkbox" name="visiable" id="visiable">
-                                        <span class="slider round"></span>
-                                    </label>
-                                </p>
+                                <form action="" method="post">
                                 <input type="hidden" name="priceOptionid" value="<?php echo $infor_priceOption['_id']; ?>">
                                 <button type="submit" name="deleteOption" class="actio"><i class="fas fa-trash"></i></button>
-
+                                </form>
                             </div>
                     <?php
                         }
@@ -334,13 +328,12 @@
         <p class="popup_title">Add New Team/Player Name</p>
         <label for="priceName">Price Name:</label>
         <input class="inputText" type="text" placeholder="" name="priceName" id="priceName">
-        <label for="price">Price Number:</label>
+        <label for="price">Price:</label>
         <input class="inputText" type="text" placeholder="" name="price" id="price">
         <label for="quantity">Price Quantity:</label>
         <input class="inputText" type="text" placeholder="" name="quantity" id="quantity">
         <div class="button_container">
             <button id="closePopup" class="closeP">Close</button>
-            <!--<button id="addMember" class="addM">Add</button>-->
             <input type="submit" name="addPriceOption" id="addMember" class="addM" value="Add">
         </div>
     </form>

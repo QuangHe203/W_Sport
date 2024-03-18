@@ -13,6 +13,9 @@
     <?php
     require_once 'ConnectData.php';
 
+    $programId = isset($_GET['programId']) ? $_GET['programId'] : null;
+    if ($programId==null) {
+
     $stmt = $connect->prepare("SELECT * FROM  website WHERE organization_id = ?");
     $stmt->bind_param("s", $organization_id);
     $stmt->execute();
@@ -31,26 +34,45 @@
     $stmt->bind_param("s", $_SESSION["user_id"]);
     $stmt->execute();
     $result = $stmt->get_result();
-    $dataOwner = $result->fetch_assoc(); //Data organization
+    $dataOwner = $result->fetch_assoc(); //Data owner
     $stmt->close();
 
-    /*$stmt = $connect->prepare("SELECT * FROM website CROSS JOIN programs");
-    $stmt->execute();
-    $result = $stmt->get_result();
+    } else {
+        $stmt = $connect->prepare("SELECT organization_id FROM programs WHERE _id = ?");
+  $stmt->bind_param("s", $programId);
+  $stmt->execute();
+  $stmt->bind_result($organization_id);
+  $stmt->fetch();
+  $stmt->close();
 
-    while ($row = $result->fetch_assoc()) {
-        $organization_name = $row['organization_name'];
-        $tagline = $row['tagline'];
-        $description = $row['description'];
-        $address = $row['address'];
+  $stmt = $connect->prepare("SELECT owner FROM organizations WHERE _id = ?");
+  $stmt->bind_param("s", $organization_id);
+  $stmt->execute();
+  $stmt->bind_result($owner_id);
+  $stmt->fetch();
+  $stmt->close();
 
-        $title = $row['title'];
-        $sport = $row['sport'];
-        $typeGame = $row['type'];
-        $startDate = $row['startDate'];
-        $dailyStart = $row['dailyStart'];
-        $duration = $row['duration'];
-    }*/
+  $stmt = $connect->prepare("SELECT * FROM  website WHERE organization_id = ?");
+  $stmt->bind_param("s", $organization_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $dataWebsite = $result->fetch_assoc(); //Data website
+  $stmt->close();
+
+  $stmt = $connect->prepare("SELECT * FROM  organizations WHERE _id = ?");
+  $stmt->bind_param("s", $organization_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $dataOrganization = $result->fetch_assoc(); //Data organization
+  $stmt->close();
+
+  $stmt = $connect->prepare("SELECT * FROM  users WHERE _id = ?");
+  $stmt->bind_param("s", $owner_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $dataOwner = $result->fetch_assoc(); //Data owner
+  $stmt->close();
+    }
     ?>
 
 
@@ -99,9 +121,9 @@
                                     <p> <?php echo $row['title']; ?> </p>
                                 </div>
                                 <div>
-                                    <input class="btn-register" type="button" value="Register">
-                                    <input class="btn-view" style="background-color: white; color: #0000FF; width:100px" type="button" value="Check schedule">
+                                    <a style="text-decoration: underline;" class="btn-register" href="../PHP/programDetail.php?programId=<?php echo urlencode($row['_id']); ?>">View detail</a>
                                 </div>
+
                             </div>
                             <div class="time_reg">
 
@@ -140,7 +162,7 @@
                 </div>
                 <div class="item">
                     <p class="item_title">Location</p>
-                    <p class="item_main">Đang nghiên cứu</p>
+                    <p class="item_main"><?php echo $dataOrganization['location'] ?></p>
                 </div>
                 <div class="item">
                     <p class="item_title">Contact</p>
@@ -152,14 +174,6 @@
         </div>
 
     </div>
-    <script>
-        var registerButtons = document.querySelectorAll(".btn-register");
-        registerButtons.forEach(function(button) {
-            button.addEventListener("click", function() {
-                window.location.href = "../php/reg_show.php";
-            });
-        });
-    </script>
 </body>
 
 </html>

@@ -19,11 +19,17 @@
         $description = $_POST["description"];
         $address = $_POST["address"];
 
-        $sqlInsert = "INSERT INTO website (organization_id, web_name, tagline, description, address) 
-                      VALUES ($organization_id, $web_name, '$tagline', '$description', '$address')";
+        $stmt =$connect->prepare("INSERT INTO website (organization_id, web_name, tagline, description, address) 
+        VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $organization_id, $web_name, $tagline, $description, $address);
+        if($stmt->execute()) {
+            $stmt->close();
+            header("location: Dashboard.php");
+            exit();
+        } else {
 
-        $connect->query($sqlInsert);
-        $connect->close();
+        }
+        echo "Error: " . $stmt->error;
     }
     ?>
 

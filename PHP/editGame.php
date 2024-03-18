@@ -16,6 +16,13 @@
     <?php
     require_once 'ConnectData.php';
 
+    $stmt = $connect->prepare("SELECT * FROM games WHERE _id = ?");
+    $stmt->bind_param("s", $_SESSION["game_id"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $dataGame = $result->fetch_assoc(); //Data game
+    $stmt->close();
+
     $stmt = $connect->prepare("SELECT * FROM programs WHERE _id = ?");
     $stmt->bind_param("s", $_SESSION["program_id"]);
     $stmt->execute();
@@ -23,7 +30,7 @@
     $dataProgram = $result->fetch_assoc(); //Data program
     $stmt->close();
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addGame"])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["editGame"])) {
         $team1 = $_POST["nameTeam1"];
         $team2 = $_POST["nameTeam2"];
         $startDate = $_POST["date"];
@@ -32,87 +39,20 @@
         $location = $_POST["location"];
         $typeGame = $_POST["gameType"];
         $gameNote = $_POST["gameNote"];
+        $team1Score = $_POST["team1Score"];
+        $team2Score = $_POST["team2Score"];
 
-        $stmt = $connect->prepare("INSERT INTO games (program_id, team1, team2, startDate, startTime, endTime, team1Score, team2Score, location, typeGame, gameNote) value (?, ?, ?, ?, ?, ?, '-', '-', ?, ?, ?)");
-        $stmt->bind_param("sssssssss", $_SESSION["program_id"], $team1, $team2, $startDate, $startTime, $endTime, $location, $typeGame, $gameNote);
-        if ($stmt->execute()) {
-            header("Location: schedule.php");
-            $stmt->close();
-            exit();
-        } else {
-            echo "Error" . $stmt->error;
-        }
-    }
+        $stmt = $connect->prepare("UPDATE games SET team1=?, team2=?, startDate=?, startTime=?, endTime=?, team1Score=?, team2Score=?, location=?, typeGame=?, gameNote=? WHERE _id=?");
+        $stmt->bind_param("sssssssssss", $team1, $team2, $startDate, $startTime, $endTime, $team1Score, $team2Score, $location, $typeGame, $gameNote, $_SESSION["game_id"]);
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addEvent"])) {
-        $typeEvent = $_POST['typeEvent'];
-        $date = $_POST['date'];
-        $startTime = $_POST['startTime'];
-        $endTime = $_POST['endTime'];
-        $location = $_POST['location'];
-        $eventNote = $_POST['eventNote'];
-
-        $stmt = $connect->prepare("INSERT INTO events (program_id, typeEvent, location, startDate, startTime, endTime, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
-
-        if (!$stmt) {
-            echo "Prepare failed: (" . $connect->errno . ") " . $connect->error;
-        }
-
-        if (!$stmt->bind_param("sssssss", $_SESSION["program_id"], $typeEvent, $location, $date, $startTime, $endTime, $eventNote)) {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-        }
 
         if ($stmt->execute()) {
             header("Location: schedule.php");
             $stmt->close();
             exit();
         } else {
-            echo "Error: (" . $stmt->errno . ") " . $stmt->error;
-        }
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['del_game'])) {
-        $game_id = $_POST["game_id"];
-        if ($connect->connect_error) {
-            die('Cannot connect to database' . $connect_error);
-        } else {
-            $stmt = $connect->prepare("DELETE FROM games WHERE _id=?");
-            $stmt->bind_param("s", $game_id);
-        }
-        if ($stmt->execute()) {
-            header("Location: schedule.php");
-            $stmt->close();
-            exit;
-        } else {
             echo "Error" . $stmt->error;
         }
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_game'])) {
-        $_SESSION['game_id'] = $_POST["game_id"];
-        header("Location: editGame.php");
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['del_event'])) {
-        $event_id = $_POST["event_id"];
-        if ($connect->connect_error) {
-            die('Cannot connect to database' . $connect_error);
-        } else {
-            $stmt = $connect->prepare("DELETE FROM events WHERE _id=?");
-            $stmt->bind_param("s", $event_id);
-        }
-        if ($stmt->execute()) {
-            header("Location: schedule.php");
-            $stmt->close();
-            exit;
-        } else {
-            echo "Error" . $stmt->error;
-        }
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_event'])) {
-        $_SESSION['event_id'] = $_POST["event_id"];
-        header("Location: editEvent.php");
     }
 
     ?>
@@ -268,6 +208,127 @@
 
                 </div>
 
+                <div id="editGamesPopup" class="popup" method="post" style="display: block;">
+                    <form action="" method="post">
+                        <div class="popup-content">
+                            <span class="close" id="closeEG">&times;</span>
+                            <h2>Edit Games</h2>
+                            <div class="inp_editGames">
+                                <label for="">Home Team:</label>
+                                <select name="nameTeam1" id="nameTeam1" value="<?php echo $dataGame['team1'] ?>">
+                                    <?php
+                                    $query = "SELECT * from teams_players";
+                                    $total_row = mysqli_query($connect, $query) or die('error');
+                                    if (mysqli_num_rows($total_row) > 0) {
+                                        foreach ($total_row as $row) {
+                                    ?>
+                                            <option value="<?php echo $row['_id']; ?>">
+                                                <?php echo $row['name'] ?>
+                                            </option>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo 'No Data Found!';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="inp_editGames">
+                                <label for="">Away Team:</label>
+                                <select name="nameTeam2" id="nameTeam2" value="<?php echo $dataGame['team2'] ?>">
+                                    <?php
+                                    $query = "SELECT * FROM teams_players WHERE program_id = '" . $_SESSION['program_id'] . "'";
+                                    $total_row = mysqli_query($connect, $query) or die('error');
+                                    if (mysqli_num_rows($total_row) > 0) {
+                                        foreach ($total_row as $row) {
+                                    ?>
+                                            <option value="<?php echo $row['_id']; ?>">
+                                                <?php echo $row['name'] ?>
+                                            </option>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo 'No Data Found!';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="inp_editGames">
+                                <label for="">Date:</label>
+                                <input type="date" id="date" name="date" value="<?php echo $dataGame['startDate'] ?>">
+                            </div>
+
+                            <div class="inp_editGames">
+                                <label for="">Group</label>
+                                <select name="team" id="group" name="group">
+                                    <option value="none">None</option>
+                                    <?php
+                                    $query = "SELECT * from groups WHERE program_id = '" . $_SESSION['program_id'] . "'";
+                                    $total_row = mysqli_query($connect, $query) or die('error');
+                                    if (mysqli_num_rows($total_row) > 0) {
+                                        foreach ($total_row as $row) {
+                                    ?>
+                                            <option value=<?php echo $row['name']; ?>>
+                                                <?php echo $row['name'] ?>
+                                            </option>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo 'No Data Found!';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="inp_editGames">
+                                <label for="">Start Time</label>
+                                <input type="time" placeholder="" class="startTime" id="startTime" name="startTime" value="<?php echo $dataGame['startTime'] ?>">
+                            </div>
+
+                            <div class="inp_editGames">
+                                <label for="">End Time</label>
+                                <input type="time" placeholder="" id="endTime" name="endTime" value="<?php echo $dataGame['endTime'] ?>">
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Location</label>
+                                <input type="text" placeholder="" id="location" name="location" value="<?php echo $dataGame['location'] ?>">
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Game Type</label>
+                                <select name="gameType" id="gameType" value="<?php echo $dataGame['typeGame'] ?>">
+                                    <option value="Group stage">Group stage</option>
+                                    <option value="Quarter-finals">Quarter-finals</option>
+                                    <option value="Semi-finals">Semi-finals</option>
+                                    <option value="Finals">Finals</option>
+                                </select>
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Game Note</label>
+                                <textarea name="gameNote" id="gameNote" cols="30" rows="2" value="<?php echo $dataGame['gameNote'] ?>"></textarea>
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Score 1: </label>
+                                <input type="text" name="team1Score" id="team1Score" value="<?php echo $dataGame['team1Score']; ?>">
+                            </div>
+                            <div class="inp_editGames">
+                                <label for="">Score 2: </label>
+                                <input type="text" name="team2Score" id="team2Score" value="<?php echo $dataGame['team2Score']; ?>">
+                            </div>
+
+
+
+                            <div class="button_container">
+                                <button id="add" type="submit" name="editGame">Add</button>
+                                <button id="closeEG">Close</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+
                 <div id="addEventsPopup" class="popup" method="post">
                     <form action="" method="post">
                         <div class="popup-content">
@@ -397,8 +458,9 @@
                 <div class="info_loca more">
                     <p class="stadium">Location: ' . $row['location'] . '</p>
                     <form action="" method="post">
-                        <input type="hidden" name="game_id" id="game_id" value="'.$row['_id'].'">
-                        <button style="background: none; border: none;"  type="submit" name ="edit_game"><i class="fa fa-pencil-square-o"></i></button>
+                        <input type="hidden" name="game_id" id="game_id" value="' . $row['_id'] . '">
+                        <button type="submit" style="background: none; border: none;" id="editGame"><i class="fa fa-pencil-square-o"></i></button>
+                        <button style="background: none; border: none;"><i class="fas fa-trophy"></i></button>
                         <button style="background: none; border: none;" type="submit" name="del_game"><i class="fas fa-trash"></i></button>
                     </form>
                 </div>
@@ -428,9 +490,9 @@
                         <div class="info_loca">
                             <p class="stadium">Location: ' . $row['location'] . '</p>
                             <form action="" method="post">
-                            <input type="hidden" name="event_id" value="'.$row['_id'].'">
-                            <button style="background: none; border: none;" type="submit" name="edit_event"><i class="fa fa-pencil-square-o"></i></button>
-                            <button style="background: none; border: none; type="submit" name="del_event"><i class="fas fa-trash"></i></button>
+                            <input type="hidden" name="event_id" value="' . $row['_id'] . '">
+                            <button style="background: none; border: none;"><i class="fa fa-pencil-square-o"></i></button>
+                            <button style="background: none; border: none;"><i class="fas fa-trash"></i></button>
                             </form>
 
                         </div>
@@ -443,19 +505,9 @@
             </div>
         </div>
         <script>
-            document.getElementById('addGame').addEventListener('click', function() {
-                document.getElementById('addGamesPopup').style.display = 'block';
+            document.getElementById('closeEG').addEventListener('click', function() {
+                window.location.href = "../PHP/schedule.php";
             });
-            document.getElementById('close').addEventListener('click', function() {
-                document.getElementById('addGamesPopup').style.display = 'none';
-            });
-            document.getElementById('addEvent').addEventListener('click', function() {
-                document.getElementById('addEventsPopup').style.display = 'block';
-            });
-            document.getElementById('closeE').addEventListener('click', function() {
-                document.getElementById('addEventsPopup').style.display = 'none';
-            });
-
         </script>
 </body>
 

@@ -5,6 +5,7 @@
     box-sizing: border-box;
     text-decoration: none;
     font-family: 'Josefin Sans', sans-serif;
+    list-style: none;
 }
   
 body{
@@ -244,4 +245,15 @@ body{
 
 .more-link:hover {
     text-decoration: underline;
+}
+
+form input.del{
+  background-color: #0f8f53;
+  padding: 10px ;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+}
+form input.del:hover{
+  background-color: green;
 }

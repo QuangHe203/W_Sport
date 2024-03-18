@@ -59,7 +59,7 @@
             <?php
                 require_once 'ConnectData.php';
 
-            $stmt = $connect->prepare("SELECT * FROM members");
+            $stmt = $connect->prepare("SELECT * FROM members WHERE organization_id='$organization_id'");
             $stmt->execute();
             $result = $stmt->get_result();
 
@@ -83,12 +83,9 @@
                 </div>
                 <div class="info">
                     <p><strong>Name:</strong> <?php echo $row['name']; ?></p>
-                    <p><strong>Organization ID:</strong> <?php echo $row['organization_id']; ?></p>
                     <p><strong>Created At:</strong> <?php echo $row['created_at']; ?></p>
                     <p><strong>Email:</strong> <?php echo $row['email']; ?></p>
                     <p><strong>Phone:</strong> <?php echo $row['phone']; ?></p>
-                
-                    <p class="more-link" onclick="toggleMore()">More...</p>
                     <form action="" method="post">
               <input type="hidden" name="del_id" value="<?php echo $row['_id'];?>">
               <input type="submit" value="Delete" name="del_member">

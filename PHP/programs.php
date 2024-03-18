@@ -12,18 +12,6 @@
 <body>
     <?php
     require_once 'ConnectData.php';
-
-    if ($connect->connect_error) {
-        die('Cannot connect to database' . $connect->connect_error);
-    } else {
-        $stmt = $connect->prepare("SELECT * FROM programs WHERE organization_id = ?");
-        $stmt->bind_param("s", $organization_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $rowCount = $result->num_rows;
-        $stmt->close();
-    }
-
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
             $_SESSION["program_id"]=$_POST["program_id"];
             header("Location: BasicInfo.php");
@@ -59,16 +47,25 @@
             $stmt_events = $connect->prepare("DELETE FROM events WHERE program_id=?");
             $stmt_events->bind_param("s", $del_id);
 
+            $stmt_groups = $connect->prepare("DELETE FROM groups WHERE program_id=?");
+            $stmt_groups->bind_param("s", $del_id);
+
+            $stmt_tpl = $connect->prepare("DELETE FROM teams_players WHERE program_id=?");
+            $stmt_tpl->bind_param("s", $del_id);
+
             $stmt_programs = $connect->prepare("DELETE FROM programs WHERE _id=?");
             $stmt_programs->bind_param("s", $del_id);
+            
         }
 
-        if ($stmt_priceOption->execute() && $stmt_registration->execute() && $stmt_games->execute() && $stmt_events->execute()  && $stmt_programs->execute()) {
+        if ($stmt_priceOption->execute() && $stmt_registration->execute() && $stmt_games->execute() && $stmt_events->execute()   && $stmt_groups->execute() && $stmt_tpl->execute() && $stmt_programs->execute()) {
             $stmt_priceOption->close();
             $stmt_registration->close();
             $stmt_games->close();
             $stmt_events->close();
             $stmt_programs->close();
+            $stmt_groups->close();
+            $stmt_tpl->close();
             header('Location: programs.php');
             exit();
         } else {
@@ -80,36 +77,48 @@
         $title = $_POST["title"];
         $sport = $_POST["sport"];
         $program = $_POST["program"];
-
-        if ($connect->connect_error) {
-            die('Cannot connect to database' . $connect_error);
+        if($sport=="Football") {
+            $img="../image/football.jpg";
+        } elseif ($sport=="Volleyball") {
+            $img="../image/volleyball.jpg";
+        } elseif ($sport=="Badminton") {
+            $img="../image/cau-long-vu.jpg";
+        } elseif ($sport="Tennis") {
+            $img="../image/tennis.jpg";
         }
-
-        $stmt = $connect->prepare("INSERT INTO programs (title, sport, type, organization_id) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $title, $sport, $program, $organization_id);
-
+    
+        $stmt = $connect->prepare("INSERT INTO programs (title, sport, type, organization_id, img) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $title, $sport, $program, $organization_id, $img);
+    
         if ($stmt->execute()) {
             $_SESSION["program_id"] = $stmt->insert_id;
-
+    
             $stmt->close();
-
-            $stmt = $connect->prepare("INSERT INTO registrationRequires (program_id, name_email, phone, birthday, gender, individualPlayer, teamPlayer, coach, staff, individual) VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
-            $stmt->bind_param("s", $_SESSION["program_id"]);
-
-            if ($stmt->execute()) {
-                header("Location: itemmenu.php");
-                header("Location: programs.php");
-                exit();
-            } else {
-                echo "Error" . $stmt->error;
-            }
-
-            $stmt->close();
+    
+            $program_id = $_SESSION["program_id"];
+    
+            $stmt2 = $connect->prepare("INSERT INTO registrationRequires (program_id, name_email, phone, birthday, gender, individualPlayer, teamPlayer, coach, staff, individual) VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
+            $stmt2->bind_param("s", $program_id);
+            $stmt2->execute();
+            $stmt2->close();
+    
+            $stmt3 = $connect->prepare("INSERT INTO groups (program_id, name) VALUES (?, 'EXAMPLE')");
+            $stmt3->bind_param("s", $program_id);
+            $stmt3->execute();
+            $stmt3->close();
+    
+            $stmt4 = $connect->prepare("INSERT INTO teams_players (program_id, name) VALUES (?, 'EXAMPLE')");
+            $stmt4->bind_param("s", $program_id);
+            $stmt4->execute();
+            $stmt4->close();
+    
+            header("Location: programs.php");
+            exit();
         } else {
-            echo "Error" . $stmt->error;
+            echo "Error: " . $stmt->error;
         }
-
-        $stmt->close();
+    
+        $connect->close();
     }
     ?>
     <div class="navbar">
@@ -149,6 +158,7 @@
                 <div class="items">
                     <form action="" method="post" class="form-item">
                         <input class="search" type="text" placeholder="Search" id="live_search_title">
+                        <input type="hidden" name="organizationId" id="organizationId" value="<?php echo $organization_id?>">
                         <select id="sport" name="sportlist" form="sportform" class="inf_program">
                             <option value="">Sport</option>
                             <option value="volleyball">Volleyball</option>
@@ -243,14 +253,15 @@
 
         function fetchdata() {
             var action = 'fetchData';
+            var organization_id = $('#organizationId').val();
             $.ajax({
                 url: "livesearch_program1.php",
                 method: "POST",
                 data: {
-                    action: action
+                    action: action,
+                    organization_id: organization_id
                 },
                 success: function(data) {
-                    console.log(data);
                     $('#searchresult').html(data);
                 }
             });
@@ -261,14 +272,15 @@
                 event.preventDefault();
                 var action = 'searchRecord';
                 var program_title = $('#live_search_title').val();
+                var organization_id = $('#organizationId').val();
                 if (program_title != '') {
-
                     $.ajax({
                         url: "livesearch_program1.php",
                         method: "POST",
                         data: {
                             action: action,
-                            program_title: program_title
+                            program_title: program_title,
+                            organization_id: organization_id
                         },
                         success: function(data) {
                             $('#searchresult').html(data);
@@ -282,12 +294,14 @@
             event.preventDefault();
             var action = 'searchBySport';
             var program_sport = $(this).val();
+            var organization_id = $('#organizationId').val();
             $.ajax({
                 url: "livesearch_program1.php",
                 method: "POST",
                 data: {
                     action: action,
-                    program_sport: program_sport
+                    program_sport: program_sport,
+                    organization_id: organization_id
                 },
                 success: function(data) {
                     $('#searchresult').html(data);
@@ -300,12 +314,14 @@
             event.preventDefault();
             var action = 'searchByType';
             var program_type = $(this).val();
+            var organization_id = $('#organizationId').val();
             $.ajax({
                 url: "livesearch_program1.php",
                 method: "POST",
                 data: {
                     action: action,
-                    program_type: program_type
+                    program_type: program_type,
+                    organization_id: organization_id
                 },
                 success: function(data) {
                     $('#searchresult').html(data);

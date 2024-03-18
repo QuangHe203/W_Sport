@@ -37,7 +37,7 @@
         }
         if ($stmt->execute()) {
             $stmt->close();
-            header("Location: BasicInfor.php");
+            header("Location: BasicInfo.php");
             exit();
         } else {
             echo "Error" . $stmt->error;
